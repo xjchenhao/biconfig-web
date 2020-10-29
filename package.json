@@ -5,23 +5,20 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "lint:fix": "vue-cli-service lint --fix --ext .js,.vue src"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "vue": "^3.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@vue/cli-plugin-babel": "^4.5.8",
+    "@vue/cli-plugin-eslint": "^4.5.8",
+    "@vue/cli-service": "^4.5.8",
+    "@vue/compiler-sfc": "^3.0.2",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-config-egg": "^8.1.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "lint-staged": "^10.5.0",
-    "vue-template-compiler": "^2.6.11"
+    "eslint": "^6.8.0",
+    "eslint-plugin-vue": "^7.1.0"
   },
   "eslintConfig": {
     "root": true,
@@ -29,13 +26,11 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/strongly-recommended",
-      "eslint:recommended",
-      "eslint-config-egg"
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
     ],
     "parserOptions": {
-      "parser": "babel-eslint",
-      "sourceType": "module"
+      "parser": "babel-eslint"
     },
     "rules": {}
   },
@@ -43,14 +38,5 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ],
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,vue}": [
-      "vue-cli-service lint",
-      "git add"
-    ]
-  }
+  ]
 }
