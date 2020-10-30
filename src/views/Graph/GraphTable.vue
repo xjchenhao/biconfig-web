@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="style">
     <a-table
       :columns="columns"
       :data-source="data"
@@ -76,6 +76,12 @@ export default {
   components: {
     aTable: Table,
     aDivider: Divider,
+  },
+  props: {
+    style: {
+      type: String,
+      defult: '',
+    },
   },
   data() {
     return {

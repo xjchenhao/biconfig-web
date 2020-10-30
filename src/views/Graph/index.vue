@@ -1,6 +1,6 @@
 <template>
-  <GraphQuery />
-  <GraphTable />
+  <graph-query />
+  <graph-table style="marginTop:20px" />
 </template>
 
 <script>
