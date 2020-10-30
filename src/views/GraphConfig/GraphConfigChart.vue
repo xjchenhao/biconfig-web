@@ -5,12 +5,15 @@
 </template>
 
 <script>
-import { Bar } from '@antv/g2plot';
+const G2plot = require('@antv/g2plot');
+
+console.dir(G2plot);
 
 export default {
   name: 'GraphConfigChart',
   data() {
     return {
+      type: 'Column',
       data: [
         { year: '1951 年', value: 38 },
         { year: '1952 年', value: 52 },
@@ -22,8 +25,9 @@ export default {
   },
   mounted() {
     const graphConfigChartDom = this.$refs.GraphConfigChart;
+    const chartType = this.type;
 
-    const bar = new Bar(graphConfigChartDom, {
+    const bar = new G2plot[chartType](graphConfigChartDom, {
       data: this.data,
       xField: 'value',
       yField: 'year',

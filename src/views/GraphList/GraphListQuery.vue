@@ -25,7 +25,7 @@
           全部
         </a-select-option>
         <a-select-option value="bar">
-          条形图
+          柱形图
         </a-select-option>
         <a-select-option value="line">
           折线图

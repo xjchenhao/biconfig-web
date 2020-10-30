@@ -59,14 +59,14 @@ const data = [
   {
     key: '2',
     name: '访问统计',
-    type: '条形图',
+    type: '柱形图',
     createTime: '2020-10-10',
     updateTime: '2020-10-10',
   },
   {
     key: '3',
     name: 'xxxx统计',
-    type: '条形图',
+    type: '柱形图',
     createTime: '2020-10-10',
     updateTime: '2020-10-10',
   },
