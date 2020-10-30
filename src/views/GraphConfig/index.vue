@@ -1,16 +1,18 @@
 <template>
   <div>
     <a-page-header
-      style="border: 1px solid rgb(235, 237, 240)"
+      class="graphConfig-header"
       title="配置规则"
       sub-title="条形图的规则配置"
       @back="() => null"
     />
-    <a-layout style="flex-direction: row;">
-      <a-layout-content style="flex:1">
-        我是图表
+    <a-layout class="graphConfig-layout">
+      <a-layout-content
+        class="graphConfig-layout-content"
+      >
+        <graph-config-chart class="graphConfig-layout-content-chart" />
       </a-layout-content>
-      <a-layout-sider style="width:300px;height:calc(100vh - 66px);overflow: scroll;">
+      <a-layout-sider class="graphConfig-layout-sider">
         我是配置菜单
       </a-layout-sider>
     </a-layout>
@@ -19,16 +21,41 @@
 
 <script>
 import { PageHeader, Layout } from 'ant-design-vue';
+import GraphConfigChart from './GraphConfigChart';
 export default {
+  name: 'GraphConfig',
   components: {
     aPageHeader: PageHeader,
     aLayout: Layout,
     aLayoutSider: Layout.sider,
     aLayoutContent: Layout.content,
+    GraphConfigChart,
   },
 };
 </script>
 
-<style>
-
+<style lang="less" scoped>
+.graphConfig-header{
+  border-bottom: 1px solid rgb(235, 237, 240)
+}
+.graphConfig-layout{
+  flex-direction: row;
+  background-color:#fff;
+  &-content{
+    flex:1;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    &-chart{
+      width:500px;
+      height:500px;
+    }
+  }
+  &-sider{
+    border-left:1px solid rgb(235, 237, 240);
+    width:300px;
+    height:calc(100vh - 66px);
+    overflow: scroll;
+  }
+}
 </style>
