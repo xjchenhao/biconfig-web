@@ -10,10 +10,17 @@
       <a-layout-content
         class="graphConfig-layout-content"
       >
-        <graph-config-chart class="graphConfig-layout-content-chart" />
+        <graph-config-chart
+          ref="chart"
+          class="graphConfig-layout-content-chart"
+          :opts="chartOpts"
+        />
       </a-layout-content>
       <a-layout-sider class="graphConfig-layout-sider">
-        我是配置菜单
+        <graph-config-form
+          class="graphConfig-layout-content-form"
+          @update="chartDataUpdate"
+        />
       </a-layout-sider>
     </a-layout>
   </div>
@@ -22,6 +29,7 @@
 <script>
 import { PageHeader, Layout } from 'ant-design-vue';
 import GraphConfigChart from './GraphConfigChart';
+import GraphConfigForm from './GraphConfigForm';
 export default {
   name: 'GraphConfig',
   components: {
@@ -30,10 +38,23 @@ export default {
     aLayoutSider: Layout.sider,
     aLayoutContent: Layout.content,
     GraphConfigChart,
+    GraphConfigForm,
+  },
+  data() {
+    return {
+      chartOpts: {
+        type: 'Column',
+      },
+    };
   },
   methods: {
     handleBack() {
       this.$router.go(-1);
+    },
+    chartDataUpdate(opts) {
+      this.chartOpts.type = opts.type;
+      this.$refs.chart.destroy();
+      this.$refs.chart.render();
     },
   },
 };

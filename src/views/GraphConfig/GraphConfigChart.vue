@@ -7,13 +7,21 @@
 <script>
 const G2plot = require('@antv/g2plot');
 
-console.dir(G2plot);
-
 export default {
   name: 'GraphConfigChart',
+  props: {
+    opts: {
+      type: Object,
+      default() {
+        return {
+          type: 'Column',
+        };
+      },
+    },
+  },
   data() {
     return {
-      type: 'Column',
+      bar: null,
       data: [
         { year: '1951 年', value: 38 },
         { year: '1952 年', value: 52 },
@@ -24,18 +32,26 @@ export default {
     };
   },
   mounted() {
-    const graphConfigChartDom = this.$refs.GraphConfigChart;
-    const chartType = this.type;
+    this.render();
+  },
+  methods: {
+    render() {
+      const graphConfigChartDom = this.$refs.GraphConfigChart;
+      const chartType = this.opts.type;
 
-    const bar = new G2plot[chartType](graphConfigChartDom, {
-      data: this.data,
-      xField: 'value',
-      yField: 'year',
-      seriesField: 'year',
-    });
+      const bar = new G2plot[chartType](graphConfigChartDom, {
+        data: this.data,
+        xField: 'year',
+        yField: 'value',
+      });
+      this.bar = bar;
 
-    bar.render();
-
+      bar.render();
+    },
+    destroy() {
+      console.log(this.bar);
+      this.bar.destroy();
+    },
   },
 
 };
