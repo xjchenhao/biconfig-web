@@ -9,8 +9,6 @@ import { Bar } from '@antv/g2plot';
 
 export default {
   name: 'GraphConfigChart',
-  props: {
-  },
   data() {
     return {
       data: [

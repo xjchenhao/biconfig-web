@@ -4,7 +4,7 @@
       class="graphConfig-header"
       title="配置规则"
       sub-title="条形图的规则配置"
-      @back="() => null"
+      @back="handleBack"
     />
     <a-layout class="graphConfig-layout">
       <a-layout-content
@@ -31,6 +31,11 @@ export default {
     aLayoutContent: Layout.content,
     GraphConfigChart,
   },
+  methods: {
+    handleBack() {
+      this.$router.go(-1);
+    },
+  },
 };
 </script>
 
@@ -53,7 +58,7 @@ export default {
   }
   &-sider{
     border-left:1px solid rgb(235, 237, 240);
-    width:300px;
+    width:500px;
     height:calc(100vh - 66px);
     overflow: scroll;
   }

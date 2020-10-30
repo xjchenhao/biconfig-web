@@ -1,5 +1,5 @@
 <template>
-  <div :style="style">
+  <div>
     <a-table
       :columns="columns"
       :data-source="data"
@@ -8,7 +8,7 @@
         <span>
           <a>查看</a>
           <a-divider type="vertical" />
-          <a>修改</a>
+          <a @click="handleUpdate">修改</a>
           <a-divider type="vertical" />
           <a>删除</a>
         </span>
@@ -77,17 +77,16 @@ export default {
     aTable: Table,
     aDivider: Divider,
   },
-  props: {
-    style: {
-      type: String,
-      default: '',
-    },
-  },
   data() {
     return {
       data,
       columns,
     };
+  },
+  methods: {
+    handleUpdate() {
+      this.$router.push('/graph/config');
+    },
   },
 };
 </script>
