@@ -6,12 +6,21 @@ const routes = [
     path: '/',
     name: 'Index',
     redirect: '/graph',
-    component: () => import('../layout/TableLayout.vue'),
-    children: [{
-      path: '/graph',
-      name: 'Graph',
-      component: () => import('../views/Graph'),
-    }],
+  },
+  {
+    path: '/graph',
+    name: 'Graph',
+    component: () => import('../views/GraphList'),
+  },
+  {
+    path: '/graph/selectType',
+    name: 'GraphSelectType',
+    component: () => import('../views/GraphSelectType'),
+  },
+  {
+    path: '/graph/config',
+    name: 'GraphConfig',
+    component: () => import('../views/GraphConfig'),
   },
   {
     path: '/demo',

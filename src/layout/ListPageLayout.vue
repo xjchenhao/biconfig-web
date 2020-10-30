@@ -1,7 +1,6 @@
 <template>
   <div :style="tableLayoutStyle">
-    <router-view />
-    {{ pableLayoutPadding }}
+    <slot />
   </div>
 </template>
 
