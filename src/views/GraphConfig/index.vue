@@ -53,6 +53,8 @@ export default {
     },
     chartDataUpdate(opts) {
       this.chartOpts.type = opts.type;
+
+      // FIXME:vue3的watch做了更新，还没有掌握，暂时由父组件主动通知子组件进行更新
       this.$refs.chart.destroy();
       this.$refs.chart.render();
     },
