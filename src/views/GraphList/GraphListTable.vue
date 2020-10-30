@@ -80,7 +80,7 @@ export default {
   props: {
     style: {
       type: String,
-      defult: '',
+      default: '',
     },
   },
   data() {
