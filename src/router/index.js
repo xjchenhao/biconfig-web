@@ -1,9 +1,21 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Home from '../views/Home.vue';
+import Graph from '../views/Graph.vue';
 
 const routes = [
   {
     path: '/',
+    name: 'Index',
+    redirect: '/graph',
+    component: () => import('../layout/TableLayout.vue'),
+    children: [{
+      path: '/graph',
+      name: 'Graph',
+      component: Graph,
+    }],
+  },
+  {
+    path: '/demo',
     name: 'Home',
     component: Home,
   },
