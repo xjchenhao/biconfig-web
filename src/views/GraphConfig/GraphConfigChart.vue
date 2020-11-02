@@ -1,6 +1,7 @@
 <template>
   <div
     ref="GraphConfigChart"
+    :title="JSON.stringify(opts)"
   />
 </template>
 
@@ -33,6 +34,16 @@ export default {
   },
   mounted() {
     this.render();
+  },
+  watch: {
+    opts: {
+      handler() {
+        this.destroy();
+        this.render();
+      },
+      deep: true,
+      immediate: false,
+    },
   },
   methods: {
     render() {
