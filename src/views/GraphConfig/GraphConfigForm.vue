@@ -2,9 +2,9 @@
   <div>
     <a-form
       layout="vertical"
-      :model="form"
+      :model="basicForm"
     >
-      <h2>基本信息</h2>
+      <h2>基本配置</h2>
       <a-form-item
         class="graphConfigForm-from-item"
         name="type"
@@ -13,7 +13,7 @@
       >
         <a-select
           style="width:170px"
-          v-model:value="form.type"
+          v-model:value="basicForm.type"
         >
           <a-select-option value="Column">
             柱形图
@@ -36,7 +36,7 @@
         required
       >
         <a-input
-          v-model:value="form.xField"
+          v-model:value="basicForm.xField"
           placeholder="请填写X轴字段"
         />
       </a-form-item>
@@ -47,13 +47,16 @@
         required
       >
         <a-input
-          v-model:value="form.yField"
+          v-model:value="basicForm.yField"
           placeholder="请填写Y轴字段"
         />
       </a-form-item>
       <a-divider />
       <h2>图形样式</h2>
-      <graph-config-style-type-of-column @update="handleStyleUpdate" />
+      <graph-config-style-type-of-column
+        @update="handleStyleUpdate"
+        :basic-form="basicForm"
+      />
       <a-form-item
         class="graphConfigForm-from-item"
       >
@@ -83,7 +86,7 @@ export default {
   emits: [ 'update' ],
   data() {
     return {
-      form: {
+      basicForm: {
         type: 'Column',
         xField: 'year',
         yField: 'value',
@@ -93,18 +96,8 @@ export default {
       },
     };
   },
-  computed: {
-    formStyle: {
-      get() {
-        return JSON.stringify(this.form.columnStyle);
-      },
-      set(val) {
-        this.form.columnStyle = JSON.parse(val);
-      },
-    },
-  },
   watch: {
-    form: {
+    basicForm: {
       handler() {
         this.handleFormUpdate();
       },
@@ -122,7 +115,7 @@ export default {
     },
     handleFormUpdate() {
       this.$emit('update', {
-        ...this.form,
+        ...this.basicForm,
         ...this.styleForm,
       });
     },

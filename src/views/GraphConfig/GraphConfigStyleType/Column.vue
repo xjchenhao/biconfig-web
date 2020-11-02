@@ -12,6 +12,7 @@
       />
     </a-form-item>
     <a-form-item
+      v-if="isGroup"
       class="graphConfigForm-from-item"
       label="分组中柱子之间的间距"
     >
@@ -44,6 +45,14 @@ export default {
     aSlider: Slider,
   },
   emits: [ 'update' ],
+  props: {
+    basicForm: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
   data() {
     return {
       form: {
@@ -54,6 +63,9 @@ export default {
     };
   },
   computed: {
+    isGroup() {
+      return this.basicForm.isGroup;
+    },
     formStyle: {
       get() {
         return JSON.stringify(this.form.columnStyle);
