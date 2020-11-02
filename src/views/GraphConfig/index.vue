@@ -13,6 +13,8 @@
         <graph-config-chart
           ref="chart"
           class="graphConfig-layout-content-chart"
+          :data="chartData"
+          :type="chartType"
           :opts="chartOpts"
         />
       </a-layout-content>
@@ -42,17 +44,26 @@ export default {
   },
   data() {
     return {
-      chartOpts: {
-        type: 'Column',
-      },
+      chartData: [
+        { year: '1951 年', value: 38, value1: 480 },
+        { year: '1952 年', value: 52, value1: 480 },
+        { year: '1956 年', value: 61, value1: 480 },
+        { year: '1957 年', value: 145, value1: 480 },
+        { year: '1958 年', value: 48, value1: 480 },
+      ],
+      chartType: 'Column',
+      chartOpts: {},
     };
   },
   methods: {
     handleBack() {
       this.$router.go(-1);
     },
-    chartDataUpdate(opts) {
-      this.chartOpts.type = opts.type;
+    chartDataUpdate(formData) {
+      const { type, ...opts } = formData;
+
+      this.chartType = type;
+      this.chartOpts = opts;
     },
   },
 };
@@ -80,6 +91,8 @@ export default {
     width:500px;
     height:calc(100vh - 66px);
     overflow: scroll;
+    box-sizing: border-box;
+    padding:30px
   }
 }
 </style>

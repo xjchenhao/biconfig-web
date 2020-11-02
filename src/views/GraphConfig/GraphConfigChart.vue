@@ -11,31 +11,33 @@ const G2plot = require('@antv/g2plot');
 export default {
   name: 'GraphConfigChart',
   props: {
+    data: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+    type: {
+      type: String,
+      default: 'Column',
+    },
     opts: {
       type: Object,
       default() {
-        return {
-          type: 'Column',
-        };
+        return {};
       },
     },
   },
   data() {
     return {
       bar: null,
-      data: [
-        { year: '1951 年', value: 38 },
-        { year: '1952 年', value: 52 },
-        { year: '1956 年', value: 61 },
-        { year: '1957 年', value: 145 },
-        { year: '1958 年', value: 48 },
-      ],
     };
   },
-  mounted() {
-    this.render();
-  },
   watch: {
+    type() {
+      this.destroy();
+      this.render();
+    },
     opts: {
       handler() {
         this.destroy();
@@ -48,20 +50,28 @@ export default {
   methods: {
     render() {
       const graphConfigChartDom = this.$refs.GraphConfigChart;
-      const chartType = this.opts.type;
+      const chartType = this.type;
+      const { xField, yField } = this.opts;
 
       const bar = new G2plot[chartType](graphConfigChartDom, {
         data: this.data,
-        xField: 'year',
-        yField: 'value',
+        xField,
+        yField,
+        meta: {
+          year: {
+            alias: '时间',
+          },
+          value: {
+            alias: '销售额',
+          },
+        },
       });
       this.bar = bar;
 
       bar.render();
     },
     destroy() {
-      console.log(this.bar);
-      this.bar.destroy();
+      this.bar && this.bar.destroy();
     },
   },
 
