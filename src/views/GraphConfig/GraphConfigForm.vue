@@ -53,38 +53,7 @@
       </a-form-item>
       <a-divider />
       <h2>图形样式</h2>
-      <a-form-item
-        class="graphConfigForm-from-item"
-        label="柱状图宽度占比"
-      >
-        <a-slider
-          v-model:value="form.columnWidthRatio"
-          :min="0"
-          :max="1"
-          :step="0.1"
-        />
-      </a-form-item>
-      <a-form-item
-        class="graphConfigForm-from-item"
-        label="分组中柱子之间的间距"
-      >
-        <a-slider
-          v-model:value="form.marginRatio"
-          :min="0"
-          :max="1"
-          :step="0.1"
-        />
-      </a-form-item>
-      <a-form-item
-        class="graphConfigForm-from-item"
-        label="柱子样式配置"
-      >
-        <a-textarea
-          v-model:value="formStyle"
-          :rows="4"
-          placeholder="用json对象表示"
-        />
-      </a-form-item>
+      <graph-config-style-type-of-column @update="handleStyleUpdate" />
       <a-form-item
         class="graphConfigForm-from-item"
       >
@@ -98,18 +67,18 @@
 </template>
 
 <script>
-import { Form, Input, Button, Select, Divider, Slider } from 'ant-design-vue';
+import GraphConfigStyleTypeOfColumn from './GraphConfigStyleType/Column';
+import { Form, Input, Button, Select, Divider } from 'ant-design-vue';
 export default {
   components: {
     aForm: Form,
     aFormItem: Form.Item,
     aInput: Input,
-    aTextarea: Input.TextArea,
     aButton: Button,
     aSelect: Select,
     aSelectOption: Select.Option,
     aDivider: Divider,
-    aSlider: Slider,
+    GraphConfigStyleTypeOfColumn,
   },
   emits: [ 'update' ],
   data() {
@@ -118,9 +87,9 @@ export default {
         type: 'Column',
         xField: 'year',
         yField: 'value',
-        columnWidthRatio: 0.5,
-        marginRatio: 0.5,
-        columnStyle: {},
+      },
+      styleForm: {
+
       },
     };
   },
@@ -137,18 +106,25 @@ export default {
   watch: {
     form: {
       handler() {
-        this.handleUpdate();
+        this.handleFormUpdate();
       },
       deep: true,
       immediate: false,
     },
   },
   mounted() {
-    this.handleUpdate();
+    this.handleFormUpdate();
   },
   methods: {
-    handleUpdate() {
-      this.$emit('update', this.form);
+    handleStyleUpdate(value) {
+      this.styleForm = value;
+      this.handleFormUpdate();
+    },
+    handleFormUpdate() {
+      this.$emit('update', {
+        ...this.form,
+        ...this.styleForm,
+      });
     },
   },
 };
