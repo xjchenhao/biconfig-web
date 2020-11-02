@@ -53,7 +53,12 @@
       </a-form-item>
       <a-divider />
       <h2>图形样式</h2>
-      <graph-config-style-type-of-column
+      <!-- <graph-config-style-type-of-column
+        @update="handleStyleUpdate"
+        :basic-form="basicForm"
+      /> -->
+      <component
+        :is="currentGraphStyleType"
         @update="handleStyleUpdate"
         :basic-form="basicForm"
       />
@@ -70,8 +75,9 @@
 </template>
 
 <script>
-import GraphConfigStyleTypeOfColumn from './GraphConfigStyleType/Column';
+import { Column as TheColumn, NotSupport as TheNotSupport } from './GraphConfigStyleType';
 import { Form, Input, Button, Select, Divider } from 'ant-design-vue';
+
 export default {
   components: {
     aForm: Form,
@@ -81,7 +87,8 @@ export default {
     aSelect: Select,
     aSelectOption: Select.Option,
     aDivider: Divider,
-    GraphConfigStyleTypeOfColumn,
+    TheColumn,
+    TheNotSupport,
   },
   emits: [ 'update' ],
   data() {
@@ -103,6 +110,15 @@ export default {
       },
       deep: true,
       immediate: false,
+    },
+  },
+  computed: {
+    currentGraphStyleType() {
+      const supportType = [ 'Column' ];
+      const currentType = this.basicForm.type;
+
+      const result = supportType.indexOf(currentType) >= 0 ? currentType : 'NotSupport';
+      return `The${result}`;
     },
   },
   mounted() {
