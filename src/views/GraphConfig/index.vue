@@ -3,7 +3,7 @@
     <a-page-header
       class="graphConfig-header"
       title="配置规则"
-      sub-title="柱形图的规则配置"
+      sub-title="图表的规则配置"
       @back="handleBack"
     />
     <a-layout class="graphConfig-layout">
