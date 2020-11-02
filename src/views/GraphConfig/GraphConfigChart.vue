@@ -51,20 +51,27 @@ export default {
     render() {
       const graphConfigChartDom = this.$refs.GraphConfigChart;
       const chartType = this.type;
-      const { xField, yField } = this.opts;
+      const chartOpts = this.opts;
+      // const { xField, yField } = this.opts;
+
+      console.log('-----渲染图表信息log start----');
+      console.log('图表类型：', chartType);
+      console.log('图表参数：', chartOpts);
+      console.log('-----渲染图表信息log end----');
 
       const bar = new G2plot[chartType](graphConfigChartDom, {
         data: this.data,
-        xField,
-        yField,
-        meta: {
-          year: {
-            alias: '时间',
-          },
-          value: {
-            alias: '销售额',
-          },
-        },
+        ...chartOpts,
+        // xField,
+        // yField,
+        // meta: {
+        //   year: {
+        //     alias: '时间',
+        //   },
+        //   value: {
+        //     alias: '销售额',
+        //   },
+        // },
       });
       this.bar = bar;
 
