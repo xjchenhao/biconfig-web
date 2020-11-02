@@ -77,7 +77,7 @@
         class="graphConfigForm-from-item"
       >
         <a-button type="primary">
-          Submit
+          提交
         </a-button>
       </a-form-item>
     </a-form>
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { Column as TheColumn, NotSupport as TheNotSupport } from './GraphConfigStyleType';
+import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupport } from './GraphConfigStyle';
 import { Form, Input, Button, Select, Divider, Collapse } from 'ant-design-vue';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
 
@@ -101,7 +101,7 @@ export default {
     aCollapse: Collapse,
     aCollapsePanel: Collapse.Panel,
     aCaretRightOutlined: CaretRightOutlined,
-    TheColumn,
+    TheColumnStyle,
     TheNotSupport,
   },
   emits: [ 'update' ],
@@ -133,7 +133,7 @@ export default {
       const supportType = [ 'Column' ];
       const currentType = this.basicForm.type;
 
-      const result = supportType.indexOf(currentType) >= 0 ? currentType : 'NotSupport';
+      const result = supportType.indexOf(currentType) >= 0 ? `${currentType}Style` : 'NotSupport';
       return `The${result}`;
     },
   },
