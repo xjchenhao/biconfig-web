@@ -45,11 +45,16 @@ export default {
   data() {
     return {
       chartData: [
-        { year: '1951 年', value: 38, value1: 480 },
-        { year: '1952 年', value: 52, value1: 480 },
-        { year: '1956 年', value: 61, value1: 480 },
-        { year: '1957 年', value: 145, value1: 480 },
-        { year: '1958 年', value: 48, value1: 480 },
+        { year: '1951 年', value: 380, name: '收入' },
+        { year: '1952 年', value: 520, name: '收入' },
+        { year: '1956 年', value: 610, name: '收入' },
+        { year: '1957 年', value: 1450, name: '收入' },
+        { year: '1958 年', value: 480, name: '收入' },
+        { year: '1951 年', value: 38, name: '支出' },
+        { year: '1952 年', value: 52, name: '支出' },
+        { year: '1956 年', value: 61, name: '支出' },
+        { year: '1957 年', value: 145, name: '支出' },
+        { year: '1958 年', value: 48, name: '支出' },
       ],
       chartType: 'Column',
       chartOpts: {},

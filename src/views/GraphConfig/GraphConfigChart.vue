@@ -1,7 +1,6 @@
 <template>
   <div
     ref="GraphConfigChart"
-    :title="JSON.stringify(opts)"
   />
 </template>
 

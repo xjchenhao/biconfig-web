@@ -34,7 +34,6 @@
       class="graphConfigForm-from-item"
       name="seriesField"
       label="关联字段"
-      required
     >
       <a-input
         v-model:value="form.seriesField"

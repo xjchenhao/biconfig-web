@@ -137,6 +137,8 @@ export default {
         ...this.form,
         ...value,
       };
+
+      this.renderGraph();
     },
     renderGraph() {
       this.$emit('update', this.form);
