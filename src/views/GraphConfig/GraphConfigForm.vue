@@ -2,7 +2,7 @@
   <div>
     <a-form
       layout="vertical"
-      :model="basicForm"
+      :model="form"
     >
       <h2>基本配置</h2>
       <a-form-item
@@ -13,7 +13,8 @@
       >
         <a-select
           style="width:170px"
-          v-model:value="basicForm.type"
+          v-model:value="form.type"
+          @change="renderGraph"
         >
           <a-select-option value="Column">
             柱形图
@@ -29,28 +30,13 @@
           </a-select-option>
         </a-select>
       </a-form-item>
-      <a-form-item
-        class="graphConfigForm-from-item"
-        name="xField"
-        label="X轴字段"
-        required
-      >
-        <a-input
-          v-model:value="basicForm.xField"
-          placeholder="请填写X轴字段"
-        />
-      </a-form-item>
-      <a-form-item
-        class="graphConfigForm-from-item"
-        name="yField"
-        label="Y轴字段"
-        required
-      >
-        <a-input
-          v-model:value="basicForm.yField"
-          placeholder="请填写Y轴字段"
-        />
-      </a-form-item>
+      <a-divider />
+      <h2>数据映射</h2>
+      <component
+        :is="currentGraphDataMapType"
+        @update="handleFormUpdate"
+        :basic-form="form"
+      />
       <a-divider />
       <h2>更多配置</h2>
 
@@ -68,8 +54,8 @@
         >
           <component
             :is="currentGraphStyleType"
-            @update="handleStyleUpdate"
-            :basic-form="basicForm"
+            @update="handleFormUpdate"
+            :basic-form="form"
           />
         </a-collapse-panel>
       </a-collapse>
@@ -85,15 +71,15 @@
 </template>
 
 <script>
-import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupport } from './GraphConfigStyle';
-import { Form, Input, Button, Select, Divider, Collapse } from 'ant-design-vue';
+import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
+import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap } from './GraphConfigDataMap';
+import { Form, Button, Select, Divider, Collapse, Switch } from 'ant-design-vue';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
 
 export default {
   components: {
     aForm: Form,
     aFormItem: Form.Item,
-    aInput: Input,
     aButton: Button,
     aSelect: Select,
     aSelectOption: Select.Option,
@@ -101,64 +87,64 @@ export default {
     aCollapse: Collapse,
     aCollapsePanel: Collapse.Panel,
     aCaretRightOutlined: CaretRightOutlined,
+    aSwitch: Switch,
     TheColumnStyle,
-    TheNotSupport,
+    TheNotSupportStyle,
+    TheColumnDataMap,
+    TheNotSupportDataMap,
   },
   emits: [ 'update' ],
   data() {
     return {
       customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 24px;border: 0;overflow: hidden',
       activeKey: [ '1' ],
-      basicForm: {
+      form: {
         type: 'Column',
-        xField: 'year',
-        yField: 'value',
-      },
-      styleForm: {
-
       },
     };
   },
-  watch: {
-    basicForm: {
-      handler() {
-        this.handleFormUpdate();
-      },
-      deep: true,
-      immediate: false,
-    },
-  },
+  // watch: {
+  //   form: {
+  //     handler() {
+  //       this.renderGraph();
+  //     },
+  //     deep: true,
+  //     immediate: false,
+  //   },
+  // },
   computed: {
     currentGraphStyleType() {
       const supportType = [ 'Column' ];
-      const currentType = this.basicForm.type;
+      const currentType = this.form.type;
 
-      const result = supportType.indexOf(currentType) >= 0 ? `${currentType}Style` : 'NotSupport';
-      return `The${result}`;
+      const result = supportType.indexOf(currentType) >= 0 ? currentType : 'NotSupport';
+      return `The${result}Style`;
+    },
+    currentGraphDataMapType() {
+      const supportType = [ 'Column' ];
+      const currentType = this.form.type;
+
+      const result = supportType.indexOf(currentType) >= 0 ? currentType : 'NotSupport';
+      return `The${result}DataMap`;
     },
   },
   mounted() {
-    this.handleFormUpdate();
+    this.renderGraph();
   },
   methods: {
-    handleStyleUpdate(value) {
-      this.styleForm = value;
-      this.handleFormUpdate();
+    handleFormUpdate(value) {
+      this.form = {
+        ...this.form,
+        ...value,
+      };
     },
-    handleFormUpdate() {
-      this.$emit('update', {
-        ...this.basicForm,
-        ...this.styleForm,
-      });
+    renderGraph() {
+      this.$emit('update', this.form);
     },
   },
 };
 </script>
 
-<style lang="less" scoped>
-.graphConfigForm{
-  &-from-item{
-    margin-bottom:0;
-  }
-}
+<style lang='less'>
+@import './index.less';
 </style>
