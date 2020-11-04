@@ -23,7 +23,7 @@
             折线图
           </a-select-option>
           <a-select-option value="Bar">
-            柱状图
+            条形图
           </a-select-option>
           <a-select-option value="Pie">
             饼状图
@@ -121,8 +121,13 @@ export default {
       return `The${result}Style`;
     },
     currentGraphDataMapType() {
-      const supportType = [ 'Column' ];
-      const currentType = this.form.type;
+      const supportType = [ 'Column', 'Bar' ];
+      let currentType = this.form.type;
+
+      // 条形图和柱形图的数据映射配置是一样的
+      if (currentType === 'Bar') {
+        currentType = 'Column';
+      }
 
       const result = supportType.indexOf(currentType) >= 0 ? currentType : 'NotSupport';
       return `The${result}DataMap`;

@@ -125,6 +125,10 @@ export default {
           this.form.isPercent = false;
         }
 
+        if (!type) {
+          return;
+        }
+
         this.form[`is${type}`] = true;
       },
     },
