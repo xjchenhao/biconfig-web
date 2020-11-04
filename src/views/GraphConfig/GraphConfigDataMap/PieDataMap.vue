@@ -7,7 +7,7 @@
       required
     >
       <a-select
-        style="width:170px"
+        style="width:100%"
         v-model:value="form.angleField"
         @change="renderGraph"
         placeholder="请选择"

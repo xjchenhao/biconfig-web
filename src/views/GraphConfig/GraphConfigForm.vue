@@ -23,7 +23,7 @@
         required
       >
         <a-select
-          style="width:170px"
+          style="width:100%"
           v-model:value="form.type"
           @change="renderGraph"
         >

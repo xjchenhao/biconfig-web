@@ -7,7 +7,7 @@
       required
     >
       <a-select
-        style="width:170px"
+        style="width:100%"
         v-model:value="form.xField"
         @change="renderGraph"
         placeholder="请选择X轴字段"
@@ -28,7 +28,7 @@
       required
     >
       <a-select
-        style="width:170px"
+        style="width:100%"
         v-model:value="form.yField"
         @change="renderGraph"
         placeholder="请选择Y轴字段"
@@ -48,7 +48,7 @@
       label="关联字段"
     >
       <a-select
-        style="width:170px"
+        style="width:100%"
         v-model:value="form.seriesField"
         @change="renderGraph"
         placeholder="请选择关联字段"
