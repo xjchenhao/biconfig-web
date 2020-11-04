@@ -7,8 +7,19 @@
       <h2>基本配置</h2>
       <a-form-item
         class="graphConfigForm-from-item"
+        name="name"
+        label="图表名称"
+        required
+      >
+        <a-input
+          v-model:value="form.name"
+          placeholder="请输入图表名称"
+        />
+      </a-form-item>
+      <a-form-item
+        class="graphConfigForm-from-item"
         name="type"
-        label="表单类型"
+        label="图表类型"
         required
       >
         <a-select
@@ -74,13 +85,14 @@
 <script>
 import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
 import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap, PieDataMap as ThePieDataMap } from './GraphConfigDataMap';
-import { Form, Button, Select, Divider, Collapse, Switch } from 'ant-design-vue';
+import { Form, Button, Select, Divider, Collapse, Switch, Input } from 'ant-design-vue';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
 
 export default {
   components: {
     aForm: Form,
     aFormItem: Form.Item,
+    aInput: Input,
     aButton: Button,
     aSelect: Select,
     aSelectOption: Select.Option,
@@ -110,6 +122,7 @@ export default {
       customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 24px;border: 0;overflow: hidden',
       activeKey: [ '1' ],
       form: {
+        name: '',
         type: 'Column',
       },
     };
