@@ -21,6 +21,7 @@
       <a-layout-sider class="graphConfig-layout-sider">
         <graph-config-form
           class="graphConfig-layout-content-form"
+          :data="chartData"
           @update="chartDataUpdate"
         />
       </a-layout-sider>

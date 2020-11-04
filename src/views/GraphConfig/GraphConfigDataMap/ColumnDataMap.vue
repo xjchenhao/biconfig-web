@@ -6,10 +6,20 @@
       label="X轴字段"
       required
     >
-      <a-input
+      <a-select
+        style="width:170px"
         v-model:value="form.xField"
-        placeholder="请填写X轴字段"
-      />
+        @change="renderGraph"
+        placeholder="请选择X轴字段"
+      >
+        <a-select-option
+          v-for="item in fieldList"
+          :value="item"
+          :key="item"
+        >
+          {{ item }}
+        </a-select-option>
+      </a-select>
     </a-form-item>
     <a-form-item
       class="graphConfigForm-from-item"
@@ -17,10 +27,20 @@
       label="Y轴字段"
       required
     >
-      <a-input
+      <a-select
+        style="width:170px"
         v-model:value="form.yField"
-        placeholder="请填写Y轴字段"
-      />
+        @change="renderGraph"
+        placeholder="请选择Y轴字段"
+      >
+        <a-select-option
+          v-for="item in fieldList"
+          :value="item"
+          :key="item"
+        >
+          {{ item }}
+        </a-select-option>
+      </a-select>
     </a-form-item>
     <a-form-item
       class="graphConfigForm-from-item"
@@ -61,21 +81,30 @@
       label="关联字段"
       :required="isShowSeriesField"
     >
-      <a-input
+      <a-select
+        style="width:170px"
         v-model:value="form.seriesField"
-        placeholder="请填写关联字段"
-      />
+        @change="renderGraph"
+        placeholder="请选择关联字段"
+      >
+        <a-select-option
+          v-for="item in fieldList"
+          :value="item"
+          :key="item"
+        >
+          {{ item }}
+        </a-select-option>
+      </a-select>
     </a-form-item>
   </div>
 </template>
 
 <script>
-import { Form, Input, Switch, Select } from 'ant-design-vue';
+import { Form, Switch, Select } from 'ant-design-vue';
 
 export default {
   components: {
     aFormItem: Form.Item,
-    aInput: Input,
     aSwitch: Switch,
     aSelect: Select,
     aSelectOption: Select.Option,
@@ -86,6 +115,12 @@ export default {
       type: Object,
       default() {
         return {};
+      },
+    },
+    data: {
+      type: Array,
+      default() {
+        return [];
       },
     },
   },
@@ -103,6 +138,10 @@ export default {
     };
   },
   computed: {
+    // 字段列表
+    fieldList() {
+      return Object.keys(this.data[0]);
+    },
     graphType: {
       get() {
         if (this.form.isGroup) {

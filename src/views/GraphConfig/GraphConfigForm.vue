@@ -34,6 +34,7 @@
       <h2>数据映射</h2>
       <component
         :is="currentGraphDataMapType"
+        :data="data"
         @update="handleFormUpdate"
         :basic-form="form"
       />
@@ -94,6 +95,14 @@ export default {
     TheNotSupportDataMap,
   },
   emits: [ 'update' ],
+  props: {
+    data: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
   data() {
     return {
       customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 24px;border: 0;overflow: hidden',
