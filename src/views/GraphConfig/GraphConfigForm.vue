@@ -73,7 +73,7 @@
 
 <script>
 import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
-import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap } from './GraphConfigDataMap';
+import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap, PieDataMap as ThePieDataMap } from './GraphConfigDataMap';
 import { Form, Button, Select, Divider, Collapse, Switch } from 'ant-design-vue';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
 
@@ -94,6 +94,7 @@ export default {
     TheColumnDataMap,
     TheNotSupportDataMap,
     TheLineDataMap,
+    ThePieDataMap,
   },
   emits: [ 'update' ],
   props: {
@@ -122,7 +123,7 @@ export default {
       return `The${result}Style`;
     },
     currentGraphDataMapType() {
-      const supportType = [ 'Column', 'Bar', 'Line' ];
+      const supportType = [ 'Column', 'Bar', 'Line', 'Pie' ];
       let currentType = this.form.type;
 
       // 条形图和柱形图的数据映射配置是一样的
