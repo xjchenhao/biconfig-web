@@ -1,7 +1,11 @@
 <script>
+import { Form } from 'ant-design-vue';
 
 export default {
   emits: [ 'update' ],
+  components: {
+    aFormItem: Form.Item,
+  },
   props: {
     basicForm: {
       type: Object,

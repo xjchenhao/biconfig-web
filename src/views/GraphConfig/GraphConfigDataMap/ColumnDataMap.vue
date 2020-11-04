@@ -99,13 +99,12 @@
 </template>
 
 <script>
-import { Form, Switch, Select } from 'ant-design-vue';
+import { Switch, Select } from 'ant-design-vue';
 import MixinItem from './mixin';
 
 export default {
   mixins: [ MixinItem ],
   components: {
-    aFormItem: Form.Item,
     aSwitch: Switch,
     aSelect: Select,
     aSelectOption: Select.Option,

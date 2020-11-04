@@ -46,13 +46,12 @@
 </template>
 
 <script>
-import { Form, Select } from 'ant-design-vue';
+import { Select } from 'ant-design-vue';
 import MixinItem from './mixin';
 
 export default {
   mixins: [ MixinItem ],
   components: {
-    aFormItem: Form.Item,
     aSelect: Select,
     aSelectOption: Select.Option,
   },
