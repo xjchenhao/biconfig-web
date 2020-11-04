@@ -73,27 +73,14 @@
 
 <script>
 import { Form, Select } from 'ant-design-vue';
+import MixinItem from './mixin';
 
 export default {
+  mixins: [ MixinItem ],
   components: {
     aFormItem: Form.Item,
     aSelect: Select,
     aSelectOption: Select.Option,
-  },
-  emits: [ 'update' ],
-  props: {
-    basicForm: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-    data: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
   },
   data() {
     return {
@@ -103,29 +90,6 @@ export default {
         seriesField: '',
       },
     };
-  },
-  computed: {
-    // 字段列表
-    fieldList() {
-      return Object.keys(this.data[0]);
-    },
-  },
-  watch: {
-    form: {
-      handler() {
-        this.handleUpdate();
-      },
-      deep: true,
-      immediate: false,
-    },
-  },
-  mounted() {
-    this.handleUpdate();
-  },
-  methods: {
-    handleUpdate() {
-      this.$emit('update', this.form);
-    },
   },
 
 };

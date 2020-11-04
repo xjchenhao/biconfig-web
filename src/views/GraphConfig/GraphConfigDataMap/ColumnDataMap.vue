@@ -79,7 +79,6 @@
       class="graphConfigForm-from-item"
       name="seriesField"
       label="关联字段"
-      :required="isShowSeriesField"
     >
       <a-select
         style="width:170px"
@@ -101,28 +100,15 @@
 
 <script>
 import { Form, Switch, Select } from 'ant-design-vue';
+import MixinItem from './mixin';
 
 export default {
+  mixins: [ MixinItem ],
   components: {
     aFormItem: Form.Item,
     aSwitch: Switch,
     aSelect: Select,
     aSelectOption: Select.Option,
-  },
-  emits: [ 'update' ],
-  props: {
-    basicForm: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-    data: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
   },
   data() {
     return {
@@ -138,10 +124,6 @@ export default {
     };
   },
   computed: {
-    // 字段列表
-    fieldList() {
-      return Object.keys(this.data[0]);
-    },
     graphType: {
       get() {
         if (this.form.isGroup) {
@@ -185,23 +167,6 @@ export default {
         }
         this.form.isGroup = value;
       },
-    },
-  },
-  watch: {
-    form: {
-      handler() {
-        this.handleUpdate();
-      },
-      deep: true,
-      immediate: false,
-    },
-  },
-  mounted() {
-    this.handleUpdate();
-  },
-  methods: {
-    handleUpdate() {
-      this.$emit('update', this.form);
     },
   },
 
