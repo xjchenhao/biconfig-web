@@ -73,7 +73,7 @@
 
 <script>
 import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
-import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap } from './GraphConfigDataMap';
+import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap } from './GraphConfigDataMap';
 import { Form, Button, Select, Divider, Collapse, Switch } from 'ant-design-vue';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
 
@@ -93,6 +93,7 @@ export default {
     TheNotSupportStyle,
     TheColumnDataMap,
     TheNotSupportDataMap,
+    TheLineDataMap,
   },
   emits: [ 'update' ],
   props: {
@@ -112,15 +113,6 @@ export default {
       },
     };
   },
-  // watch: {
-  //   form: {
-  //     handler() {
-  //       this.renderGraph();
-  //     },
-  //     deep: true,
-  //     immediate: false,
-  //   },
-  // },
   computed: {
     currentGraphStyleType() {
       const supportType = [ 'Column' ];
@@ -130,7 +122,7 @@ export default {
       return `The${result}Style`;
     },
     currentGraphDataMapType() {
-      const supportType = [ 'Column', 'Bar' ];
+      const supportType = [ 'Column', 'Bar', 'Line' ];
       let currentType = this.form.type;
 
       // 条形图和柱形图的数据映射配置是一样的
