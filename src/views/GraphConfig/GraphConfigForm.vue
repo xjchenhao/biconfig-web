@@ -97,19 +97,7 @@ import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from 
 import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap, PieDataMap as ThePieDataMap } from './GraphConfigDataMap';
 import { Form, Button, Select, Divider, Collapse, Switch, Input } from 'ant-design-vue';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
-
-const defaultData = [
-  { year: '1951 年', value: 380, valueArray: [ 380 - 30, 380 ], name: '收入' },
-  { year: '1952 年', value: 520, valueArray: [ 520 - 30, 520 ], name: '收入' },
-  { year: '1956 年', value: 610, valueArray: [ 610 - 30, 610 ], name: '收入' },
-  { year: '1957 年', value: 1450, valueArray: [ 1450 - 30, 1450 ], name: '收入' },
-  { year: '1958 年', value: 480, valueArray: [ 480 - 30, 480 ], name: '收入' },
-  { year: '1951 年', value: 38, valueArray: [ 38 - 30, 38 ], name: '支出' },
-  { year: '1952 年', value: 52, valueArray: [ 52 - 30, 52 ], name: '支出' },
-  { year: '1956 年', value: 61, valueArray: [ 61 - 30, 61 ], name: '支出' },
-  { year: '1957 年', value: 145, valueArray: [ 145 - 30, 145 ], name: '支出' },
-  { year: '1958 年', value: 48, valueArray: [ 48 - 30, 48 ], name: '支出' },
-];
+import { getData as getDefaultData } from './defaultData';
 
 export default {
   components: {
@@ -141,14 +129,14 @@ export default {
         type: 'Column',
         apiUrl: '',
       },
-      graphData: defaultData,
+      graphData: getDefaultData('Column'),
     };
   },
   watch: {
     'form.apiUrl': function(value) {
 
       if (!value) {
-        this.graphData = defaultData;
+        this.graphData = this.defaultData;
         this.renderGraph();
 
         return;
@@ -170,6 +158,10 @@ export default {
     },
   },
   computed: {
+    defaultData() {
+      console.log(getDefaultData(this.form.type));
+      return getDefaultData(this.form.type);
+    },
     currentGraphStyleType() {
       const supportType = [ 'Column' ];
       const currentType = this.form.type;
