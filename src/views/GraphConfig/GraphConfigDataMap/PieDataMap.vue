@@ -2,13 +2,13 @@
   <div>
     <a-form-item
       class="graphConfigForm-from-item"
-      name="angleField"
-      label="扇形切片大小字段"
+      name="colorField"
+      label="分类字段"
       required
     >
       <a-select
         style="width:100%"
-        v-model:value="form.angleField"
+        v-model:value="form.colorField"
         @change="renderGraph"
         placeholder="请选择"
       >
@@ -23,13 +23,13 @@
     </a-form-item>
     <a-form-item
       class="graphConfigForm-from-item"
-      name="colorField"
-      label="扇形颜色字段"
+      name="angleField"
+      label="面积字段"
       required
     >
       <a-select
-        style="width:170px"
-        v-model:value="form.colorField"
+        style="width:100%"
+        v-model:value="form.angleField"
         @change="renderGraph"
         placeholder="请选择"
       >
@@ -58,8 +58,8 @@ export default {
   data() {
     return {
       form: {
-        angleField: 'year',
-        colorField: 'value',
+        angleField: 'value',
+        colorField: 'year',
       },
     };
   },
