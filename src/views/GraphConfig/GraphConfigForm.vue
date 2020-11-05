@@ -46,10 +46,17 @@
         name="apiUrl"
         label="api地址"
       >
-        <a-input
+        <a-input-search
           v-model:value="form.apiUrl"
           placeholder="请输入api地址"
-        />
+          @search="getData"
+        >
+          <template #enterButton>
+            <a-button>
+              获取数据
+            </a-button>
+          </template>
+        </a-input-search>
       </a-form-item>
       <a-divider />
       <h2>数据映射</h2>
@@ -98,12 +105,14 @@ import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, 
 import { Form, Button, Select, Divider, Collapse, Switch, Input } from 'ant-design-vue';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
 import { getData as getDefaultData } from './defaultData';
+import request from '@/utils/request';
 
 export default {
   components: {
     aForm: Form,
     aFormItem: Form.Item,
     aInput: Input,
+    aInputSearch: Input.Search,
     aButton: Button,
     aSelect: Select,
     aSelectOption: Select.Option,
@@ -132,36 +141,7 @@ export default {
       graphData: getDefaultData('Column'),
     };
   },
-  watch: {
-    'form.apiUrl': function(value) {
-
-      if (!value) {
-        this.graphData = this.defaultData;
-        this.renderGraph();
-
-        return;
-      }
-
-      this.graphData = [
-        { year: '1951 年', value: 1380, valueArray: [ 380 - 30, 380 ], name: '收入' },
-        { year: '1952 年', value: 1520, valueArray: [ 520 - 30, 520 ], name: '收入' },
-        { year: '1956 年', value: 1610, valueArray: [ 610 - 30, 610 ], name: '收入' },
-        { year: '1957 年', value: 11450, valueArray: [ 1450 - 30, 1450 ], name: '收入' },
-        { year: '1958 年', value: 1480, valueArray: [ 480 - 30, 480 ], name: '收入' },
-        { year: '1951 年', value: 138, valueArray: [ 38 - 30, 38 ], name: '支出' },
-        { year: '1952 年', value: 152, valueArray: [ 52 - 30, 52 ], name: '支出' },
-        { year: '1956 年', value: 161, valueArray: [ 61 - 30, 61 ], name: '支出' },
-        { year: '1957 年', value: 1145, valueArray: [ 145 - 30, 145 ], name: '支出' },
-        { year: '1958 年', value: 148, valueArray: [ 48 - 30, 48 ], name: '支出' },
-      ];
-      this.renderGraph();
-    },
-  },
   computed: {
-    defaultData() {
-      console.log(getDefaultData(this.form.type));
-      return getDefaultData(this.form.type);
-    },
     currentGraphStyleType() {
       const supportType = [ 'Column' ];
       const currentType = this.form.type;
@@ -186,6 +166,25 @@ export default {
     this.renderGraph();
   },
   methods: {
+    async getData() {
+
+      const apiUrl = this.form.apiUrl;
+
+      if (!apiUrl) {
+        this.graphData = getDefaultData(this.form.type);
+        this.renderGraph();
+
+        return;
+      }
+
+      const res = await request({
+        url: apiUrl,
+        method: 'get',
+      });
+
+      this.graphData = res.data.list;
+      this.renderGraph();
+    },
     handleFormUpdate(value) {
       this.form = {
         ...this.form,
