@@ -41,11 +41,21 @@
           </a-select-option>
         </a-select>
       </a-form-item>
+      <a-form-item
+        class="graphConfigForm-from-item"
+        name="apiUrl"
+        label="api地址"
+      >
+        <a-input
+          v-model:value="form.apiUrl"
+          placeholder="请输入api地址"
+        />
+      </a-form-item>
       <a-divider />
       <h2>数据映射</h2>
       <component
         :is="currentGraphDataMapType"
-        :data="data"
+        :data="graphData"
         @update="handleFormUpdate"
         :basic-form="form"
       />
@@ -88,6 +98,19 @@ import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, 
 import { Form, Button, Select, Divider, Collapse, Switch, Input } from 'ant-design-vue';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
 
+const defaultData = [
+  { year: '1951 年', value: 380, valueArray: [ 380 - 30, 380 ], name: '收入' },
+  { year: '1952 年', value: 520, valueArray: [ 520 - 30, 520 ], name: '收入' },
+  { year: '1956 年', value: 610, valueArray: [ 610 - 30, 610 ], name: '收入' },
+  { year: '1957 年', value: 1450, valueArray: [ 1450 - 30, 1450 ], name: '收入' },
+  { year: '1958 年', value: 480, valueArray: [ 480 - 30, 480 ], name: '收入' },
+  { year: '1951 年', value: 38, valueArray: [ 38 - 30, 38 ], name: '支出' },
+  { year: '1952 年', value: 52, valueArray: [ 52 - 30, 52 ], name: '支出' },
+  { year: '1956 年', value: 61, valueArray: [ 61 - 30, 61 ], name: '支出' },
+  { year: '1957 年', value: 145, valueArray: [ 145 - 30, 145 ], name: '支出' },
+  { year: '1958 年', value: 48, valueArray: [ 48 - 30, 48 ], name: '支出' },
+];
+
 export default {
   components: {
     aForm: Form,
@@ -109,14 +132,6 @@ export default {
     ThePieDataMap,
   },
   emits: [ 'update' ],
-  props: {
-    data: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
-  },
   data() {
     return {
       customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 24px;border: 0;overflow: hidden',
@@ -124,8 +139,35 @@ export default {
       form: {
         name: '',
         type: 'Column',
+        apiUrl: '',
       },
+      graphData: defaultData,
     };
+  },
+  watch: {
+    'form.apiUrl': function(value) {
+
+      if (!value) {
+        this.graphData = defaultData;
+        this.renderGraph();
+
+        return;
+      }
+
+      this.graphData = [
+        { year: '1951 年', value: 1380, valueArray: [ 380 - 30, 380 ], name: '收入' },
+        { year: '1952 年', value: 1520, valueArray: [ 520 - 30, 520 ], name: '收入' },
+        { year: '1956 年', value: 1610, valueArray: [ 610 - 30, 610 ], name: '收入' },
+        { year: '1957 年', value: 11450, valueArray: [ 1450 - 30, 1450 ], name: '收入' },
+        { year: '1958 年', value: 1480, valueArray: [ 480 - 30, 480 ], name: '收入' },
+        { year: '1951 年', value: 138, valueArray: [ 38 - 30, 38 ], name: '支出' },
+        { year: '1952 年', value: 152, valueArray: [ 52 - 30, 52 ], name: '支出' },
+        { year: '1956 年', value: 161, valueArray: [ 61 - 30, 61 ], name: '支出' },
+        { year: '1957 年', value: 1145, valueArray: [ 145 - 30, 145 ], name: '支出' },
+        { year: '1958 年', value: 148, valueArray: [ 48 - 30, 48 ], name: '支出' },
+      ];
+      this.renderGraph();
+    },
   },
   computed: {
     currentGraphStyleType() {
@@ -161,7 +203,10 @@ export default {
       this.renderGraph();
     },
     renderGraph() {
-      this.$emit('update', this.form);
+      this.$emit('update', {
+        data: this.graphData,
+        ...this.form,
+      });
     },
   },
 };
