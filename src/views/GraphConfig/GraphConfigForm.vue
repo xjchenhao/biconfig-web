@@ -58,6 +58,7 @@
       <a-divider />
       <h2>数据映射</h2>
       <component
+        ref="graphDataMap"
         :is="currentGraphDataMapType"
         :data="graphData"
         @update="handleFormUpdate"
@@ -88,7 +89,10 @@
       <a-form-item
         class="graphConfigForm-from-item"
       >
-        <a-button type="primary">
+        <a-button
+          type="primary"
+          @click="handleFormSubmit"
+        >
           提交
         </a-button>
       </a-form-item>
@@ -237,6 +241,13 @@ export default {
         data: this.graphData,
         ...this.form,
       });
+    },
+    async handleFormSubmit() {
+      const graphDataMapValidateResult = await this.$refs.graphDataMap.onValidate();
+
+      if (graphDataMapValidateResult) {
+        console.log('表单提交啦');
+      }
     },
   },
 };

@@ -31,6 +31,9 @@
         @change="renderGraph"
         placeholder="请选择Y轴字段"
       >
+        <a-select-option value="">
+          123
+        </a-select-option>
         <a-select-option
           v-for="item in fieldList"
           :value="item"
@@ -100,7 +103,7 @@
 </template>
 
 <script>
-import { reactive, toRaw } from 'vue';
+import { reactive } from 'vue';
 import { useForm } from '@ant-design-vue/use';
 import { Switch, Select } from 'ant-design-vue';
 import MixinItem from './mixin';
@@ -115,7 +118,7 @@ export default {
   setup() {
     const formRef = reactive({
       xField: 'year',
-      yField: 'value',
+      yField: '',
       isGroup: false,
       isStack: false,
       isRange: false,
@@ -144,14 +147,13 @@ export default {
       })
     );
 
-    const onSubmit = e => {
-      e.preventDefault();
-      validate()
-        .then(res => {
-          console.log(res, toRaw(formRef));
+    const onValidate = () => {
+      return validate()
+        .then(() => {
+          return true;
         })
-        .catch(err => {
-          console.log('error', err);
+        .catch(() => {
+          return false;
         });
     };
     const reset = () => {
@@ -161,7 +163,7 @@ export default {
       validateInfos,
       reset,
       formRef,
-      onSubmit,
+      onValidate,
     };
   },
   data() {
