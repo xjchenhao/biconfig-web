@@ -2,29 +2,26 @@
   <div>
     <a-form
       layout="vertical"
-      :model="form"
     >
       <h2>基本配置</h2>
       <a-form-item
         class="graphConfigForm-from-item"
-        name="name"
+        v-bind="validateInfos.name"
         label="图表名称"
-        required
       >
         <a-input
-          v-model:value="form.name"
+          v-model:value="formRef.name"
           placeholder="请输入图表名称"
         />
       </a-form-item>
       <a-form-item
         class="graphConfigForm-from-item"
-        name="type"
+        v-bind="validateInfos.type"
         label="图表类型"
-        required
       >
         <a-select
           style="width:100%"
-          v-model:value="form.type"
+          v-model:value="formRef.type"
           @change="renderGraph"
         >
           <a-select-option value="Column">
@@ -43,11 +40,11 @@
       </a-form-item>
       <a-form-item
         class="graphConfigForm-from-item"
-        name="apiUrl"
+        v-bind="validateInfos.apiUrl"
         label="api地址"
       >
         <a-input-search
-          v-model:value="form.apiUrl"
+          v-model:value="formRef.apiUrl"
           placeholder="请输入api地址"
           @search="getData"
         >
@@ -64,7 +61,7 @@
         :is="currentGraphDataMapType"
         :data="graphData"
         @update="handleFormUpdate"
-        :basic-form="form"
+        :form-data="formRef"
       />
       <a-divider />
       <h2>更多配置</h2>
@@ -84,7 +81,7 @@
           <component
             :is="currentGraphStyleType"
             @update="handleFormUpdate"
-            :basic-form="form"
+            :form-data="formRef"
           />
         </a-collapse-panel>
       </a-collapse>
@@ -100,9 +97,11 @@
 </template>
 
 <script>
+import { reactive, toRaw } from 'vue';
 import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
 import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap, PieDataMap as ThePieDataMap } from './GraphConfigDataMap';
 import { Form, Button, Select, Divider, Collapse, Switch, Input } from 'ant-design-vue';
+import { useForm } from '@ant-design-vue/use';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
 import { getData as getDefaultData } from './defaultData';
 import request from '@/utils/request';
@@ -128,30 +127,69 @@ export default {
     TheLineDataMap,
     ThePieDataMap,
   },
+  setup() {
+    const formRef = reactive({
+      name: '',
+      type: 'Column',
+      apiUrl: '',
+    });
+
+    const { resetFields, validate, validateInfos } = useForm(
+      formRef,
+      reactive({
+        name: [
+          { required: true, message: '请输入图表名称', trigger: 'change' },
+          { min: 4, max: 20, message: '请确保名称长度为4～20个字', trigger: 'blur' },
+        ],
+        type: [
+          { required: true, message: '请选择图表类型', trigger: 'change' },
+        ],
+        apiUrl: [
+          { required: true, message: '请输入api地址', trigger: 'change' },
+        ],
+      })
+    );
+
+    const onSubmit = e => {
+      e.preventDefault();
+      validate()
+        .then(res => {
+          console.log(res, toRaw(formRef));
+        })
+        .catch(err => {
+          console.log('error', err);
+        });
+    };
+    const reset = () => {
+      resetFields();
+    };
+
+    return {
+      validateInfos,
+      reset,
+      formRef,
+      onSubmit,
+    };
+  },
   emits: [ 'update' ],
   data() {
     return {
       customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 24px;border: 0;overflow: hidden',
       activeKey: [ '1' ],
-      form: {
-        name: '',
-        type: 'Column',
-        apiUrl: '',
-      },
       graphData: getDefaultData('Column'),
     };
   },
   computed: {
     currentGraphStyleType() {
       const supportType = [ 'Column' ];
-      const currentType = this.form.type;
+      const currentType = this.formRef.type;
 
       const result = supportType.indexOf(currentType) >= 0 ? currentType : 'NotSupport';
       return `The${result}Style`;
     },
     currentGraphDataMapType() {
       const supportType = [ 'Column', 'Bar', 'Line', 'Pie' ];
-      let currentType = this.form.type;
+      let currentType = this.formRef.type;
 
       // 条形图和柱形图的数据映射配置是一样的
       if (currentType === 'Bar') {
@@ -168,10 +206,10 @@ export default {
   methods: {
     async getData() {
 
-      const apiUrl = this.form.apiUrl;
+      const apiUrl = this.formRef.apiUrl;
 
       if (!apiUrl) {
-        this.graphData = getDefaultData(this.form.type);
+        this.graphData = getDefaultData(this.formRef.type);
         this.renderGraph();
 
         return;
@@ -186,6 +224,7 @@ export default {
       this.renderGraph();
     },
     handleFormUpdate(value) {
+      console.log(value);
       this.form = {
         ...this.form,
         ...value,

@@ -46,7 +46,7 @@ export default {
   },
   emits: [ 'update' ],
   props: {
-    basicForm: {
+    formData: {
       type: Object,
       default() {
         return {};
@@ -64,7 +64,7 @@ export default {
   },
   computed: {
     isGroup() {
-      return this.basicForm.isGroup;
+      return this.formData.isGroup;
     },
     formStyle: {
       get() {

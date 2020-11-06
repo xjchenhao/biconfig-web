@@ -2,13 +2,12 @@
   <div>
     <a-form-item
       class="graphConfigForm-from-item"
-      name="xField"
+      v-bind="validateInfos.xField"
       label="X轴字段"
-      required
     >
       <a-select
         style="width:100%"
-        v-model:value="form.xField"
+        v-model:value="formRef.xField"
         @change="renderGraph"
         placeholder="请选择X轴字段"
       >
@@ -23,13 +22,12 @@
     </a-form-item>
     <a-form-item
       class="graphConfigForm-from-item"
-      name="yField"
+      v-bind="validateInfos.yField"
       label="Y轴字段"
-      required
     >
       <a-select
         style="width:100%"
-        v-model:value="form.yField"
+        v-model:value="formRef.yField"
         @change="renderGraph"
         placeholder="请选择Y轴字段"
       >
@@ -44,9 +42,10 @@
     </a-form-item>
     <a-form-item
       class="graphConfigForm-from-item"
-      label="柱形图类型"
-      required
     >
+      <template #label>
+        <span class="ant-form-item-required">柱形图类型</span>
+      </template>
       <a-select
         style="width:100%"
         v-model:value="graphType"
@@ -67,22 +66,24 @@
       </a-select>
     </a-form-item>
     <a-form-item
-      v-show="form.isStack"
+      v-show="formRef.isStack"
       class="graphConfigForm-from-item"
-      name="isPercent"
+      v-bind="validateInfos.isPercent"
       label="是否百分百柱状图"
     >
-      <a-switch v-model:checked="form.isPercent" />
+      <a-switch v-model:checked="formRef.isPercent" />
     </a-form-item>
     <a-form-item
       v-show="isShowSeriesField"
       class="graphConfigForm-from-item"
-      name="seriesField"
-      label="关联字段"
+      v-bind="validateInfos.seriesField"
     >
+      <template #label>
+        <span class="ant-form-item-required">关联字段</span>
+      </template>
       <a-select
         style="width:100%"
-        v-model:value="form.seriesField"
+        v-model:value="formRef.seriesField"
         @change="renderGraph"
         placeholder="请选择关联字段"
       >
@@ -99,6 +100,8 @@
 </template>
 
 <script>
+import { reactive, toRaw } from 'vue';
+import { useForm } from '@ant-design-vue/use';
 import { Switch, Select } from 'ant-design-vue';
 import MixinItem from './mixin';
 
@@ -109,62 +112,105 @@ export default {
     aSelect: Select,
     aSelectOption: Select.Option,
   },
+  setup() {
+    const formRef = reactive({
+      xField: 'year',
+      yField: 'value',
+      isGroup: false,
+      isStack: false,
+      isRange: false,
+      isPercent: false,
+      seriesField: '',
+    });
+
+    const { resetFields, validate, validateInfos } = useForm(
+      formRef,
+      reactive({
+        xField: [
+          { required: true, message: '请选择X轴字段', trigger: 'change' },
+        ],
+        yField: [
+          { required: true, message: '请选择Y轴字段', trigger: 'change' },
+        ],
+        seriesField: [{ validator: async (rule, value) => {
+          const isRequired = formRef.isGroup || formRef.isStack;
+
+          if (isRequired && !value) {
+            return Promise.reject(new Error('请选择关联字段'));
+          }
+          return Promise.resolve();
+
+        }, trigger: 'change' }],
+      })
+    );
+
+    const onSubmit = e => {
+      e.preventDefault();
+      validate()
+        .then(res => {
+          console.log(res, toRaw(formRef));
+        })
+        .catch(err => {
+          console.log('error', err);
+        });
+    };
+    const reset = () => {
+      resetFields();
+    };
+    return {
+      validateInfos,
+      reset,
+      formRef,
+      onSubmit,
+    };
+  },
   data() {
     return {
-      form: {
-        xField: 'year',
-        yField: 'value',
-        isGroup: false,
-        isStack: false,
-        isRange: false,
-        isPercent: false,
-        seriesField: '',
-      },
     };
   },
   computed: {
     graphType: {
       get() {
-        if (this.form.isGroup) {
+        if (this.formRef.isGroup) {
           return 'Group';
         }
-        if (this.form.isStack) {
+        if (this.formRef.isStack) {
           return 'Stack';
         }
-        if (this.form.isRange) {
+        if (this.formRef.isRange) {
           return 'Range';
         }
         return '';
       },
       set(type) {
-        this.form.isGroup = false;
-        this.form.isStack = false;
-        this.form.isRange = false;
+        this.formRef.isGroup = false;
+        this.formRef.isStack = false;
+        this.formRef.isRange = false;
 
         if (type !== 'Stack') {
-          this.form.isPercent = false;
+          this.formRef.isPercent = false;
         }
 
         if (!type) {
           return;
         }
 
-        this.form[`is${type}`] = true;
+        this.formRef[`is${type}`] = true;
       },
     },
     isShowSeriesField() {
-      return this.form.isGroup || this.form.isStack;
+      return this.formRef.isGroup || this.formRef.isStack;
     },
     formIsGroup: {
       get() {
-        return this.form.isGroup;
+        return this.formRef.isGroup;
       },
       set(value) {
 
         if (!this.isShowSeriesField) {
-          this.form.seriesField = '';
+          this.formRef.seriesField = '';
         }
-        this.form.isGroup = value;
+        this.formRef.isGroup = value;
       },
     },
   },

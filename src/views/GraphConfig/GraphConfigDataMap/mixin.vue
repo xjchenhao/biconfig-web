@@ -7,7 +7,13 @@ export default {
     aFormItem: Form.Item,
   },
   props: {
-    basicForm: {
+    formData: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    validateInfos: {
       type: Object,
       default() {
         return {};
@@ -27,7 +33,7 @@ export default {
     },
   },
   watch: {
-    form: {
+    formRef: {
       handler() {
         this.handleUpdate();
       },
@@ -40,7 +46,7 @@ export default {
   },
   methods: {
     handleUpdate() {
-      this.$emit('update', this.form);
+      this.$emit('update', this.formRef);
     },
   },
 
