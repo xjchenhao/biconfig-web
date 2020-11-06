@@ -2,13 +2,12 @@
   <div>
     <a-form-item
       class="graphConfigForm-from-item"
-      name="xField"
+      v-bind="validateInfos.xField"
       label="X轴字段"
-      required
     >
       <a-select
         style="width:100%"
-        v-model:value="form.xField"
+        v-model:value="formRef.xField"
         @change="renderGraph"
         placeholder="请选择X轴字段"
       >
@@ -23,13 +22,12 @@
     </a-form-item>
     <a-form-item
       class="graphConfigForm-from-item"
-      name="yField"
+      v-bind="validateInfos.yField"
       label="Y轴字段"
-      required
     >
       <a-select
         style="width:100%"
-        v-model:value="form.yField"
+        v-model:value="formRef.yField"
         @change="renderGraph"
         placeholder="请选择Y轴字段"
       >
@@ -44,12 +42,12 @@
     </a-form-item>
     <a-form-item
       class="graphConfigForm-from-item"
-      name="seriesField"
+      v-bind="validateInfos.seriesField"
       label="关联字段"
     >
       <a-select
         style="width:100%"
-        v-model:value="form.seriesField"
+        v-model:value="formRef.seriesField"
         @change="renderGraph"
         placeholder="请选择关联字段"
       >
@@ -72,6 +70,8 @@
 </template>
 
 <script>
+import { reactive } from 'vue';
+import { useForm } from '@ant-design-vue/use';
 import { Select } from 'ant-design-vue';
 import MixinItem from './mixin';
 
@@ -81,14 +81,46 @@ export default {
     aSelect: Select,
     aSelectOption: Select.Option,
   },
-  data() {
-    return {
-      form: {
-        xField: 'year',
-        yField: 'value',
-        seriesField: '',
-      },
+  setup() {
+    const formRef = reactive({
+      xField: 'year',
+      yField: 'value',
+      seriesField: '',
+    });
+
+    const { resetFields, validate, validateInfos } = useForm(
+      formRef,
+      reactive({
+        xField: [
+          { required: true, message: '请选择X轴字段', trigger: 'change' },
+        ],
+        yField: [
+          { required: true, message: '请选择Y轴字段', trigger: 'change' },
+        ],
+      })
+    );
+
+    const onValidate = () => {
+      return validate()
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
     };
+    const reset = () => {
+      resetFields();
+    };
+    return {
+      validateInfos,
+      reset,
+      formRef,
+      onValidate,
+    };
+  },
+  data() {
+    return {};
   },
 
 };

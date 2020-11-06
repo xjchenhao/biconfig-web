@@ -2,13 +2,12 @@
   <div>
     <a-form-item
       class="graphConfigForm-from-item"
-      name="colorField"
+      v-bind="validateInfos.colorField"
       label="分类字段"
-      required
     >
       <a-select
         style="width:100%"
-        v-model:value="form.colorField"
+        v-model:value="formRef.colorField"
         @change="renderGraph"
         placeholder="请选择"
       >
@@ -23,13 +22,13 @@
     </a-form-item>
     <a-form-item
       class="graphConfigForm-from-item"
-      name="angleField"
+      v-bind="validateInfos.angleField"
       label="面积字段"
       required
     >
       <a-select
         style="width:100%"
-        v-model:value="form.angleField"
+        v-model:value="formRef.angleField"
         @change="renderGraph"
         placeholder="请选择"
       >
@@ -46,6 +45,8 @@
 </template>
 
 <script>
+import { reactive } from 'vue';
+import { useForm } from '@ant-design-vue/use';
 import { Select } from 'ant-design-vue';
 import MixinItem from './mixin';
 
@@ -55,12 +56,42 @@ export default {
     aSelect: Select,
     aSelectOption: Select.Option,
   },
-  data() {
+
+  setup() {
+    const formRef = reactive({
+      angleField: 'value',
+      colorField: 'year',
+    });
+
+    const { resetFields, validate, validateInfos } = useForm(
+      formRef,
+      reactive({
+        angleField: [
+          { required: true, message: '请选择面积字段', trigger: 'change' },
+        ],
+        colorField: [
+          { required: true, message: '请选择分类字段', trigger: 'change' },
+        ],
+      })
+    );
+
+    const onValidate = () => {
+      return validate()
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+    };
+    const reset = () => {
+      resetFields();
+    };
     return {
-      form: {
-        angleField: 'value',
-        colorField: 'year',
-      },
+      validateInfos,
+      reset,
+      formRef,
+      onValidate,
     };
   },
 };

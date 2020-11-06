@@ -31,9 +31,6 @@
         @change="renderGraph"
         placeholder="请选择Y轴字段"
       >
-        <a-select-option value="">
-          123
-        </a-select-option>
         <a-select-option
           v-for="item in fieldList"
           :value="item"
@@ -118,7 +115,7 @@ export default {
   setup() {
     const formRef = reactive({
       xField: 'year',
-      yField: '',
+      yField: 'value',
       isGroup: false,
       isStack: false,
       isRange: false,
