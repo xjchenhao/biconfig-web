@@ -58,7 +58,7 @@
       <a-divider />
       <h2>数据映射</h2>
       <component
-        ref="graphDataMap"
+        ref="graphDataMapForm"
         :is="currentGraphDataMapType"
         :data="graphData"
         @update="handleFormUpdate"
@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { reactive, toRaw } from 'vue';
+import { reactive } from 'vue';
 import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
 import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap, PieDataMap as ThePieDataMap } from './GraphConfigDataMap';
 import { Form, Button, Select, Divider, Collapse, Switch, Input } from 'ant-design-vue';
@@ -154,14 +154,13 @@ export default {
       })
     );
 
-    const onSubmit = e => {
-      e.preventDefault();
-      validate()
-        .then(res => {
-          console.log(res, toRaw(formRef));
+    const onValidate = () => {
+      return validate()
+        .then(() => {
+          return true;
         })
-        .catch(err => {
-          console.log('error', err);
+        .catch(() => {
+          return false;
         });
     };
     const reset = () => {
@@ -172,7 +171,7 @@ export default {
       validateInfos,
       reset,
       formRef,
-      onSubmit,
+      onValidate,
     };
   },
   emits: [ 'update' ],
@@ -181,7 +180,17 @@ export default {
       customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 24px;border: 0;overflow: hidden',
       activeKey: [ '1' ],
       graphData: getDefaultData('Column'),
+      form: {},
     };
+  },
+  watch: {
+    formRef: {
+      handler(value) {
+        this.form = value;
+      },
+      deep: true,
+      immediate: false,
+    },
   },
   computed: {
     currentGraphStyleType() {
@@ -227,6 +236,8 @@ export default {
       this.graphData = res.data.list;
       this.renderGraph();
     },
+
+    // 字表单数据变动时，会触发它
     handleFormUpdate(value) {
       console.log(value);
       this.form = {
@@ -243,10 +254,23 @@ export default {
       });
     },
     async handleFormSubmit() {
-      const graphDataMapValidateResult = await this.$refs.graphDataMap.onValidate();
+      console.log(this.form);
 
-      if (graphDataMapValidateResult) {
-        console.log('表单提交啦');
+      const basisFormValidateResult = await this.onValidate();
+      const graphDataMapFormValidateResult = await this.$refs.graphDataMapForm.onValidate();
+      console.log(basisFormValidateResult);
+      console.log(graphDataMapFormValidateResult);
+      console.log(this.form);
+
+      if (basisFormValidateResult && graphDataMapFormValidateResult) {
+        const { name, apiUrl, type, ...attr } = this.form;
+
+        console.log('表单提交啦：', ({
+          type,
+          name,
+          apiUrl,
+          attr,
+        }));
       }
     },
   },

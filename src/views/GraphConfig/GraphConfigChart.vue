@@ -51,15 +51,17 @@ export default {
       const graphConfigChartDom = this.$refs.GraphConfigChart;
       const chartType = this.type;
       const chartOpts = this.opts;
+      const chartData = this.data;
       // const { xField, yField } = this.opts;
 
       console.log('-----渲染图表信息log start----');
       console.log('图表类型：', chartType);
+      console.log('图表数据：', chartData);
       console.log('图表参数：', JSON.stringify(chartOpts));
       console.log('-----渲染图表信息log end----');
 
       const bar = new G2plot[chartType](graphConfigChartDom, {
-        data: this.data,
+        data: chartData,
         ...chartOpts,
         // xField,
         // yField,
