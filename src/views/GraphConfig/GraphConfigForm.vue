@@ -128,7 +128,7 @@
 import { reactive } from 'vue';
 import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
 import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap, PieDataMap as ThePieDataMap } from './GraphConfigDataMap';
-import { Form, Button, Select, Divider, Collapse, Switch, Input, Result, Modal } from 'ant-design-vue';
+import { Form, Button, Select, Divider, Collapse, Switch, Input, Result, Modal, message } from 'ant-design-vue';
 import { useForm } from '@ant-design-vue/use';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
 import { getData as getDefaultData } from './defaultData';
@@ -294,30 +294,33 @@ export default {
       console.log(basisFormValidateResult);
       console.log(graphDataMapFormValidateResult);
 
-      if (basisFormValidateResult && graphDataMapFormValidateResult) {
-        console.log(this.form);
-        const { name, apiUrl, type, ...attr } = this.form;
-        console.log(type,
-          name,
-          apiUrl,
-          attr);
-
-        const res = await graphCreate({
-          type,
-          name,
-          apiUrl,
-          attr,
-        });
-
-        if (Number(res.code) < 0) {
-          console.error(res.msg);
-          return;
-        }
-
-        this.resultModalTips = '图表创建完成';
-        this.resultModalVisible = true;
-
+      if (!basisFormValidateResult || !graphDataMapFormValidateResult) {
+        message.error('格式错误，请检查表单内容。');
+        return;
       }
+
+      console.log(this.form);
+      const { name, apiUrl, type, ...attr } = this.form;
+      console.log(type,
+        name,
+        apiUrl,
+        attr);
+
+      const res = await graphCreate({
+        type,
+        name,
+        apiUrl,
+        attr,
+      });
+
+      if (Number(res.code) < 0) {
+        console.error(res.msg);
+        return;
+      }
+
+      this.resultModalTips = '图表创建完成';
+      this.resultModalVisible = true;
+
     },
   },
 };
