@@ -48,38 +48,21 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    name: '短信统计',
-    type: '饼状图',
-    createTime: '2020-10-10',
-    updateTime: '2020-10-10',
-  },
-  {
-    key: '2',
-    name: '访问统计',
-    type: '柱形图',
-    createTime: '2020-10-10',
-    updateTime: '2020-10-10',
-  },
-  {
-    key: '3',
-    name: 'xxxx统计',
-    type: '柱形图',
-    createTime: '2020-10-10',
-    updateTime: '2020-10-10',
-  },
-];
-
 export default {
   components: {
     aTable: Table,
     aDivider: Divider,
   },
+  props: {
+    data: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
   data() {
     return {
-      data,
       columns,
     };
   },
