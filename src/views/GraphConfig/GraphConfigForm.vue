@@ -97,6 +97,30 @@
         </a-button>
       </a-form-item>
     </a-form>
+    <a-modal
+      :visible="resultModalVisible"
+      :footer="null"
+    >
+      <a-result
+        status="success"
+        title="resultModalTips"
+      >
+        <template #extra>
+          <a-button
+            key="console"
+            type="primary"
+          >
+            立即查看
+          </a-button>
+          <a-button
+            key="buy"
+            @click="handleGotoHome"
+          >
+            返回主页
+          </a-button>
+        </template>
+      </a-result>
+    </a-modal>
   </div>
 </template>
 
@@ -104,14 +128,18 @@
 import { reactive } from 'vue';
 import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
 import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap, PieDataMap as ThePieDataMap } from './GraphConfigDataMap';
-import { Form, Button, Select, Divider, Collapse, Switch, Input } from 'ant-design-vue';
+import { Form, Button, Select, Divider, Collapse, Switch, Input, Result, Modal } from 'ant-design-vue';
 import { useForm } from '@ant-design-vue/use';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
 import { getData as getDefaultData } from './defaultData';
 import request from '@/utils/request';
 
+import { create as graphCreate } from '@/api/graph';
+
 export default {
   components: {
+    aModal: Modal,
+    aResult: Result,
     aForm: Form,
     aFormItem: Form.Item,
     aInput: Input,
@@ -181,6 +209,8 @@ export default {
       activeKey: [ '1' ],
       graphData: getDefaultData('Column'),
       form: {},
+      resultModalVisible: false,
+      resultModalTips: '图表创建完成',
     };
   },
   watch: {
@@ -253,24 +283,40 @@ export default {
         ...this.form,
       });
     },
+    handleGotoHome() {
+      this.$router.push('/graph');
+    },
     async handleFormSubmit() {
-      console.log(this.form);
 
       const basisFormValidateResult = await this.onValidate();
       const graphDataMapFormValidateResult = await this.$refs.graphDataMapForm.onValidate();
+
       console.log(basisFormValidateResult);
       console.log(graphDataMapFormValidateResult);
-      console.log(this.form);
 
       if (basisFormValidateResult && graphDataMapFormValidateResult) {
+        console.log(this.form);
         const { name, apiUrl, type, ...attr } = this.form;
+        console.log(type,
+          name,
+          apiUrl,
+          attr);
 
-        console.log('表单提交啦：', ({
+        const res = await graphCreate({
           type,
           name,
           apiUrl,
           attr,
-        }));
+        });
+
+        if (Number(res.code) < 0) {
+          console.error(res.msg);
+          return;
+        }
+
+        this.resultModalTips = '图表创建完成';
+        this.resultModalVisible = true;
+
       }
     },
   },

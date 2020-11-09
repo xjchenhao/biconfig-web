@@ -2,7 +2,7 @@
   <div>
     <a-button
       type="primary"
-      @click="openConfigPage"
+      @click="gotoConfigPage"
     >
       <aPlusOutlined
         class="GraphListToolbar-icon"
@@ -25,7 +25,7 @@ export default {
     };
   },
   methods: {
-    openConfigPage() {
+    gotoConfigPage() {
       this.$router.push('/graph/config');
     },
   },

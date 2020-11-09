@@ -11,7 +11,7 @@
         <span>
           <a>查看</a>
           <a-divider type="vertical" />
-          <a @click="handleUpdate">修改</a>
+          <a @click="handleUpdate(record)">修改</a>
           <a-divider type="vertical" />
           <a-popconfirm
             title="确定删除这条记录?"
@@ -81,8 +81,10 @@ export default {
     };
   },
   methods: {
-    handleUpdate() {
-      this.$router.push('/graph/config');
+    handleUpdate(item) {
+      const { _id: id } = item.record;
+
+      this.$router.push(`/graph/config?id=${id}`);
     },
     async handleConfirmDelete(item) {
 
