@@ -3,14 +3,24 @@
     <a-table
       :columns="columns"
       :data-source="data"
+      :key="_id"
     >
-      <template #action>
+      <template
+        #action="record"
+      >
         <span>
           <a>查看</a>
           <a-divider type="vertical" />
           <a @click="handleUpdate">修改</a>
           <a-divider type="vertical" />
-          <a>删除</a>
+          <a-popconfirm
+            title="确定删除这条记录?"
+            ok-text="是"
+            cancel-text="否"
+            @confirm="handleConfirmDelete(record)"
+          >
+            <a>删除</a>
+          </a-popconfirm>
         </span>
       </template>
     </a-table>
@@ -18,7 +28,9 @@
 </template>
 
 <script>
-import { Table, Divider } from 'ant-design-vue';
+import { Table, Divider, Popconfirm } from 'ant-design-vue';
+
+import { del as getGraphDelete } from '@/api/graph';
 
 const columns = [
   {
@@ -52,7 +64,9 @@ export default {
   components: {
     aTable: Table,
     aDivider: Divider,
+    aPopconfirm: Popconfirm,
   },
+  emits: [ 'get-data' ],
   props: {
     data: {
       type: Array,
@@ -69,6 +83,19 @@ export default {
   methods: {
     handleUpdate() {
       this.$router.push('/graph/config');
+    },
+    async handleConfirmDelete(item) {
+
+      const { _id: id } = item.record;
+
+      const res = await getGraphDelete({ id });
+
+      if (Number(res.code) < 0) {
+        console.error(res.msg);
+        return;
+      }
+
+      this.$emit('get-data', {});
     },
   },
 };

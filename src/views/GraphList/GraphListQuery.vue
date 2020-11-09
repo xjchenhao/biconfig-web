@@ -63,6 +63,7 @@ export default {
     aSelect: Select,
     aSelectOption: Select.Option,
   },
+  emits: [ 'get-data' ],
   data() {
     return {
       form: {
@@ -73,7 +74,7 @@ export default {
   },
   methods: {
     handleSubmit() {
-      console.log(this.formInline);
+      this.$emit('get-data', {});
     },
     handleReset() {
       this.$refs.form.resetFields();

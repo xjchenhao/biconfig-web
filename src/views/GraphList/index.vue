@@ -1,10 +1,11 @@
 <template>
   <list-page-layout>
-    <graph-list-query />
+    <graph-list-query @get-data="getData" />
     <graph-list-toolbar style="marginTop:20px" />
     <graph-list-table
       style="marginTop:20px"
       :data="data"
+      @get-data="getData"
     />
   </list-page-layout>
 </template>
@@ -15,7 +16,8 @@ import GraphListQuery from './GraphListQuery';
 import GraphListTable from './GraphListTable';
 import GraphListToolbar from './GraphListToolbar';
 
-import { getGraphList } from '@/api/graph';
+import { getList as getGraphList } from '@/api/graph';
+
 export default {
   components: {
     GraphListTable,
