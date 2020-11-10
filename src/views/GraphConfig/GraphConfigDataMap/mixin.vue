@@ -7,6 +7,10 @@ export default {
     aFormItem: Form.Item,
   },
   props: {
+    isModify: {
+      type: Boolean,
+      default: false,
+    },
     formData: {
       type: Object,
       default() {
@@ -45,6 +49,13 @@ export default {
     this.handleUpdate();
   },
   methods: {
+    initData(formData) {
+      if (this.isModify && formData) {
+        Object.keys(this.formRef).forEach(key => {
+          this.formRef[key] = formData[key];
+        });
+      }
+    },
     handleUpdate() {
       this.$emit('update', this.formRef);
     },

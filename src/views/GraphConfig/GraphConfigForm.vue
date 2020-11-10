@@ -61,8 +61,9 @@
         ref="graphDataMapForm"
         :is="currentGraphDataMapType"
         :data="graphData"
+        :is-modify="isModify"
         @update="handleFormUpdate"
-        :form-data="formRef"
+        :form-data="form"
       />
       <a-divider />
       <h2>更多配置</h2>
@@ -82,7 +83,8 @@
           <component
             :is="currentGraphStyleType"
             @update="handleFormUpdate"
-            :form-data="formRef"
+            :form-data="form"
+            :is-modify="isModify"
           />
         </a-collapse-panel>
       </a-collapse>
@@ -103,7 +105,7 @@
     >
       <a-result
         status="success"
-        title="resultModalTips"
+        :title="isModify?'图表配置修改完成':'图表配置创建完成'"
       >
         <template #extra>
           <a-button
@@ -134,7 +136,7 @@ import { CaretRightOutlined } from '@ant-design/icons-vue';
 import { getData as getDefaultData } from './defaultData';
 import request from '@/utils/request';
 
-import { create as graphCreate } from '@/api/graph';
+import { create as graphCreate, getDetail as getGraphDetail } from '@/api/graph';
 
 export default {
   components: {
@@ -210,19 +212,27 @@ export default {
       graphData: getDefaultData('Column'),
       form: {},
       resultModalVisible: false,
-      resultModalTips: '图表创建完成',
     };
   },
   watch: {
     formRef: {
       handler(value) {
-        this.form = value;
+        this.form = {
+          ...this.form,
+          ...value,
+        };
       },
       deep: true,
       immediate: false,
     },
   },
   computed: {
+    currentId() {
+      return this.$route.query.id;
+    },
+    isModify() {
+      return !!this.currentId;
+    },
     currentGraphStyleType() {
       const supportType = [ 'Column' ];
       const currentType = this.formRef.type;
@@ -243,8 +253,24 @@ export default {
       return `The${result}DataMap`;
     },
   },
-  mounted() {
-    this.renderGraph();
+  async mounted() {
+    if (!this.isModify) {
+      this.renderGraph();
+
+      return;
+    }
+
+    const res = await getGraphDetail({
+      id: this.currentId,
+    });
+
+    const { type, apiUrl, name } = res.data;
+
+    this.$refs.graphDataMapForm.initData(res.data.attr);
+
+    this.formRef.name = name;
+    this.formRef.apiUrl = apiUrl;
+    this.formRef.type = type;
   },
   methods: {
     async getData() {
@@ -295,16 +321,12 @@ export default {
       console.log(graphDataMapFormValidateResult);
 
       if (!basisFormValidateResult || !graphDataMapFormValidateResult) {
-        message.error('格式错误，请检查表单内容。');
+        message.error('格式错误，请检查表单内容！');
         return;
       }
 
       console.log(this.form);
       const { name, apiUrl, type, ...attr } = this.form;
-      console.log(type,
-        name,
-        apiUrl,
-        attr);
 
       const res = await graphCreate({
         type,
@@ -318,7 +340,6 @@ export default {
         return;
       }
 
-      this.resultModalTips = '图表创建完成';
       this.resultModalVisible = true;
 
     },

@@ -6,6 +6,7 @@ const userApi = {
   update: '/api/graph/update',
   delete: '/api/graph/delete',
   view: '/api/graph/view',
+  detail: '/api/graph/detail',
 };
 
 export function getList() {
@@ -18,6 +19,14 @@ export function getList() {
 export function getView(parameter) {
   return request({
     url: userApi.view,
+    method: 'get',
+    params: parameter,
+  });
+}
+
+export function getDetail(parameter) {
+  return request({
+    url: userApi.detail,
     method: 'get',
     params: parameter,
   });
