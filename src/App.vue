@@ -7,7 +7,11 @@
 export default {
   computed: {
     basicsStyle() {
-      return process.env.VUE_APP_BasicsLayoutStyle;
+      return {
+        width: '100%',
+        height: '100%',
+        ...process.env.VUE_APP_BasicsLayoutStyle,
+      };
     },
   },
 };

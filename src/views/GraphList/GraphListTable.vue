@@ -9,7 +9,7 @@
         #action="record"
       >
         <span>
-          <a>查看</a>
+          <a @click="handleView(record)">查看</a>
           <a-divider type="vertical" />
           <a @click="handleUpdate(record)">修改</a>
           <a-divider type="vertical" />
@@ -81,6 +81,11 @@ export default {
     };
   },
   methods: {
+    handleView(item) {
+      const { _id: id } = item.record;
+
+      this.$router.push(`/graph/view?id=${id}`);
+    },
     handleUpdate(item) {
       const { _id: id } = item.record;
 

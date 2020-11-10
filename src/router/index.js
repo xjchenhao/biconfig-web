@@ -23,6 +23,11 @@ const routes = [
     component: () => import('../views/GraphConfig'),
   },
   {
+    path: '/graph/view',
+    name: 'GraphView',
+    component: () => import('../views/GraphView'),
+  },
+  {
     path: '/demo',
     name: 'Home',
     component: Home,
