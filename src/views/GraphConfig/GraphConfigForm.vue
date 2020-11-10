@@ -136,7 +136,7 @@ import { CaretRightOutlined } from '@ant-design/icons-vue';
 import { getData as getDefaultData } from './defaultData';
 import request from '@/utils/request';
 
-import { create as graphCreate, getDetail as getGraphDetail } from '@/api/graph';
+import { create as graphCreate, getDetail as getGraphDetail, update as graphUpdate } from '@/api/graph';
 
 export default {
   components: {
@@ -325,15 +325,25 @@ export default {
         return;
       }
 
-      console.log(this.form);
       const { name, apiUrl, type, ...attr } = this.form;
 
-      const res = await graphCreate({
-        type,
-        name,
-        apiUrl,
-        attr,
-      });
+      let res;
+      if (this.isModify) {
+        res = await graphUpdate({
+          id: this.currentId,
+          type,
+          name,
+          apiUrl,
+          attr,
+        });
+      } else {
+        res = await graphCreate({
+          type,
+          name,
+          apiUrl,
+          attr,
+        });
+      }
 
       if (Number(res.code) < 0) {
         console.error(res.msg);
