@@ -111,6 +111,7 @@
           <a-button
             key="console"
             type="primary"
+            @click="handleGotoView"
           >
             立即查看
           </a-button>
@@ -207,6 +208,7 @@ export default {
   emits: [ 'update' ],
   data() {
     return {
+      viewId: '',
       customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 24px;border: 0;overflow: hidden',
       activeKey: [ '1' ],
       graphData: getDefaultData('Column'),
@@ -313,8 +315,12 @@ export default {
         ...this.form,
       });
     },
+    handleGotoView() {
+      // this.$router.replace(`/graph/view?id=${this.viewId}`);
+      this.$router.replace({ path: '/graph/view', query: { id: this.viewId } });
+    },
     handleGotoHome() {
-      this.$router.push('/graph');
+      this.$router.replace('/graph');
     },
     async handleFormSubmit() {
 
@@ -353,6 +359,10 @@ export default {
         console.error(res.msg);
         return;
       }
+
+      this.viewId = this.isModify ? this.currentId : res.data.id;
+
+      console.log(this.viewId);
 
       this.resultModalVisible = true;
 
