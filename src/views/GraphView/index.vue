@@ -44,9 +44,9 @@ export default {
       const { isInline } = this.$route.query;
 
       if (isInline === '0' || isInline === 'false') {
-        return true;
+        return false;
       }
-      return false;
+      return true;
     },
   },
   beforeCreate() {
