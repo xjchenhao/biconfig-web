@@ -50,6 +50,18 @@
           </template>
         </a-input-search>
       </a-form-item>
+      <a-form-item
+        class="graphConfigForm-from-item"
+        label="是否显示标题"
+      >
+        <a-switch v-model:checked="isShowTitle" />
+      </a-form-item>
+      <a-form-item
+        class="graphConfigForm-from-item"
+        label="是否显示时间筛选器"
+      >
+        <a-switch v-model:checked="isShowTimeFilter" />
+      </a-form-item>
       <a-divider />
       <h2>数据映射</h2>
       <component
@@ -163,6 +175,8 @@ export default {
       name: '',
       type: 'Column',
       apiUrl: '',
+      timeFilterShowType: 0,
+      titleShowType: 0,
     });
 
     const { resetFields, validate, validateInfos } = useForm(
@@ -225,6 +239,22 @@ export default {
     },
   },
   computed: {
+    isShowTimeFilter: {
+      get() {
+        return !!this.formRef.timeFilterShowType;
+      },
+      set(value) {
+        this.formRef.timeFilterShowType = Number(value);
+      },
+    },
+    isShowTitle: {
+      get() {
+        return !!this.formRef.titleShowType;
+      },
+      set(value) {
+        this.formRef.titleShowType = Number(value);
+      },
+    },
     supportGraphTypeMap() {
       return supportGraphTypeMap;
     },
@@ -265,13 +295,15 @@ export default {
       id: this.currentId,
     });
 
-    const { type, apiUrl, name } = res.data;
+    const { type, apiUrl, name, timeFilterShowType, titleShowType } = res.data;
 
     this.$refs.graphDataMapForm.initData(res.data.attr);
 
     this.formRef.name = name;
     this.formRef.apiUrl = apiUrl;
     this.formRef.type = type;
+    this.formRef.timeFilterShowType = timeFilterShowType;
+    this.formRef.titleShowType = titleShowType;
   },
   methods: {
     changeGraphType() {
@@ -334,7 +366,7 @@ export default {
         return;
       }
 
-      const { name, apiUrl, type, ...attr } = this.form;
+      const { name, apiUrl, type, timeFilterShowType, titleShowType, ...attr } = this.form;
 
       let res;
       if (this.isModify) {
@@ -344,6 +376,8 @@ export default {
           name,
           apiUrl,
           attr,
+          timeFilterShowType,
+          titleShowType,
         });
       } else {
         res = await graphCreate({
@@ -351,6 +385,8 @@ export default {
           name,
           apiUrl,
           attr,
+          timeFilterShowType,
+          titleShowType,
         });
       }
 
