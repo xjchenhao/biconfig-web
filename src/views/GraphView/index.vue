@@ -4,11 +4,11 @@
       class="graphView-header"
       title="图表查看"
       sub-title="图表配置结果查看"
-      v-if="!isHideHeader"
+      v-if="!isInline"
       @back="handleBack"
     />
     <graph-config-chart
-      class="graphView-chart"
+      :class="isInline?'graphView-chart_inline':'graphView-chart_view'"
       ref="chart"
       :data="data"
       :type="type"
@@ -40,10 +40,10 @@ export default {
     currentId() {
       return this.$route.query.id;
     },
-    isHideHeader() {
-      const { isHideHeader } = this.$route.query;
+    isInline() {
+      const { isInline } = this.$route.query;
 
-      if (isHideHeader === '0' || isHideHeader === 'false') {
+      if (isInline === '0' || isInline === 'false') {
         return true;
       }
       return false;
@@ -91,10 +91,14 @@ export default {
     &-header{
         border-bottom: 1px solid rgb(235, 237, 240)
     }
-    &-chart{
+    &-chart_view{
         margin:10vw auto 0;
         width:60vw;
         height:60vw
+    }
+    &-chart_inline{
+        width:100%;
+        height:100%;
     }
 }
 </style>
