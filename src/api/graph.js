@@ -9,10 +9,11 @@ const userApi = {
   detail: '/api/graph/detail',
 };
 
-export function getList() {
+export function getList(parameter) {
   return request({
     url: userApi.list,
     method: 'get',
+    params: parameter,
   });
 }
 

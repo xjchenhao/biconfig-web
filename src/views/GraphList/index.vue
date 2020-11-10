@@ -34,8 +34,8 @@ export default {
     this.getData();
   },
   methods: {
-    async getData() {
-      const res = await getGraphList();
+    async getData(query) {
+      const res = await getGraphList(query);
 
       if (Number(res.code) < 0) {
         console.error(res.msg);

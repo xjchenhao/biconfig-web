@@ -24,11 +24,12 @@
         <a-select-option value="">
           全部
         </a-select-option>
-        <a-select-option value="bar">
-          柱形图
-        </a-select-option>
-        <a-select-option value="line">
-          折线图
+        <a-select-option
+          :key="key"
+          :value="key"
+          v-for="(value, key) in supportGraphTypeMap"
+        >
+          {{ value }}
         </a-select-option>
       </a-select>
     </a-form-item>
@@ -52,6 +53,7 @@
 
 <script>
 import { Form, Input, Button, Select } from 'ant-design-vue';
+import { supportGraphTypeMap } from '@/utils/config';
 
 export default {
   name: 'GraphQuery',
@@ -72,12 +74,18 @@ export default {
       },
     };
   },
+  computed: {
+    supportGraphTypeMap() {
+      return supportGraphTypeMap;
+    },
+  },
   methods: {
     handleSubmit() {
-      this.$emit('get-data', {});
+      this.$emit('get-data', this.form);
     },
     handleReset() {
       this.$refs.form.resetFields();
+      this.$emit('get-data', {});
     },
   },
 };
