@@ -7,6 +7,9 @@
       v-if="!isInline"
       @back="handleBack"
     />
+    <h1 v-if="timeFilterShowType">
+      {{ title }}
+    </h1>
     <graph-config-chart
       :class="isInline?'graphView-chart_inline':'graphView-chart_view'"
       ref="chart"
@@ -34,6 +37,7 @@ export default {
       data: [],
       type: 'Column',
       opts: {},
+      timeFilterShowType: 0,
     };
   },
   computed: {
@@ -61,7 +65,7 @@ export default {
       id: this.currentId,
     });
 
-    const { type, apiUrl, name, attr } = res.data;
+    const { type, apiUrl, name, attr, timeFilterShowType } = res.data;
 
     const graphData = await request({
       url: apiUrl,
@@ -71,6 +75,7 @@ export default {
     this.data = graphData.data.list;
     this.title = name;
     this.type = type;
+    this.timeFilterShowType = timeFilterShowType;
     this.opts = Object.assign({}, attr);
 
     this.$refs.chart.render();
@@ -91,10 +96,14 @@ export default {
     &-header{
         border-bottom: 1px solid rgb(235, 237, 240)
     }
+    h1{
+      margin:3% 0 1%;
+      text-align:center;
+    }
     &-chart_view{
-        margin:10vw auto 0;
-        width:60vw;
-        height:60vw
+        margin:10% auto 0;
+        width:60%;
+        height:60%
     }
     &-chart_inline{
         width:100%;

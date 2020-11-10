@@ -12,6 +12,7 @@
         <a-input
           v-model:value="formRef.name"
           placeholder="请输入图表名称"
+          @change="()=>{this.isShowTitle&&this.renderGraph()}"
         />
       </a-form-item>
       <a-form-item
@@ -54,13 +55,19 @@
         class="graphConfigForm-from-item"
         label="是否显示标题"
       >
-        <a-switch v-model:checked="isShowTitle" />
+        <a-switch
+          v-model:checked="isShowTitle"
+          @change="renderGraph"
+        />
       </a-form-item>
       <a-form-item
         class="graphConfigForm-from-item"
         label="是否显示时间筛选器"
       >
-        <a-switch v-model:checked="isShowTimeFilter" />
+        <a-switch
+          v-model:checked="isShowTimeFilter"
+          @change="renderGraph"
+        />
       </a-form-item>
       <a-divider />
       <h2>数据映射</h2>

@@ -10,6 +10,9 @@
       <a-layout-content
         class="graphConfig-layout-content"
       >
+        <h1 v-if="isShowTitle">
+          {{ title }}
+        </h1>
         <graph-config-chart
           ref="chart"
           class="graphConfig-layout-content-chart"
@@ -47,6 +50,8 @@ export default {
       chartData: [],
       chartType: 'Column',
       chartOpts: {},
+      title: '',
+      isShowTitle: false,
     };
   },
   methods: {
@@ -54,8 +59,10 @@ export default {
       this.$router.go(-1);
     },
     chartDataUpdate(formData) {
-      const { type, data, ...opts } = formData;
+      const { name, type, data, timeFilterShowType, ...opts } = formData;
 
+      this.title = name;
+      this.isShowTitle = !!timeFilterShowType;
       this.chartType = type;
       this.chartData = data;
       this.chartOpts = opts;
@@ -76,6 +83,11 @@ export default {
     align-items: center;
     justify-content: center;
     display: flex;
+    flex-direction: column;
+    h1{
+      margin-bottom:50px;
+      text-align:center;
+    }
     &-chart{
       width:500px;
       height:500px;
