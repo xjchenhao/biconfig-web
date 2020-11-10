@@ -43,7 +43,7 @@ export default {
     isInline() {
       const { isInline } = this.$route.query;
 
-      if (isInline === '0' || isInline === 'false') {
+      if (isInline === '0' || isInline === 'false' || isInline === undefined) {
         return false;
       }
       return true;
