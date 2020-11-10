@@ -8,7 +8,6 @@
       <a-select
         style="width:100%"
         v-model:value="formRef.xField"
-        @change="renderGraph"
         placeholder="请选择X轴字段"
       >
         <a-select-option
@@ -28,7 +27,6 @@
       <a-select
         style="width:100%"
         v-model:value="formRef.yField"
-        @change="renderGraph"
         placeholder="请选择Y轴字段"
       >
         <a-select-option
@@ -49,7 +47,7 @@
       <a-select
         style="width:100%"
         v-model:value="graphType"
-        @change="renderGraph"
+        @change="changeGraphType"
       >
         <a-select-option value="">
           基础柱形图
@@ -84,7 +82,6 @@
       <a-select
         style="width:100%"
         v-model:value="formRef.seriesField"
-        @change="renderGraph"
         placeholder="请选择关联字段"
       >
         <a-select-option
@@ -185,6 +182,7 @@ export default {
         this.formRef.isGroup = false;
         this.formRef.isStack = false;
         this.formRef.isRange = false;
+        this.formRef.seriesField = '';
 
         if (type !== 'Stack') {
           this.formRef.isPercent = false;
@@ -213,7 +211,6 @@ export default {
       },
     },
   },
-
 };
 </script>
 

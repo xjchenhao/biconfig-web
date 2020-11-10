@@ -22,7 +22,7 @@
         <a-select
           style="width:100%"
           v-model:value="formRef.type"
-          @change="renderGraph"
+          @change="changeGraphType"
         >
           <a-select-option value="Column">
             柱形图
@@ -273,6 +273,10 @@ export default {
     this.formRef.type = type;
   },
   methods: {
+    changeGraphType() {
+      this.form = Object.assign({}, this.formRef);
+      this.renderGraph();
+    },
     async getData() {
 
       const apiUrl = this.formRef.apiUrl;
