@@ -4,6 +4,7 @@
       class="graphView-header"
       title="图表查看"
       sub-title="图表配置结果查看"
+      v-if="!isHideHeader"
       @back="handleBack"
     />
     <graph-config-chart
@@ -38,6 +39,14 @@ export default {
   computed: {
     currentId() {
       return this.$route.query.id;
+    },
+    isHideHeader() {
+      const { isHideHeader } = this.$route.query;
+
+      if (isHideHeader === '0' || isHideHeader === 'false') {
+        return true;
+      }
+      return false;
     },
   },
   beforeCreate() {
