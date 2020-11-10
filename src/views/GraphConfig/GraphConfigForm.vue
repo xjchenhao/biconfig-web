@@ -24,17 +24,12 @@
           v-model:value="formRef.type"
           @change="changeGraphType"
         >
-          <a-select-option value="Column">
-            柱形图
-          </a-select-option>
-          <a-select-option value="Line">
-            折线图
-          </a-select-option>
-          <a-select-option value="Bar">
-            条形图
-          </a-select-option>
-          <a-select-option value="Pie">
-            饼状图
+          <a-select-option
+            :key="key"
+            :value="key"
+            v-for="(value, key) in supportGraphTypeMap"
+          >
+            {{ value }}
           </a-select-option>
         </a-select>
       </a-form-item>
@@ -136,6 +131,7 @@ import { useForm } from '@ant-design-vue/use';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
 import { getData as getDefaultData } from './defaultData';
 import request from '@/utils/request';
+import { supportGraphTypeMap } from '@/utils/config';
 
 import { create as graphCreate, getDetail as getGraphDetail, update as graphUpdate } from '@/api/graph';
 
@@ -229,6 +225,9 @@ export default {
     },
   },
   computed: {
+    supportGraphTypeMap() {
+      return supportGraphTypeMap;
+    },
     currentId() {
       return this.$route.query.id;
     },

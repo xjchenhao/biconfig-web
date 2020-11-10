@@ -5,6 +5,15 @@
       :data-source="data"
       :key="_id"
     >
+      <template #type="{ text }">
+        {{ supportGraphTypeMap[text] }}
+      </template>
+      <template #createTime="{ text }">
+        {{ dayjs(text).format('YYYY-MM-DD HH:mm:ss') }}
+      </template>
+      <template #updateTime="{ text }">
+        {{ dayjs(text).format('YYYY-MM-DD HH:mm:ss') }}
+      </template>
       <template
         #action="record"
       >
@@ -28,7 +37,9 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 import { Table, Divider, Popconfirm } from 'ant-design-vue';
+import { supportGraphTypeMap } from '@/utils/config';
 
 import { del as getGraphDelete } from '@/api/graph';
 
@@ -42,16 +53,19 @@ const columns = [
     title: '类型',
     dataIndex: 'type',
     key: 'type',
+    slots: { customRender: 'type' },
   },
   {
     title: '创建时间',
     dataIndex: 'createTime',
     key: 'createTime',
+    slots: { customRender: 'createTime' },
   },
   {
     title: '修改时间',
     key: 'updateTime',
     dataIndex: 'updateTime',
+    slots: { customRender: 'updateTime' },
   },
   {
     title: '操作',
@@ -77,8 +91,14 @@ export default {
   },
   data() {
     return {
+      dayjs,
       columns,
     };
+  },
+  computed: {
+    supportGraphTypeMap() {
+      return supportGraphTypeMap;
+    },
   },
   methods: {
     handleView(item) {
