@@ -13,6 +13,7 @@
         <h1 v-if="isShowTitle">
           {{ title }}
         </h1>
+        <graph-config-chart-filter class="graphConfig-layout-content-filter" />
         <graph-config-chart
           ref="chart"
           class="graphConfig-layout-content-chart"
@@ -35,6 +36,8 @@
 import { PageHeader, Layout } from 'ant-design-vue';
 import GraphConfigChart from './GraphConfigChart';
 import GraphConfigForm from './GraphConfigForm';
+import GraphConfigChartFilter from './GraphConfigChartFilter';
+
 export default {
   name: 'GraphConfig',
   components: {
@@ -44,6 +47,7 @@ export default {
     aLayoutContent: Layout.content,
     GraphConfigChart,
     GraphConfigForm,
+    GraphConfigChartFilter,
   },
   data() {
     return {
@@ -87,6 +91,10 @@ export default {
     h1{
       margin-bottom:50px;
       text-align:center;
+    }
+    &-filter{
+      width:500px;
+      margin-bottom:30px;
     }
     &-chart{
       width:500px;
