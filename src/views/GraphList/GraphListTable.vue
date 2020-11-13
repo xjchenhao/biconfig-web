@@ -3,7 +3,7 @@
     <a-table
       :columns="columns"
       :data-source="data"
-      :key="_id"
+      row-key="id"
     >
       <template #type="{ text }">
         {{ supportGraphTypeMap[text] }}
