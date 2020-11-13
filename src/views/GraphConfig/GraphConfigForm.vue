@@ -311,6 +311,9 @@ export default {
     this.formRef.type = type;
     this.formRef.timeFilterShowType = timeFilterShowType;
     this.formRef.titleShowType = titleShowType;
+    this.$nextTick(() => {
+      this.renderGraph();
+    });
   },
   methods: {
     changeGraphType() {
