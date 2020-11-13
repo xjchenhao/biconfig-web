@@ -87,7 +87,7 @@ export default {
       this.renderChart();
     },
     handleTimeIntervalChange(value) {
-      this.timeType = value ? '' : '1';
+      this.timeType = value.length ? '' : '1';
       this.renderChart();
     },
     renderChart() {
