@@ -10,10 +10,13 @@
       <a-layout-content
         class="graphConfig-layout-content"
       >
-        <h1 v-if="isShowTitle">
+        <h1 v-show="isShowTitle">
           {{ title }}
         </h1>
-        <graph-config-chart-filter class="graphConfig-layout-content-filter" />
+        <graph-config-chart-filter
+          class="graphConfig-layout-content-filter"
+          v-show="isShowTimeFilter"
+        />
         <graph-config-chart
           ref="chart"
           class="graphConfig-layout-content-chart"
@@ -56,6 +59,7 @@ export default {
       chartOpts: {},
       title: '',
       isShowTitle: false,
+      isShowTimeFilter: false,
     };
   },
   methods: {
@@ -63,10 +67,12 @@ export default {
       this.$router.go(-1);
     },
     chartDataUpdate(formData) {
-      const { name, type, data, timeFilterShowType, ...opts } = formData;
+      console.log(formData);
+      const { name, type, data, titleShowType, timeFilterShowType, ...opts } = formData;
 
       this.title = name;
-      this.isShowTitle = !!timeFilterShowType;
+      this.isShowTitle = !!titleShowType;
+      this.isShowTimeFilter = !!timeFilterShowType;
       this.chartType = type;
       this.chartData = data;
       this.chartOpts = opts;
@@ -89,7 +95,7 @@ export default {
     display: flex;
     flex-direction: column;
     h1{
-      margin-bottom:50px;
+      margin-bottom:30px;
       text-align:center;
     }
     &-filter{

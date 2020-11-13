@@ -57,7 +57,7 @@
       >
         <a-switch
           v-model:checked="isShowTitle"
-          @change="renderGraph"
+          @change="(value)=>{this.handleSwitchUpdate('titleShowType',value)}"
         />
       </a-form-item>
       <a-form-item
@@ -66,7 +66,7 @@
       >
         <a-switch
           v-model:checked="isShowTimeFilter"
-          @change="renderGraph"
+          @change="(value)=>{this.handleSwitchUpdate('timeFilterShowType',value)}"
         />
       </a-form-item>
       <a-divider />
@@ -334,6 +334,17 @@ export default {
       });
 
       this.graphData = res.data.list;
+      this.renderGraph();
+    },
+
+    // 开关数据变动时，会触发它
+    handleSwitchUpdate(type, value) {
+      console.log(type, value);
+      this.form = {
+        ...this.form,
+        [type]: value,
+      };
+
       this.renderGraph();
     },
 
