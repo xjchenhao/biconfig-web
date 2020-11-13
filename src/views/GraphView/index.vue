@@ -11,7 +11,7 @@
       {{ title }}
     </h1>
     <graph-config-chart-filter
-      class="graphView-filter"
+      :class="isInline?'graphView-filter_inline':'graphView-filter_view'"
       @update="handleFilterUpdate"
     />
     <graph-config-chart
@@ -136,9 +136,13 @@ export default {
       margin:3% 0 1%;
       text-align:center;
     }
-    &-filter{
+    &-filter_view{
         width:60%;
         margin:0 auto;
+        margin-top:40px;
+    }
+    &-filter_inline{
+        width:100%;
         margin-top:40px;
     }
     &-chart_view{
@@ -147,6 +151,7 @@ export default {
         height:60%
     }
     &-chart_inline{
+        margin:40px auto 0;
         width:100%;
         height:100%;
     }
