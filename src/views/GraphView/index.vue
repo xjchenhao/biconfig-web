@@ -101,7 +101,7 @@ export default {
       const graphData = await request({
         url: this.api,
         method: 'get',
-        data: {
+        params: {
           startTime,
           endTime,
         },
