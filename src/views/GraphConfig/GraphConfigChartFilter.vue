@@ -6,17 +6,18 @@
     >
       <a-col :span="12">
         <a-radio-group
-          v-model:value="value1"
+          v-model:value="timeType"
           button-style="solid"
+          @change="handleFixedChange"
         >
-          <a-radio-button value="a">
-            全部
-          </a-radio-button>
-          <a-radio-button value="b">
-            昨天
-          </a-radio-button>
-          <a-radio-button value="c">
+          <a-radio-button value="1">
             今天
+          </a-radio-button>
+          <a-radio-button value="2">
+            本周
+          </a-radio-button>
+          <a-radio-button value="3">
+            本月
           </a-radio-button>
         </a-radio-group>
       </a-col>
@@ -25,8 +26,8 @@
         style="text-align:right"
       >
         <a-range-picker
-          v-model:value="value3"
-          @change="onChange"
+          v-model:value="dateValue"
+          @change="handleTimeIntervalChange"
         />
       </a-col>
     </a-row>
@@ -34,6 +35,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 import { Radio, Row, Col, DatePicker } from 'ant-design-vue';
 
 export default {
@@ -44,15 +46,57 @@ export default {
     aRow: Row,
     aCol: Col,
   },
+  emits: [ 'update' ],
   data() {
     return {
-      value1: 'a',
-      value3: [],
+      timeType: '1', // 时间分类
+      dateValue: null, // 所选时间间隔
     };
   },
+  computed: {
+    result() {
+      switch (this.timeType) {
+        case '1':
+          return {
+            startTime: dayjs().startOf('day'),
+            endTime: dayjs().endOf('day'),
+          };
+        case '2':
+          return {
+            startTime: dayjs().startOf('week'),
+            endTime: dayjs().endOf('week'),
+          };
+        case '3':
+          return {
+            startTime: dayjs().startOf('month'),
+            endTime: dayjs().endOf('month'),
+          };
+
+        default:
+          return {
+            startTime: dayjs(this.dateValue[0]).startOf('day'),
+            endTime: dayjs(this.dateValue[1]).endOf('day'),
+          };
+      }
+    },
+  },
   methods: {
-    onChange(date, dateString) {
-      console.log(date, dateString);
+    handleFixedChange() {
+      this.dateValue = null;
+
+      this.renderChart();
+    },
+    handleTimeIntervalChange(value) {
+      this.timeType = value ? '' : '1';
+      this.renderChart();
+    },
+    renderChart() {
+      const { startTime, endTime } = this.result;
+
+      this.$emit('update', {
+        startTime: startTime.valueOf(),
+        endTime: endTime.valueOf(),
+      });
     },
   },
 };
