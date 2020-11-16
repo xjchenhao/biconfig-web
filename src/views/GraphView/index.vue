@@ -62,10 +62,10 @@ export default {
     },
   },
   beforeCreate() {
-    document.querySelector('#app').classList.add('app-full');
+    document.querySelector('#biApp').classList.add('app-full');
   },
   beforeUnmount() {
-    document.querySelector('#app').classList.remove('app-full');
+    document.querySelector('#biApp').classList.remove('app-full');
   },
   async mounted() {
 

@@ -9,7 +9,7 @@ let instance = null;
 function render() {
   instance = createApp(App)
     .use(router).
-    mount('#appContainer');
+    mount('#biApp');
 }
 
 if (!window.__POWERED_BY_QIANKUN__) {
