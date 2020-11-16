@@ -1,12 +1,12 @@
 import request from '@/utils/request';
 
 const userApi = {
-  list: '/api/graph/list',
-  create: '/api/graph/create',
-  update: '/api/graph/update',
-  delete: '/api/graph/delete',
-  view: '/api/graph/view',
-  detail: '/api/graph/detail',
+  list: '/biconfigApi/graph/list',
+  create: '/biconfigApi/graph/create',
+  update: '/biconfigApi/graph/update',
+  delete: '/biconfigApi/graph/delete',
+  view: '/biconfigApi/graph/view',
+  detail: '/biconfigApi/graph/detail',
 };
 
 export function getList(parameter) {

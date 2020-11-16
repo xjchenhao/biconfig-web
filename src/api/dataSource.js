@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
 const userApi = {
-  column: '/api/demo/dataSource/column',
+  column: '/biconfigApi/demo/dataSource/column',
 };
 
 export function getColumnData() {
