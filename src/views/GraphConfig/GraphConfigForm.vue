@@ -12,7 +12,13 @@
         <a-input
           v-model:value="formRef.name"
           placeholder="请输入图表名称"
-          @change="()=>{this.isShowTitle&&this.renderGraph()}"
+          @change="()=>{
+            if(this.isShowTitle){
+              this.$nextTick(()=>{
+                this.renderGraph()
+              })
+            }
+          }"
         />
       </a-form-item>
       <a-form-item
