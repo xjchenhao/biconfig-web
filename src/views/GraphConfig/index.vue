@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="GraphConfig">
     <a-page-header
       class="graphConfig-header"
       title="配置规则"
@@ -82,12 +82,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+#GraphConfig{
+  height: 100%;
+}
 .graphConfig-header{
   border-bottom: 1px solid rgb(235, 237, 240)
 }
 .graphConfig-layout{
   flex-direction: row;
   background-color:#fff;
+  height:100%;
   &-content{
     flex:1;
     align-items: center;
@@ -110,7 +114,7 @@ export default {
   &-sider{
     border-left:1px solid rgb(235, 237, 240);
     width:500px;
-    height:calc(100vh - 66px);
+    height:calc(100% - 66px);
     overflow: scroll;
     box-sizing: border-box;
     padding:30px
