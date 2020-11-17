@@ -7,10 +7,11 @@
       v-if="!isInline"
       @back="handleBack"
     />
-    <h1 v-if="timeFilterShowType">
+    <h1 v-if="titleShowType===1">
       {{ title }}
     </h1>
     <graph-config-chart-filter
+      v-if="timeFilterShowType===1"
       :class="isInline?'graphView-filter_inline':'graphView-filter_view'"
       @update="handleFilterUpdate"
     />
@@ -45,6 +46,7 @@ export default {
       data: [],
       type: 'Column',
       opts: {},
+      titleShowType: 0,
       timeFilterShowType: 0,
     };
   },
