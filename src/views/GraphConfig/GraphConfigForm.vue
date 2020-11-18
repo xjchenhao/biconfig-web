@@ -278,8 +278,13 @@ export default {
       return !!this.currentId;
     },
     currentGraphStyleType() {
-      const supportType = [ 'Column' ];
-      const currentType = this.formRef.type;
+      const supportType = [ 'Column', 'Bar' ];
+      let currentType = this.formRef.type;
+
+      // 条形图和柱形图的数据映射配置是一样的
+      if (currentType === 'Bar') {
+        currentType = 'Column';
+      }
 
       const result = supportType.indexOf(currentType) >= 0 ? currentType : 'NotSupport';
       return `The${result}Style`;
