@@ -95,7 +95,7 @@ export default {
   },
   computed: {
     isMultiColor() {
-      return this.formData.isGroup;
+      return this.formData.isGroup || this.formData.isStack;
     },
     isGroup() {
       return this.formData.isGroup;
