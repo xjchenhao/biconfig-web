@@ -137,6 +137,17 @@ export default {
     this.handleUpdate();
   },
   methods: {
+    initData(formData) {
+      this.form.columnWidthRatio = formData.columnWidthRatio;
+      this.form.marginRatio = formData.marginRatio;
+
+      const isMultiColor = formData.isGroup || formData.isStack;
+      isMultiColor ? this.multiColor = formData.color : this.singleColor = formData.color;
+
+      this.$nextTick(() => {
+        this.handleUpdate();
+      });
+    },
     handleMultiColorChange(newValue) {
       const oldValue = this.multiColor;
       const literal = [ 'red', 'blue', 'yellow', 'green' ];// TODO:可以考虑用换个增加更多：https://www.w3school.com.cn/cssref/css_colorsfull.asp

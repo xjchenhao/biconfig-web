@@ -101,6 +101,7 @@
           :style="customStyle"
         >
           <component
+            ref="graphStyleForm"
             :is="currentGraphStyleType"
             @update="handleFormUpdate"
             :form-data="form"
@@ -316,6 +317,7 @@ export default {
     const { type, apiUrl, name, timeFilterShowType, titleShowType } = res.data;
 
     this.$refs.graphDataMapForm.initData(res.data.attr);
+    this.$refs.graphStyleForm.initData(res.data.attr);
 
     this.formRef.name = name;
     this.formRef.apiUrl = apiUrl;
