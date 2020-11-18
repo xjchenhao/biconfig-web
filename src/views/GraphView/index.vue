@@ -75,7 +75,7 @@ export default {
       id: this.currentId,
     });
 
-    const { type, apiUrl, name, attr, timeFilterShowType } = res.data;
+    const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
 
     // const graphData = await request({
     //   url: apiUrl,
@@ -88,6 +88,7 @@ export default {
     this.title = name;
     this.type = type;
     this.timeFilterShowType = timeFilterShowType;
+    this.titleShowType = titleShowType;
     this.opts = Object.assign({}, attr);
 
     // this.$refs.chart.render();
