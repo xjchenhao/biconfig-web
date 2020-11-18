@@ -139,7 +139,7 @@ export default {
   methods: {
     handleMultiColorChange(newValue) {
       const oldValue = this.multiColor;
-      const literal = [ 'red', 'blue', 'yellow', 'green' ];
+      const literal = [ 'red', 'blue', 'yellow', 'green' ];// TODO:可以考虑用换个增加更多：https://www.w3school.com.cn/cssref/css_colorsfull.asp
       console.log(123);
       if (oldValue.length > newValue.length) {
         this.multiColor = newValue;
@@ -152,6 +152,8 @@ export default {
       }
 
       const newColor = newValue.slice(-1)[0];
+
+      // TODO:还可以再支持rgb和rgba格式的色值
       if (literal.includes(newColor) || (/^\#[0-9a-f]{6}$/ig).test(newColor)) {
         this.multiColor = newValue;
       }
