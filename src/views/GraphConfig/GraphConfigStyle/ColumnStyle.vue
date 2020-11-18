@@ -24,6 +24,30 @@
       />
     </a-form-item>
     <a-form-item
+      v-show="!isMultiColor"
+      class="graphConfigForm-from-item"
+      label="颜色"
+    >
+      <a-input
+        v-model:value="singleColor"
+        placeholder="设置图形颜色"
+        @change="handleUpdate"
+      />
+    </a-form-item>
+    <a-form-item
+      v-show="isMultiColor"
+      class="graphConfigForm-from-item"
+      label="颜色"
+    >
+      <a-select
+        mode="tags"
+        style="width: 100%"
+        placeholder="Tags Mode"
+        :value="multiColor"
+        @change="handleMultiColorChange"
+      />
+    </a-form-item>
+    <a-form-item
       class="graphConfigForm-from-item"
       label="柱子样式配置"
     >
@@ -37,12 +61,17 @@
 </template>
 
 <script>
-import { Form, Input, Slider } from 'ant-design-vue';
+import { Form, Input, Slider, Select } from 'ant-design-vue';
+import defaultTheme from '@/config/theme';
+
 export default {
   components: {
     aFormItem: Form.Item,
     aTextarea: Input.TextArea,
     aSlider: Slider,
+    aInput: Input,
+    aSelect: Select,
+    // aSelectOption: Select.Option,
   },
   emits: [ 'update' ],
   props: {
@@ -55,6 +84,8 @@ export default {
   },
   data() {
     return {
+      singleColor: defaultTheme.itemSingleColor,
+      multiColor: defaultTheme.itemMultiColor,
       form: {
         columnWidthRatio: 0.5,
         marginRatio: 0.5,
@@ -63,8 +94,23 @@ export default {
     };
   },
   computed: {
+    isMultiColor() {
+      return this.formData.isGroup;
+    },
     isGroup() {
       return this.formData.isGroup;
+    },
+    colorConfigResult() {
+      const result = {};
+
+      if (this.isMultiColor) {
+        result.colorField = 'type';
+        result.color = this.multiColor.length >= 0 ? this.multiColor : defaultTheme.itemMultiColor;
+      } else {
+        result.color = this.singleColor ? this.singleColor : defaultTheme.itemSingleColor;
+      }
+
+      return result;
     },
     formStyle: {
       get() {
@@ -83,13 +129,44 @@ export default {
       deep: true,
       immediate: false,
     },
+    isMultiColor() {
+      this.handleUpdate();
+    },
   },
   mounted() {
     this.handleUpdate();
   },
   methods: {
+    handleMultiColorChange(newValue) {
+      const oldValue = this.multiColor;
+      const literal = [ 'red', 'blue', 'yellow', 'green' ];
+      console.log(123);
+      if (oldValue.length > newValue.length) {
+        this.multiColor = newValue;
+
+        this.$nextTick(() => {
+          this.handleUpdate();
+        });
+
+        return;
+      }
+
+      const newColor = newValue.slice(-1)[0];
+      if (literal.includes(newColor) || (/^\#[0-9a-f]{6}$/ig).test(newColor)) {
+        this.multiColor = newValue;
+      }
+
+      this.$nextTick(() => {
+        this.handleUpdate();
+      });
+    },
     handleUpdate() {
-      this.$emit('update', this.form);
+      const data = {
+        ...this.form,
+        ...this.colorConfigResult,
+      };
+      console.log('颜色配置：', data);
+      this.$emit('update', data);
     },
   },
 
