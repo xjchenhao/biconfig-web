@@ -47,7 +47,7 @@
         @change="handleMultiColorChange"
       />
     </a-form-item>
-    <a-form-item
+    <!-- <a-form-item
       class="graphConfigForm-from-item"
       label="柱子样式配置"
     >
@@ -56,7 +56,7 @@
         :rows="4"
         placeholder="用json对象表示"
       />
-    </a-form-item>
+    </a-form-item> -->
   </div>
 </template>
 
@@ -67,7 +67,7 @@ import defaultTheme from '@/config/theme';
 export default {
   components: {
     aFormItem: Form.Item,
-    aTextarea: Input.TextArea,
+    // aTextarea: Input.TextArea,
     aSlider: Slider,
     aInput: Input,
     aSelect: Select,
@@ -89,7 +89,7 @@ export default {
       form: {
         columnWidthRatio: 0.5,
         marginRatio: 0.5,
-        columnStyle: {},
+        // columnStyle: {},
       },
     };
   },
@@ -112,14 +112,14 @@ export default {
 
       return result;
     },
-    formStyle: {
-      get() {
-        return JSON.stringify(this.form.columnStyle);
-      },
-      set(val) {
-        this.form.columnStyle = JSON.parse(val);
-      },
-    },
+    // formStyle: {
+    //   get() {
+    //     return JSON.stringify(this.form.columnStyle);
+    //   },
+    //   set(val) {
+    //     this.form.columnStyle = JSON.parse(val);
+    //   },
+    // },
   },
   watch: {
     form: {
