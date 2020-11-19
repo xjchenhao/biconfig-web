@@ -2,31 +2,7 @@
   <div>
     <a-form-item
       class="graphConfigForm-from-item"
-      label="柱状图宽度占比"
-    >
-      <a-slider
-        v-model:value="form.columnWidthRatio"
-        :min="0"
-        :max="1"
-        :step="0.1"
-      />
-    </a-form-item>
-    <a-form-item
-      v-if="isGroup"
-      class="graphConfigForm-from-item"
-      label="分组中柱子之间的间距"
-    >
-      <a-slider
-        v-model:value="form.marginRatio"
-        :min="0"
-        :max="1"
-        :step="0.1"
-      />
-    </a-form-item>
-    <a-form-item
-      v-show="!isMultiColor"
-      class="graphConfigForm-from-item"
-      label="颜色"
+      label="别名"
     >
       <a-input
         v-model:value="singleColor"
@@ -35,43 +11,47 @@
       />
     </a-form-item>
     <a-form-item
-      v-show="isMultiColor"
       class="graphConfigForm-from-item"
-      label="颜色"
+      label="取值范围"
     >
-      <a-select
-        mode="tags"
-        style="width: 100%"
-        placeholder="Tags Mode"
-        :value="multiColor"
-        @change="handleMultiColorChange"
-      />
+      <a-input-group>
+        <a-input
+          style=" width: 45%; text-align: center"
+          placeholder="最小值"
+        />
+        <a-input
+          style=" width: 10%; text-align: center; border-left: 0; pointer-events: none; backgroundColor: #fff"
+          placeholder="~"
+          disabled
+        />
+        <a-input
+          style="width: 45%; text-align: center; border-left: 0"
+          placeholder="最大值"
+        />
+      </a-input-group>
     </a-form-item>
-    <!-- <a-form-item
+    <a-form-item
       class="graphConfigForm-from-item"
-      label="柱子样式配置"
+      label="格式化"
     >
       <a-textarea
-        v-model:value="formStyle"
         :rows="4"
-        placeholder="用json对象表示"
+        placeholder=""
       />
-    </a-form-item> -->
+    </a-form-item>
   </div>
 </template>
 
 <script>
-import { Form, Input, Slider, Select } from 'ant-design-vue';
+import { Form, Input } from 'ant-design-vue';
 import defaultTheme from '@/config/theme';
 
 export default {
   components: {
     aFormItem: Form.Item,
-    // aTextarea: Input.TextArea,
-    aSlider: Slider,
+    aTextarea: Input.TextArea,
     aInput: Input,
-    aSelect: Select,
-    // aSelectOption: Select.Option,
+    aInputGroup: Input.Group,
   },
   emits: [ 'update' ],
   props: {
