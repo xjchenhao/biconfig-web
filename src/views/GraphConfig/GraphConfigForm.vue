@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="graphConfigForm">
     <a-form
       layout="vertical"
     >
@@ -89,17 +89,29 @@
       <h2>更多配置</h2>
 
       <a-collapse
-        v-model:activeKey="activeKey"
+        class="graphConfigForm-from-collapse"
+        v-model:activeKey="collapseActiveKey"
         :bordered="false"
       >
         <template #expandIcon="{ isActive }">
           <a-caret-right-outlined :rotate="isActive ? 90 : 0" />
         </template>
         <a-collapse-panel
-          key="1"
-          header="图形样式"
+          key="0"
           :style="customStyle"
         >
+          <template #header>
+            <h3>元信息</h3>
+          </template>
+          <graph-config-meta />
+        </a-collapse-panel>
+        <a-collapse-panel
+          key="1"
+          :style="customStyle"
+        >
+          <template #header>
+            <h3>图形样式</h3>
+          </template>
           <component
             ref="graphStyleForm"
             :is="currentGraphStyleType"
@@ -152,6 +164,7 @@
 import { reactive } from 'vue';
 import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
 import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap, PieDataMap as ThePieDataMap } from './GraphConfigDataMap';
+import GraphConfigMeta from './GraphConfigMeta';
 import { Form, Button, Select, Divider, Collapse, Switch, Input, Result, Modal, message } from 'ant-design-vue';
 import { useForm } from '@ant-design-vue/use';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
@@ -183,6 +196,7 @@ export default {
     TheNotSupportDataMap,
     TheLineDataMap,
     ThePieDataMap,
+    GraphConfigMeta,
   },
   setup() {
     const formRef = reactive({
@@ -233,8 +247,8 @@ export default {
   data() {
     return {
       viewId: '',
-      customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 24px;border: 0;overflow: hidden',
-      activeKey: [ '1' ],
+      customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 10px;border: 0;overflow: hidden',
+      collapseActiveKey: [ '0', '1' ],
       graphData: getDefaultData('Column'),
       form: {},
       resultModalVisible: false,
