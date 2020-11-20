@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-form-item
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       v-bind="validateInfos.xField"
       label="X轴字段"
     >
@@ -21,7 +21,7 @@
       </a-select>
     </a-form-item>
     <a-form-item
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       v-bind="validateInfos.yField"
       label="Y轴字段"
     >
@@ -41,7 +41,7 @@
       </a-select>
     </a-form-item>
     <a-form-item
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       v-bind="validateInfos.seriesField"
       label="关联字段"
     >

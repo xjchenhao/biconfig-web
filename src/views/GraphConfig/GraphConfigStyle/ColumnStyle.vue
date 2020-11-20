@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-form-item
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       label="柱状图宽度占比"
     >
       <a-slider
@@ -13,7 +13,7 @@
     </a-form-item>
     <a-form-item
       v-if="isGroup"
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       label="分组中柱子之间的间距"
     >
       <a-slider
@@ -25,7 +25,7 @@
     </a-form-item>
     <a-form-item
       v-show="!isMultiColor"
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       label="颜色"
     >
       <a-input
@@ -36,7 +36,7 @@
     </a-form-item>
     <a-form-item
       v-show="isMultiColor"
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       label="颜色"
     >
       <a-select
@@ -48,7 +48,7 @@
       />
     </a-form-item>
     <!-- <a-form-item
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       label="柱子样式配置"
     >
       <a-textarea

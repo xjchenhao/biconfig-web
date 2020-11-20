@@ -5,7 +5,7 @@
     >
       <h2>基本配置</h2>
       <a-form-item
-        class="graphConfigForm-from-item"
+        class="graphConfigForm-form-item"
         v-bind="validateInfos.name"
         label="图表名称"
       >
@@ -22,7 +22,7 @@
         />
       </a-form-item>
       <a-form-item
-        class="graphConfigForm-from-item"
+        class="graphConfigForm-form-item"
         v-bind="validateInfos.type"
         label="图表类型"
       >
@@ -41,7 +41,7 @@
         </a-select>
       </a-form-item>
       <a-form-item
-        class="graphConfigForm-from-item"
+        class="graphConfigForm-form-item"
         v-bind="validateInfos.apiUrl"
         label="api地址"
       >
@@ -58,7 +58,7 @@
         </a-input-search>
       </a-form-item>
       <a-form-item
-        class="graphConfigForm-from-item"
+        class="graphConfigForm-form-item"
         label="是否显示标题"
       >
         <a-switch
@@ -67,7 +67,7 @@
         />
       </a-form-item>
       <a-form-item
-        class="graphConfigForm-from-item"
+        class="graphConfigForm-form-item"
         label="是否显示时间筛选器"
       >
         <a-switch
@@ -103,7 +103,7 @@
           <template #header>
             <h3>元信息</h3>
           </template>
-          <graph-config-meta />
+          <graph-config-from-meta style="padding-left:40px;margin-left: -16px;" />
         </a-collapse-panel>
         <a-collapse-panel
           key="1"
@@ -122,7 +122,7 @@
         </a-collapse-panel>
       </a-collapse>
       <a-form-item
-        class="graphConfigForm-from-item"
+        class="graphConfigForm-form-item"
       >
         <a-button
           type="primary"
@@ -164,7 +164,7 @@
 import { reactive } from 'vue';
 import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
 import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap, PieDataMap as ThePieDataMap } from './GraphConfigDataMap';
-import GraphConfigMeta from './GraphConfigMeta';
+import GraphConfigFromMeta from './GraphConfigFromMeta';
 import { Form, Button, Select, Divider, Collapse, Switch, Input, Result, Modal, message } from 'ant-design-vue';
 import { useForm } from '@ant-design-vue/use';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
@@ -196,7 +196,7 @@ export default {
     TheNotSupportDataMap,
     TheLineDataMap,
     ThePieDataMap,
-    GraphConfigMeta,
+    GraphConfigFromMeta,
   },
   setup() {
     const formRef = reactive({

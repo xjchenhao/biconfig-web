@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-form-item
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       v-bind="validateInfos.colorField"
       label="分类字段"
     >
@@ -21,7 +21,7 @@
       </a-select>
     </a-form-item>
     <a-form-item
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       v-bind="validateInfos.angleField"
       label="面积字段"
       required

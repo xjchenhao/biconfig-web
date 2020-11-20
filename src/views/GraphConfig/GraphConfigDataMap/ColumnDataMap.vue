@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-form-item
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       v-bind="validateInfos.xField"
       label="X轴字段"
     >
@@ -20,7 +20,7 @@
       </a-select>
     </a-form-item>
     <a-form-item
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       v-bind="validateInfos.yField"
       label="Y轴字段"
     >
@@ -39,7 +39,7 @@
       </a-select>
     </a-form-item>
     <a-form-item
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
     >
       <template #label>
         <span class="ant-form-item-required">柱形图类型</span>
@@ -65,7 +65,7 @@
     </a-form-item>
     <a-form-item
       v-show="formRef.isStack"
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       v-bind="validateInfos.isPercent"
       label="是否百分百柱状图"
     >
@@ -73,7 +73,7 @@
     </a-form-item>
     <a-form-item
       v-show="isShowSeriesField"
-      class="graphConfigForm-from-item"
+      class="graphConfigForm-form-item"
       v-bind="validateInfos.seriesField"
     >
       <template #label>
