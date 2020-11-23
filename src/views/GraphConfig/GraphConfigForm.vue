@@ -89,7 +89,7 @@
       <h2>更多配置</h2>
 
       <a-collapse
-        class="graphConfigForm-from-collapse"
+        class="graphConfigForm-form-collapse"
         v-model:activeKey="collapseActiveKey"
         :bordered="false"
       >
@@ -103,7 +103,10 @@
           <template #header>
             <h3>元信息</h3>
           </template>
-          <graph-config-from-meta style="padding-left:40px;margin-left: -16px;" />
+          <graph-config-form-meta
+            style="padding-left:40px;margin-left: -16px;"
+            :field-list="['abc','def']"
+          />
         </a-collapse-panel>
         <a-collapse-panel
           key="1"
@@ -164,7 +167,7 @@
 import { reactive } from 'vue';
 import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
 import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap, PieDataMap as ThePieDataMap } from './GraphConfigDataMap';
-import GraphConfigFromMeta from './GraphConfigFromMeta';
+import GraphConfigFormMeta from './GraphConfigFormMeta';
 import { Form, Button, Select, Divider, Collapse, Switch, Input, Result, Modal, message } from 'ant-design-vue';
 import { useForm } from '@ant-design-vue/use';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
@@ -196,7 +199,7 @@ export default {
     TheNotSupportDataMap,
     TheLineDataMap,
     ThePieDataMap,
-    GraphConfigFromMeta,
+    GraphConfigFormMeta,
   },
   setup() {
     const formRef = reactive({
