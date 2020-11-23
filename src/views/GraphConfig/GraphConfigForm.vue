@@ -126,6 +126,7 @@
       </a-collapse>
       <a-form-item
         class="graphConfigForm-form-item"
+        style="margin-top:20px"
       >
         <a-button
           type="primary"
@@ -250,7 +251,7 @@ export default {
   data() {
     return {
       viewId: '',
-      customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 10px;border: 0;overflow: hidden',
+      customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 0;border: 0;overflow: hidden',
       collapseActiveKey: [ '0', '1' ],
       graphData: getDefaultData('Column'),
       form: {},
