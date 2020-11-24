@@ -105,7 +105,7 @@
           </template>
           <graph-config-form-meta
             style="padding-left:40px;margin-left: -16px;"
-            :field-list="['abc','def']"
+            :form-data="form"
           />
         </a-collapse-panel>
         <a-collapse-panel

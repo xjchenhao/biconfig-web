@@ -57,7 +57,7 @@ export default {
     aInput: Input,
     aInputGroup: Input.Group,
   },
-  emits: [ 'update' ],
+  emits: [ 'change' ],
   data() {
     return {
       form: {
@@ -67,6 +67,12 @@ export default {
       },
     };
   },
+  props: {
+    currentIndex: {
+      type: Number,
+      default: 0,
+    },
+  },
   watch: {
     form: {
       handler() {
@@ -75,9 +81,6 @@ export default {
       deep: true,
       immediate: false,
     },
-  },
-  mounted() {
-    this.handleUpdate();
   },
   methods: {
     initData(formData) {
@@ -111,7 +114,26 @@ export default {
       this.form.alias = value.replace(reg, '$1');
     },
     handleUpdate() {
-      this.$emit('update', this.form);
+      console.log('元配置发生更改：', this.form);
+      const minValue = this.form && this.form.values && this.form.values.length && this.form.values[0];
+      const maxValue = this.form && this.form.values && this.form.values.length && this.form.values[1];
+
+      // proxy对象转换回普通对象
+      const result = {
+        ...this.form,
+      };
+
+      minValue && (result.min = minValue);
+      maxValue && (result.max = maxValue);
+
+      this.$nextTick(() => {
+        delete result.values;
+
+        this.$emit('change', {
+          index: this.currentIndex,
+          value: result,
+        });
+      });
     },
   },
 
