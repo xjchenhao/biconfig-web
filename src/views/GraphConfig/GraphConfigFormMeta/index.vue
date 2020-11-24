@@ -11,7 +11,6 @@
         @change="handleUpdate"
       />
     </div>
-    {{ result }}
   </div>
 </template>
 

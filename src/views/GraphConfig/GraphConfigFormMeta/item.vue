@@ -88,9 +88,9 @@ export default {
       this.form.values = formData.values;
       this.form.formatter = formData.formatter;
 
-      this.$nextTick(() => {
-        this.handleUpdate();
-      });
+      // this.$nextTick(() => {
+      //   this.handleUpdate();
+      // });
     },
 
     // 阻止非数字录入

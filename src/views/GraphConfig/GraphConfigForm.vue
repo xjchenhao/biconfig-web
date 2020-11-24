@@ -257,6 +257,7 @@ export default {
       graphData: getDefaultData('Column'),
       form: {},
       resultModalVisible: false,
+      isInitChange: false,
     };
   },
   watch: {
@@ -324,27 +325,44 @@ export default {
   },
   async mounted() {
     if (!this.isModify) {
+      this.isInitChange = false;
       this.renderGraph();
 
       return;
     }
+    this.isInitChange = true;
 
     const res = await getGraphDetail({
       id: this.currentId,
     });
 
-    const { type, apiUrl, name, timeFilterShowType, titleShowType } = res.data;
+    const { type, apiUrl, name, timeFilterShowType, titleShowType, attr } = res.data;
 
-    this.$refs.graphDataMapForm.initData(res.data.attr);
-    this.$refs.graphStyleForm.initData(res.data.attr);
+    this.$refs.graphDataMapForm.initData(attr);
+    this.$refs.graphStyleForm.initData(attr);
 
     this.formRef.name = name;
     this.formRef.apiUrl = apiUrl;
     this.formRef.type = type;
     this.formRef.timeFilterShowType = timeFilterShowType;
     this.formRef.titleShowType = titleShowType;
+    // this.$nextTick(() => {
+    //   this.renderGraph();
+    // });
+
+    console.log('加载初始数据');
+    console.log(attr);
     this.$nextTick(() => {
-      this.renderGraph();
+      this.$emit('update', {
+        data: this.graphData,
+        ...attr,
+        type,
+        timeFilterShowType,
+        titleShowType,
+        name,
+      });
+
+      this.isInitChange = false;
     });
   },
   methods: {
@@ -385,7 +403,9 @@ export default {
 
     // 字表单数据变动时，会触发它
     handleFormUpdate(value) {
-      console.log(value);
+      if (this.isInitChange) {
+        return;
+      }
       this.form = {
         ...this.form,
         ...value,
