@@ -34,7 +34,7 @@
         />
       </a-input-group>
     </a-form-item>
-    <a-form-item
+    <!-- <a-form-item
       class="graphConfigForm-form-item"
       label="格式化"
     >
@@ -43,7 +43,7 @@
         :value="form.formatter"
         placeholder="请遵循格式规范输入"
       />
-    </a-form-item>
+    </a-form-item> -->
   </div>
 </template>
 
@@ -53,7 +53,7 @@ import { Form, Input } from 'ant-design-vue';
 export default {
   components: {
     aFormItem: Form.Item,
-    aTextarea: Input.TextArea,
+    // aTextarea: Input.TextArea,
     aInput: Input,
     aInputGroup: Input.Group,
   },
@@ -95,7 +95,7 @@ export default {
 
     // 阻止非数字录入
     handleInputValues(index) {
-      const numberReg = /\D/ig;
+      const numberReg = /\-+\D/ig;
       const lengthReg = /^(.{0,9}).*$/ig;
       const value = this.form.values[index];
 
@@ -123,8 +123,8 @@ export default {
         ...this.form,
       };
 
-      minValue && (result.min = minValue);
-      maxValue && (result.max = maxValue);
+      minValue && (result.min = Number(minValue));
+      maxValue && (result.max = Number(maxValue));
 
       this.$nextTick(() => {
         delete result.values;

@@ -31,30 +31,22 @@ export default {
       const result = [];
 
       const { xField, yField, seriesField } = this.formData;
+      const fieldMap = { xField, yField, seriesField };
 
-      xField && result.push(xField);
-      yField && result.push(yField);
+      Object.keys(fieldMap).forEach(key => {
+        const value = fieldMap[key];
 
-      if (seriesField && !result.includes(seriesField)) {
-        result.push(seriesField);
-      }
+        !result.includes(value) && result.push(value);
+      });
 
       return result;
     },
     result() {
-      // const result = {};
-      // const fieldList = this.fieldList;
-
-      // this.itemData.forEach((item, index) => {
-      //   console.log(fieldList[index]);
-      //   result[fieldList[index]] = item;
-      // });
-
-      // return JSON.stringify(result);
       return JSON.stringify(this.itemData);
     },
   },
 
+  emits: [ 'update' ],
   props: {
     formData: {
       type: Object,
@@ -63,7 +55,35 @@ export default {
       },
     },
   },
+  watch: {
+    'formData.xField': function(newVal, oldVal) {
+      this.deleteItemData(oldVal);
+
+      this.renderGraph();
+    },
+    'formData.yField': function(newVal, oldVal) {
+      this.deleteItemData(oldVal);
+
+      this.renderGraph();
+    },
+    'formData.seriesField': function(newVal, oldVal) {
+      this.deleteItemData(oldVal);
+
+      this.renderGraph();
+    },
+  },
   methods: {
+    // initData(){
+
+    // },
+    deleteItemData(key) {
+      const result = {
+        ...this.itemData,
+      };
+
+      delete result[key];
+      this.itemData = Object.assign({}, result);
+    },
     itemIsExistValue(item) {
       const isAliasExist = item.alias;
       const isFormatterExist = item.formatter;
@@ -79,8 +99,15 @@ export default {
         itemData[key] = value;
       } else {
         delete itemData[key];
-        this.someObject = Object.assign({}, itemData);
+        this.itemData = Object.assign({}, itemData);
       }
+
+      this.renderGraph();
+    },
+    renderGraph() {
+      this.$emit('update', {
+        meta: this.itemData,
+      });
     },
   },
 };

@@ -106,6 +106,7 @@
           <graph-config-form-meta
             style="padding-left:40px;margin-left: -16px;"
             :form-data="form"
+            @update="handleFormUpdate"
           />
         </a-collapse-panel>
         <a-collapse-panel
