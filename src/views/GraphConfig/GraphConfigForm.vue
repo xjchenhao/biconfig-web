@@ -107,7 +107,7 @@
             style="padding-left:40px;margin-left: -16px;"
             :form-data="form"
             ref="metaForm"
-            :is-modify="true"
+            :is-modify="isModify"
             @update="handleFormUpdate"
           />
         </a-collapse-panel>
@@ -371,7 +371,13 @@ export default {
   methods: {
     changeGraphType() {
       this.form = Object.assign({}, this.formRef);
-      this.renderGraph();
+      this.$refs.graphDataMapForm.initData({});
+      this.$refs.graphStyleForm.initData({});
+      this.$refs.metaForm.initData({});
+
+      this.$nextTick(() => {
+        this.renderGraph();
+      });
     },
     async getData() {
 
@@ -417,6 +423,7 @@ export default {
       this.renderGraph();
     },
     renderGraph() {
+      console.log('debug2:', this.form);
       this.$emit('update', {
         data: this.graphData,
         ...this.form,
