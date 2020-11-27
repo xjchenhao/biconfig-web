@@ -1,22 +1,25 @@
 <template>
   <div class="graphView">
     <a-page-header
-      class="graphView-header"
+      class="header"
       title="图表查看"
       sub-title="图表配置结果查看"
       v-if="!isInline"
       @back="handleBack"
     />
-    <h1 v-if="titleShowType===1">
+    <h1
+      v-if="titleShowType===1"
+      class="title"
+    >
       {{ title }}
     </h1>
     <graph-config-chart-filter
       v-if="timeFilterShowType===1"
-      :class="isInline?'graphView-filter_inline':'graphView-filter_view'"
+      :class="isInline?'filter_inline':'filter_view'"
       @update="handleFilterUpdate"
     />
     <graph-config-chart
-      :class="isInline?'graphView-chart_inline':'graphView-chart_view'"
+      :class="isInline?'chart_inline':'chart_view'"
       ref="chart"
       :data="data"
       :type="type"
@@ -132,31 +135,33 @@ export default {
     box-sizing: border-box;
     width:100%;
     height:100%;
-    &-header{
+    display:flex;
+    flex-direction:column;
+    .header{
         border-bottom: 1px solid rgb(235, 237, 240)
     }
     h1{
       margin:3% 0 1%;
       text-align:center;
     }
-    &-filter_view{
+    .filter_view{
         width:60%;
         margin:0 auto;
         margin-top:40px;
     }
-    &-filter_inline{
-        width:100%;
+    .filter_inline{
+        height:100px;
         margin-top:40px;
     }
-    &-chart_view{
+    .chart_view{
         margin:40px auto 0;
         width:60%;
         height:60%
     }
-    &-chart_inline{
+    .chart_inline{
+        flex:1;
         margin:40px auto 0;
         width:100%;
-        height:100%;
     }
 }
 </style>
