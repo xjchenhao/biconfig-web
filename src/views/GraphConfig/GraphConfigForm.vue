@@ -106,6 +106,8 @@
           <graph-config-form-meta
             style="padding-left:40px;margin-left: -16px;"
             :form-data="form"
+            ref="metaForm"
+            :is-modify="true"
             @update="handleFormUpdate"
           />
         </a-collapse-panel>
@@ -340,6 +342,7 @@ export default {
 
     this.$refs.graphDataMapForm.initData(attr);
     this.$refs.graphStyleForm.initData(attr);
+    this.$refs.metaForm.initData(attr);
 
     this.formRef.name = name;
     this.formRef.apiUrl = apiUrl;

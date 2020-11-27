@@ -7,6 +7,7 @@
     >
       <h4>{{ item }}轴配置</h4>
       <item
+        :ref="item+'Ref'"
         :current-index="index"
         @change="handleUpdate"
       />
@@ -34,6 +35,7 @@ export default {
 
       Object.keys(fieldMap).forEach(key => {
         const value = fieldMap[key];
+        if (!value) { return; }
 
         !result.includes(value) && result.push(value);
       });
@@ -47,6 +49,10 @@ export default {
 
   emits: [ 'update' ],
   props: {
+    isModify: {
+      type: Boolean,
+      default: false,
+    },
     formData: {
       type: Object,
       default() {
@@ -72,9 +78,21 @@ export default {
     },
   },
   methods: {
-    // initData(){
+    initData(formData) {
+      if (this.isModify && formData) {
+        this.fieldList.forEach(key => {
+          const value = formData.meta[key];
+          const itemRef = this.$refs[key + 'Ref' ];
+          const isExistValue = this.itemIsExistValue(value);
+          if (!isExistValue) {
+            return;
+          }
 
-    // },
+          this.itemData[key] = value;
+          itemRef && itemRef.initData(value);
+        });
+      }
+    },
     deleteItemData(key) {
       const result = {
         ...this.itemData,
@@ -84,6 +102,9 @@ export default {
       this.itemData = Object.assign({}, result);
     },
     itemIsExistValue(item) {
+      if (!item) {
+        return false;
+      }
       const isAliasExist = item.alias;
       const isFormatterExist = item.formatter;
       const isValueExist = item.min || item.max;

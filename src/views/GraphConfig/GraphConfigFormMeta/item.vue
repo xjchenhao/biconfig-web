@@ -83,14 +83,10 @@ export default {
     },
   },
   methods: {
-    initData(formData) {
+    initData(formData = {}) {
       this.form.alias = formData.alias;
-      this.form.values = formData.values;
+      this.form.values = [ formData.min, formData.max ];
       this.form.formatter = formData.formatter;
-
-      // this.$nextTick(() => {
-      //   this.handleUpdate();
-      // });
     },
 
     // 阻止非数字录入
