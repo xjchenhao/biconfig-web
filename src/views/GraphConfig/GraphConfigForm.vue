@@ -23,6 +23,16 @@
       </a-form-item>
       <a-form-item
         class="graphConfigForm-form-item"
+        v-bind="validateInfos.uri"
+        label="唯一标识"
+      >
+        <a-input
+          v-model:value="formRef.uri"
+          placeholder="请输入唯一标识"
+        />
+      </a-form-item>
+      <a-form-item
+        class="graphConfigForm-form-item"
         v-bind="validateInfos.type"
         label="图表类型"
       >
@@ -208,6 +218,7 @@ export default {
   setup() {
     const formRef = reactive({
       name: '',
+      uri: '',
       type: 'Column',
       apiUrl: '',
       timeFilterShowType: 0,
@@ -220,6 +231,9 @@ export default {
         name: [
           { required: true, message: '请输入图表名称', trigger: 'change' },
           { min: 4, max: 20, message: '请确保名称长度为4～20个字', trigger: 'blur' },
+        ],
+        uri: [
+          { required: true, message: '请输入唯一标识', trigger: 'change' },
         ],
         type: [
           { required: true, message: '请选择图表类型', trigger: 'change' },
@@ -338,13 +352,14 @@ export default {
       id: this.currentId,
     });
 
-    const { type, apiUrl, name, timeFilterShowType, titleShowType, attr } = res.data;
+    const { type, uri, apiUrl, name, timeFilterShowType, titleShowType, attr } = res.data;
 
     this.$refs.graphDataMapForm.initData(attr);
     this.$refs.graphStyleForm.initData(attr);
     this.$refs.metaForm.initData(attr);
 
     this.formRef.name = name;
+    this.formRef.uri = uri;
     this.formRef.apiUrl = apiUrl;
     this.formRef.type = type;
     this.formRef.timeFilterShowType = timeFilterShowType;
@@ -449,7 +464,7 @@ export default {
         return;
       }
 
-      const { name, apiUrl, type, timeFilterShowType, titleShowType, ...attr } = this.form;
+      const { name, uri, apiUrl, type, timeFilterShowType, titleShowType, ...attr } = this.form;
 
       let res;
       if (this.isModify) {
@@ -457,6 +472,7 @@ export default {
           id: this.currentId,
           type,
           name,
+          uri,
           apiUrl,
           attr,
           timeFilterShowType,
@@ -466,6 +482,7 @@ export default {
         res = await graphCreate({
           type,
           name,
+          uri,
           apiUrl,
           attr,
           timeFilterShowType,

@@ -56,6 +56,11 @@ const columns = [
     slots: { customRender: 'type' },
   },
   {
+    title: '唯一标识',
+    dataIndex: 'uri',
+    key: 'uri',
+  },
+  {
     title: '创建时间',
     dataIndex: 'createTime',
     key: 'createTime',

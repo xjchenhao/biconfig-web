@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     initData(formData) {
-      if (this.isModify && formData) {
+      if (this.isModify && formData && formData.meta) {
         this.fieldList.forEach(key => {
           const value = formData.meta[key];
           const itemRef = this.$refs[key + 'Ref' ];
