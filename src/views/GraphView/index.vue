@@ -54,9 +54,6 @@ export default {
     };
   },
   computed: {
-    currentId() {
-      return this.$route.query.id;
-    },
     isInline() {
       const { isInline } = this.$route.query;
 
@@ -73,9 +70,11 @@ export default {
     document.querySelector('#biApp').classList.remove('app-full');
   },
   async mounted() {
+    const { id, uri } = this.$route.query;
 
     const res = await getGraphView({
-      id: this.currentId,
+      id,
+      uri,
     });
 
     const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
