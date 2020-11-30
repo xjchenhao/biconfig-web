@@ -58,7 +58,7 @@
         <a-input-search
           v-model:value="formRef.apiUrl"
           placeholder="请输入api地址"
-          @search="getData"
+          @search="getData(true)"
         >
           <template #enterButton>
             <a-button>
@@ -370,6 +370,7 @@ export default {
 
     console.log('加载初始数据');
     console.log(attr);
+    await this.getData();
     this.$nextTick(() => {
       this.$emit('update', {
         data: this.graphData,
@@ -394,13 +395,13 @@ export default {
         this.renderGraph();
       });
     },
-    async getData() {
+    async getData(isRender = false) {
 
       const apiUrl = this.formRef.apiUrl;
 
       if (!apiUrl) {
         this.graphData = getDefaultData(this.formRef.type);
-        this.renderGraph();
+        !isRender && this.renderGraph();
 
         return;
       }
@@ -411,7 +412,7 @@ export default {
       });
 
       this.graphData = res.data.list;
-      this.renderGraph();
+      !isRender && this.renderGraph();
     },
 
     // 开关数据变动时，会触发它
