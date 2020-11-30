@@ -364,6 +364,7 @@ export default {
     this.formRef.type = type;
     this.formRef.timeFilterShowType = timeFilterShowType;
     this.formRef.titleShowType = titleShowType;
+    this.form = attr;
     // this.$nextTick(() => {
     //   this.renderGraph();
     // });
