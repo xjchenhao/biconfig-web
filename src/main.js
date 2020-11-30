@@ -95,7 +95,7 @@ export async function mount(props) {
 
 export async function unmount() {
   console.log('微服务卸载中：', instance);
-  instance && instance.$destroy();
+  // instance && instance.$destroy(); // vue3移除了$destroy函数
   instance = null;
 }
 
