@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "serve:mock": "vue-cli-service serve --mode mock",
     "lint:fix": "vue-cli-service lint --fix --ext .js,.vue src"
   },
   "dependencies": {
@@ -16,6 +17,7 @@
     "dayjs": "^1.9.6",
     "less": "^3.12.2",
     "store": "^2.0.12",
+    "mockjs2": "^1.0.8",
     "vue": "^3.0.2",
     "vue-router": "^4.0.0-rc.1"
   },

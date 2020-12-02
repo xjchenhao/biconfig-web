@@ -4,9 +4,13 @@ const { name } = require('./package');
 const port = 8080; // dev port
 const dev = process.env.NODE_ENV === 'development';
 
+const isPreview = process.env.VUE_APP_PREVIEW === 'true';
+
 module.exports = {
   publicPath: dev ? `//localhost:${port}` : '/',
-  devServer: {
+  devServer: isPreview ? {
+    port: 8080,
+  } : {
     hot: true,
     disableHostCheck: true,
     port,
