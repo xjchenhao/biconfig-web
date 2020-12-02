@@ -4,7 +4,7 @@ const { name } = require('./package');
 const port = 8080; // dev port
 const dev = process.env.NODE_ENV === 'development';
 
-const isPreview = process.env.VUE_APP_PREVIEW === 'true';
+const isPreview = process.env.VUE_APP_isMock === 'true';
 const apiPrefix = process.env.VUE_APP_apiPrefix || '';
 
 module.exports = {

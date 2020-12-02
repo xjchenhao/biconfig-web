@@ -6,7 +6,7 @@ import App from './App.vue';
 import router from './router';
 
 console.log('NODE_ENV：', process.env.NODE_ENV);
-console.log('VUE_APP_PREVIEW：', process.env.VUE_APP_PREVIEW);
+console.log('VUE_APP_isMock：', process.env.VUE_APP_isMock);
 console.log('VUE_APP_apiPrefix：', process.env.VUE_APP_apiPrefix);
 
 let instance = null;
