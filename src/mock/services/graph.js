@@ -1,7 +1,9 @@
 import Mock from 'mockjs2';
+import { getQueryParameters } from './../util';
 const apiPrefix = process.env.VUE_APP_apiPrefix || '';
 
 const graphList = options => {
+  const queryParameters = getQueryParameters(options);
 
   const result = {
     code: '0',
@@ -11,9 +13,9 @@ const graphList = options => {
         titleShowType: 1,
         timeFilterShowType: 0,
         _id: Mock.mock('@guid'),
-        name: Mock.mock('@name'),
+        name: queryParameters.name || Mock.mock('@name'),
         uri: '我是初始图表记录1的uri',
-        type: [ 'Bar' ],
+        type: queryParameters.type || Mock.mock([ 'Bar' ]),
         apiUrl: '/biconfigApi/demo/dataSource/column',
         attr: {
           xField: 'year',
