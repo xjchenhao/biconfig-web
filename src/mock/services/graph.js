@@ -1,7 +1,7 @@
 import Mock from 'mockjs2';
 const apiPrefix = process.env.VUE_APP_apiPrefix || '';
 
-const article = options => {
+const graphList = options => {
 
   const result = {
     code: '0',
@@ -42,4 +42,4 @@ const article = options => {
   return result;
 };
 
-Mock.mock(new RegExp(`${apiPrefix}/graph/list`), 'get', article);
+Mock.mock(new RegExp(`${apiPrefix}/graph/list`), 'get', graphList);

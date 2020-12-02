@@ -1,11 +1,13 @@
 import 'ant-design-vue/dist/antd.css';
+import './mock';
 
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
-// mock
-// WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.
-import './mock';
+
+console.log('NODE_ENV：', process.env.NODE_ENV);
+console.log('VUE_APP_PREVIEW：', process.env.VUE_APP_PREVIEW);
+console.log('VUE_APP_apiPrefix：', process.env.VUE_APP_apiPrefix);
 
 let instance = null;
 
