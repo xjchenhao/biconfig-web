@@ -5,6 +5,7 @@ const port = 8080; // dev port
 const dev = process.env.NODE_ENV === 'development';
 
 const isPreview = process.env.VUE_APP_PREVIEW === 'true';
+const apiPrefix = process.env.VUE_APP_apiPrefix || '';
 
 module.exports = {
   publicPath: dev ? `//localhost:${port}` : '/',
@@ -22,10 +23,10 @@ module.exports = {
       'Access-Control-Allow-Origin': '*',
     },
     proxy: {
-      '/biconfigApi': {
+      [apiPrefix]: {
         target: 'http://localhost:7001',
         changeOrigin: true,
-        pathRewrite: { '^/biconfigApi': '/api' },
+        pathRewrite: { [ `^/${apiPrefix}`]: '/api' },
       },
     },
   },

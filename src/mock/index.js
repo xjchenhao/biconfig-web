@@ -1,6 +1,7 @@
 // import { isIE } from '@/utils/util';
 console.log('NODE_ENV', process.env.NODE_ENV);
 console.log('VUE_APP_PREVIEW：', process.env.VUE_APP_PREVIEW);
+console.log('VUE_APP_apiPrefix：', process.env.VUE_APP_apiPrefix);
 
 // 判断环境 preview 是 true 时，加载 mock 服务
 if (process.env.VUE_APP_PREVIEW === 'true') {

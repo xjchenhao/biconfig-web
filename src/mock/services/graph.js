@@ -1,4 +1,5 @@
 import Mock from 'mockjs2';
+const apiPrefix = process.env.VUE_APP_apiPrefix || '';
 
 const article = options => {
 
@@ -41,4 +42,4 @@ const article = options => {
   return result;
 };
 
-Mock.mock(/\/biconfigApi\/graph\/list/, 'get', article);
+Mock.mock(new RegExp(`${apiPrefix}/graph/list`), 'get', article);
