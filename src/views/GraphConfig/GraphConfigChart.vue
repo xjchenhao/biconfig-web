@@ -10,12 +10,12 @@ const G2plot = require('@antv/g2plot');
 export default {
   name: 'GraphConfigChart',
   props: {
-    data: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
+    // data: {
+    //   type: Array,
+    //   default() {
+    //     return [];
+    //   },
+    // },
     type: {
       type: String,
       default: 'Column',
@@ -29,6 +29,7 @@ export default {
   },
   data() {
     return {
+      data: [],
       context: null,
     };
   },
@@ -44,6 +45,12 @@ export default {
       },
       deep: true,
       immediate: false,
+    },
+    '$store.state.data': function(value) {
+      this.data = value;
+      console.log(value);
+      this.destroy();
+      this.render();
     },
   },
   methods: {

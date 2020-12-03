@@ -3,6 +3,7 @@ import './mock';
 
 import { createApp } from 'vue';
 import App from './App.vue';
+import store from './store';
 import router from './router';
 
 console.log('NODE_ENV：', process.env.NODE_ENV);
@@ -16,6 +17,7 @@ function render({ data = () => { return {}; }, methods = {} } = {}) {
 
   instance = createApp(App)
     .use(router)
+    .use(store)
     .mixin({
       data,
       methods,

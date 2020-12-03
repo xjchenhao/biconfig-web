@@ -26,7 +26,7 @@ module.exports = {
       [apiPrefix]: {
         target: 'http://localhost:7001',
         changeOrigin: true,
-        pathRewrite: { [ `^/${apiPrefix}`]: '/api' },
+        pathRewrite: { [ `^${apiPrefix}`]: '/api' },
       },
     },
   },

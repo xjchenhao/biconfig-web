@@ -279,6 +279,7 @@ export default {
   watch: {
     formRef: {
       handler(value) {
+        this.$store.dispatch('setBasicForm', value);
         this.form = {
           ...this.form,
           ...value,
@@ -412,7 +413,8 @@ export default {
         method: 'get',
       });
 
-      this.graphData = res.data.list;
+      // this.graphData = res.data.list;
+      this.$store.dispatch('setData', res.data.list);
       !isRender && this.renderGraph();
     },
 
