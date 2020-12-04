@@ -8,14 +8,16 @@ import getters from './getters';
 
 export default createStore({
   state: {
+    isInit: false,
+    data: [],
+
+
     name: '',
     uri: '',
     type: 'Column',
     apiUrl: '',
     timeFilterShowType: 0,
     titleShowType: 0,
-    data: [],
-    isModify: false,
     opts: {
       fieldMap: {
         xField: 'year',
@@ -58,6 +60,9 @@ export default createStore({
     setStyle: (state, value) => {
       state.opts.style = value;
     },
+    setIsInit: (state, value) => {
+      state.opts.isInit = value;
+    },
   },
   actions: {
     getBasicForm() {
@@ -90,6 +95,17 @@ export default createStore({
     },
     setStyle({ commit }, value) {
       commit('setStyle', value);
+    },
+    setIsInit({ commit }, value) {
+      commit('setIsInit', value);
+    },
+    getGraphConfig() {
+      const { opts } = this.state;
+      return {
+        ...opts.fieldMap,
+        ...opts.style,
+        meta: opts.meta,
+      };
     },
   },
   getters,

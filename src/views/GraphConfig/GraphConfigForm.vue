@@ -342,12 +342,14 @@ export default {
   },
   async mounted() {
     if (!this.isModify) {
-      this.isInitChange = false;
+      // this.isInitChange = false;
+      this.$store.dispatch('setIsInit', false);
       this.renderGraph();
 
       return;
     }
-    this.isInitChange = true;
+    // this.isInitChange = true;
+    this.$store.dispatch('setIsInit', true);
 
     const res = await getGraphDetail({
       id: this.currentId,
@@ -383,7 +385,7 @@ export default {
         name,
       });
 
-      this.isInitChange = false;
+      this.$store.dispatch('setIsInit', false);
     });
   },
   methods: {
@@ -468,7 +470,11 @@ export default {
         return;
       }
 
-      const { name, uri, apiUrl, type, timeFilterShowType, titleShowType, ...attr } = this.form;
+      // const { name, uri, apiUrl, type, timeFilterShowType, titleShowType, ...attr } = this.form;
+      const { name, uri, apiUrl, type, timeFilterShowType, titleShowType } = this.$store.state;
+      const attr = await this.$store.dispatch('getGraphConfig');
+
+      console.log(this.$store.state);
 
       let res;
       if (this.isModify) {

@@ -38,7 +38,7 @@ export default {
       return isEmpty ? [] : Object.keys(data[0]);
     },
     isModify() {
-      return this.$store.state.isModify;
+      return !!this.$route.query.id;
     },
     data() {
       return this.$store.state.data;

@@ -29,12 +29,9 @@ export default {
       this.render();
     },
     '$store.state.opts': {
-      handler(value) {
-        this.opts = {
-          ...value.fieldMap,
-          ...value.style,
-          meta: value.meta,
-        };
+      async handler() {
+        this.opts = await this.$store.dispatch('getGraphConfig');
+
         this.destroy();
         this.render();
       },

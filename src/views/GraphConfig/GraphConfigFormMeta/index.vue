@@ -89,21 +89,21 @@ export default {
     },
   },
   methods: {
-    // initData(formData) {
-    //   if (this.isModify && formData && formData.meta) {
-    //     this.fieldList.forEach(key => {
-    //       const value = formData.meta[key];
-    //       const itemRef = this.$refs[key + 'Ref' ];
-    //       const isExistValue = this.itemIsExistValue(value);
-    //       if (!isExistValue) {
-    //         return;
-    //       }
+    initData(formData) {
+      if (this.isModify && formData && formData.meta) {
+        this.fieldList.forEach(key => {
+          const value = formData.meta[key];
+          const itemRef = this.$refs[key + 'Ref' ];
+          const isExistValue = this.itemIsExistValue(value);
+          if (!isExistValue) {
+            return;
+          }
 
-    //       this.itemData[key] = value;
-    //       itemRef && itemRef.initData(value);
-    //     });
-    //   }
-    // },
+          this.itemData[key] = value;
+          itemRef && itemRef.initData(value);
+        });
+      }
+    },
     deleteItemData(key) {
       const result = {
         ...this.itemData,
