@@ -74,14 +74,14 @@ export default {
     // aSelectOption: Select.Option,
   },
   emits: [ 'update' ],
-  props: {
-    formData: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-  },
+  // props: {
+  //   formData: {
+  //     type: Object,
+  //     default() {
+  //       return {};
+  //     },
+  //   },
+  // },
   data() {
     return {
       singleColor: defaultTheme.itemSingleColor,
@@ -94,6 +94,13 @@ export default {
     };
   },
   computed: {
+    formData() {
+      const { isGroup, isStack } = this.$store.state.opts.fieldMap;
+      return {
+        isGroup,
+        isStack,
+      };
+    },
     isMultiColor() {
       return this.formData.isGroup || this.formData.isStack;
     },
@@ -179,7 +186,8 @@ export default {
         ...this.colorConfigResult,
       };
       console.log('颜色配置：', data);
-      this.$emit('update', data);
+      // this.$emit('update', data);
+      this.$store.dispatch('setStyle', data);
     },
   },
 

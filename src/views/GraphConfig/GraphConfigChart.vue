@@ -32,6 +32,7 @@ export default {
       handler(value) {
         this.opts = {
           ...value.fieldMap,
+          ...value.style,
           meta: value.meta,
         };
         this.destroy();

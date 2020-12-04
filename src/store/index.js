@@ -27,6 +27,7 @@ export default createStore({
         seriesField: '',
       },
       meta: {},
+      style: {},
     },
   },
   mutations: {
@@ -53,6 +54,9 @@ export default createStore({
     },
     setOptsFieldMap: (state, value) => {
       state.opts.fieldMap = value;
+    },
+    setStyle: (state, value) => {
+      state.opts.style = value;
     },
   },
   actions: {
@@ -83,6 +87,9 @@ export default createStore({
     },
     setOptsFieldMap({ commit }, value) {
       commit('setOptsFieldMap', value);
+    },
+    setStyle({ commit }, value) {
+      commit('setStyle', value);
     },
   },
   getters,
