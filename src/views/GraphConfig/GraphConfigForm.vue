@@ -363,12 +363,16 @@ export default {
     });
   },
   methods: {
-    changeGraphType() {
+    async changeGraphType() {
       this.form = Object.assign({}, this.formRef);
 
+      await this.$store.dispatch('setRenderLock', true);
+
       this.$refs.graphDataMapForm.initData({});
-      this.$refs.graphStyleForm.initData({});
+      // this.$refs.graphStyleForm.initData({});
       this.$refs.metaForm.initData({});
+
+      await this.$store.dispatch('setRenderLock', false);
     },
 
     // 获取数据
