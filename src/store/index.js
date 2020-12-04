@@ -8,9 +8,8 @@ import getters from './getters';
 
 export default createStore({
   state: {
-    isInit: true,
+    isRenderLock: true,
     data: [],
-
 
     name: '',
     uri: '',
@@ -63,8 +62,8 @@ export default createStore({
     setStyle: (state, value) => {
       state.opts.style = value;
     },
-    setIsInit: (state, value) => {
-      state.opts.isInit = value;
+    setRenderLock: (state, value) => {
+      state.isRenderLock = value;
     },
   },
   actions: {
@@ -100,8 +99,8 @@ export default createStore({
     setStyle({ commit }, value) {
       commit('setStyle', value);
     },
-    setIsInit({ commit }, value) {
-      commit('setIsInit', value);
+    setRenderLock({ commit }, value) {
+      commit('setRenderLock', value);
     },
     getGraphConfig() {
       const { opts } = this.state;

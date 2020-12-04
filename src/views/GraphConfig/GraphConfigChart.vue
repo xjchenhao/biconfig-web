@@ -17,29 +17,42 @@ export default {
       context: null,
     };
   },
+  computed: {
+    isRenderLock() {
+      return this.$store.state.isRenderLock;
+    },
+  },
   watch: {
+    '$store.state.isRenderLock': function(value) {
+      if (!value) {
+        this.update();
+      }
+    },
     '$store.state.data': function(value) {
       this.data = value;
-      this.destroy();
-      this.render();
+      this.update();
     },
     '$store.state.type': async function(value) {
       this.type = value;
-      this.destroy();
-      this.render();
+      this.update();
     },
     '$store.state.opts': {
       async handler() {
         this.opts = await this.$store.dispatch('getGraphConfig');
-
-        this.destroy();
-        this.render();
+        this.update();
       },
       deep: true,
       immediate: false,
     },
   },
   methods: {
+    update() {
+      if (this.isRenderLock) {
+        return;
+      }
+      this.destroy();
+      this.render();
+    },
     render() {
       const graphConfigChartDom = this.$refs.GraphConfigChart;
       const chartType = this.type;

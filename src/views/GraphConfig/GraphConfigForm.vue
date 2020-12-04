@@ -332,11 +332,11 @@ export default {
   },
   async mounted() {
     if (!this.isModify) {
-      await this.$store.dispatch('setIsInit', false);
+      await this.$store.dispatch('setRenderLock', false);
 
       return;
     }
-    await this.$store.dispatch('setIsInit', true);
+    await this.$store.dispatch('setRenderLock', true);
 
     const res = await getGraphDetail({
       id: this.currentId,
@@ -359,7 +359,7 @@ export default {
     await this.getData();
     this.$nextTick(() => {
 
-      this.$store.dispatch('setIsInit', false);
+      this.$store.dispatch('setRenderLock', false);
     });
   },
   methods: {
