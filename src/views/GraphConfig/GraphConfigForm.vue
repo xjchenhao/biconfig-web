@@ -418,19 +418,13 @@ export default {
       const basisFormValidateResult = await this.onValidate();
       const graphDataMapFormValidateResult = await this.$refs.graphDataMapForm.onValidate();
 
-      console.log(basisFormValidateResult);
-      console.log(graphDataMapFormValidateResult);
-
       if (!basisFormValidateResult || !graphDataMapFormValidateResult) {
         message.error('格式错误，请检查表单内容！');
         return;
       }
 
-      // const { name, uri, apiUrl, type, timeFilterShowType, titleShowType, ...attr } = this.form;
       const { name, uri, apiUrl, type, timeFilterShowType, titleShowType } = this.$store.state;
       const attr = await this.$store.dispatch('getGraphConfig');
-
-      console.log(this.$store.state);
 
       let res;
       if (this.isModify) {
@@ -462,8 +456,6 @@ export default {
       }
 
       this.graphId = this.isModify ? this.currentId : res.data.id;
-
-      console.log(this.graphId);
 
       this.resultModalVisible = true;
 

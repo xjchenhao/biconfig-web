@@ -160,10 +160,6 @@ export default {
       onValidate,
     };
   },
-  data() {
-    return {
-    };
-  },
   computed: {
     graphType: {
       get() {

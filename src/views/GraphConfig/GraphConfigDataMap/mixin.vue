@@ -7,28 +7,12 @@ export default {
     aFormItem: Form.Item,
   },
   props: {
-    // isModify: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // formData: {
-    //   type: Object,
-    //   default() {
-    //     return {};
-    //   },
-    // },
     validateInfos: {
       type: Object,
       default() {
         return {};
       },
     },
-    // data: {
-    //   type: Array,
-    //   default() {
-    //     return [];
-    //   },
-    // },
   },
   computed: {
     fieldList() {
@@ -55,14 +39,11 @@ export default {
   },
   methods: {
     initData(formData) {
-      if (formData) {
-        Object.keys(this.formRef).forEach(key => {
-          this.formRef[key] = formData[key];
-        });
-      }
+      Object.keys(this.formRef).forEach(key => {
+        this.formRef[key] = formData[key];
+      });
     },
     handleUpdate() {
-      // this.$emit('update', this.formRef);
       this.$store.dispatch('setOptsFieldMap', this.formRef);
     },
   },

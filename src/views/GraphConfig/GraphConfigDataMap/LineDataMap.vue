@@ -119,9 +119,6 @@ export default {
       onValidate,
     };
   },
-  data() {
-    return {};
-  },
 
 };
 </script>
