@@ -12,13 +12,6 @@
         <a-input
           v-model:value="formRef.name"
           placeholder="请输入图表名称"
-          @change="()=>{
-            if(this.isShowTitle){
-              this.$nextTick(()=>{
-                this.renderGraph()
-              })
-            }
-          }"
         />
       </a-form-item>
       <a-form-item
@@ -108,7 +101,7 @@
         </template>
         <a-collapse-panel
           key="0"
-          :style="customStyle"
+          :style="collpsePpanelCustomStyle"
         >
           <template #header>
             <h3>元信息</h3>
@@ -123,7 +116,7 @@
         </a-collapse-panel>
         <a-collapse-panel
           key="1"
-          :style="customStyle"
+          :style="collpsePpanelCustomStyle"
         >
           <template #header>
             <h3>图形样式</h3>
@@ -179,13 +172,13 @@
 
 <script>
 import { reactive } from 'vue';
+import notification from 'ant-design-vue/es/notification';
 import { ColumnStyle as TheColumnStyle, NotSupport as TheNotSupportStyle } from './GraphConfigStyle';
 import { ColumnDataMap as TheColumnDataMap, NotSupport as TheNotSupportDataMap, LineDataMap as TheLineDataMap, PieDataMap as ThePieDataMap } from './GraphConfigDataMap';
 import GraphConfigFormMeta from './GraphConfigFormMeta';
 import { Form, Button, Select, Divider, Collapse, Switch, Input, Result, Modal, message } from 'ant-design-vue';
 import { useForm } from '@ant-design-vue/use';
 import { CaretRightOutlined } from '@ant-design/icons-vue';
-import { getData as getDefaultData } from './defaultData';
 import request from '@/utils/request';
 import { supportGraphTypeMap } from '@/utils/config';
 
@@ -264,16 +257,13 @@ export default {
       onValidate,
     };
   },
-  emits: [ 'update' ],
   data() {
     return {
-      viewId: '',
-      customStyle: 'background:#fff;border-radius: 4px;margin-bottom: 0;border: 0;overflow: hidden',
-      collapseActiveKey: [ '0', '1' ],
-      graphData: getDefaultData('Column'),
+      graphId: '', // 当前图形id
+      collpsePpanelCustomStyle: 'background:#fff;border-radius: 4px;margin-bottom: 0;border: 0;overflow: hidden', // 折叠组件样式
+      collapseActiveKey: [ '0', '1' ], // 需要被展开的折叠组件
       form: {},
-      resultModalVisible: false,
-      isInitChange: false,
+      resultModalVisible: false, // 结果弹窗是否显示
     };
   },
   watch: {
@@ -342,13 +332,10 @@ export default {
   },
   async mounted() {
     if (!this.isModify) {
-      // this.isInitChange = false;
       await this.$store.dispatch('setIsInit', false);
-      this.renderGraph();
 
       return;
     }
-    // this.isInitChange = true;
     await this.$store.dispatch('setIsInit', true);
 
     const res = await getGraphDetail({
@@ -368,22 +355,9 @@ export default {
     this.formRef.timeFilterShowType = timeFilterShowType;
     this.formRef.titleShowType = titleShowType;
     this.form = attr;
-    // this.$nextTick(() => {
-    //   this.renderGraph();
-    // });
 
-    console.log('加载初始数据');
-    console.log(attr);
     await this.getData();
     this.$nextTick(() => {
-      // this.$emit('update', {
-      //   data: this.graphData,
-      //   ...attr,
-      //   type,
-      //   timeFilterShowType,
-      //   titleShowType,
-      //   name,
-      // });
 
       this.$store.dispatch('setIsInit', false);
     });
@@ -391,21 +365,22 @@ export default {
   methods: {
     changeGraphType() {
       this.form = Object.assign({}, this.formRef);
+
       this.$refs.graphDataMapForm.initData({});
       this.$refs.graphStyleForm.initData({});
       this.$refs.metaForm.initData({});
-
-      this.$nextTick(() => {
-        this.renderGraph();
-      });
     },
-    async getData(isRender = false) {
+
+    // 获取数据
+    async getData() {
 
       const apiUrl = this.formRef.apiUrl;
 
       if (!apiUrl) {
-        this.graphData = getDefaultData(this.formRef.type);
-        !isRender && this.renderGraph();
+        notification.warning({
+          message: '提示',
+          description: '请输入url地址以完成数据获取',
+        });
 
         return;
       }
@@ -415,9 +390,7 @@ export default {
         method: 'get',
       });
 
-      // this.graphData = res.data.list;
       this.$store.dispatch('setData', res.data.list);
-      !isRender && this.renderGraph();
     },
 
     // 开关数据变动时，会触发它
@@ -427,36 +400,19 @@ export default {
         ...this.form,
         [type]: value,
       };
-
-      this.renderGraph();
     },
 
-    // 字表单数据变动时，会触发它
-    handleFormUpdate(value) {
-      if (this.isInitChange) {
-        return;
-      }
-      this.form = {
-        ...this.form,
-        ...value,
-      };
-
-      this.renderGraph();
-    },
-    renderGraph() {
-      console.log('debug2:', this.form);
-      this.$emit('update', {
-        data: this.graphData,
-        ...this.form,
-      });
-    },
+    // 跳转到查看页面
     handleGotoView() {
-      // this.$router.replace(`/graph/view?id=${this.viewId}`);
-      this.$router.replace({ path: '/graph/view', query: { id: this.viewId } });
+      this.$router.replace({ path: '/graph/view', query: { id: this.graphId } });
     },
+
+    // 回到主页
     handleGotoHome() {
       this.$router.replace('/graph');
     },
+
+    // 提交表单
     async handleFormSubmit() {
 
       const basisFormValidateResult = await this.onValidate();
@@ -505,9 +461,9 @@ export default {
         return;
       }
 
-      this.viewId = this.isModify ? this.currentId : res.data.id;
+      this.graphId = this.isModify ? this.currentId : res.data.id;
 
-      console.log(this.viewId);
+      console.log(this.graphId);
 
       this.resultModalVisible = true;
 
