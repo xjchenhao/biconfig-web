@@ -9,48 +9,36 @@ const G2plot = require('@antv/g2plot');
 
 export default {
   name: 'GraphConfigChart',
-  props: {
-    // data: {
-    //   type: Array,
-    //   default() {
-    //     return [];
-    //   },
-    // },
-    type: {
-      type: String,
-      default: 'Column',
-    },
-    opts: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-  },
   data() {
     return {
+      type: 'Column',
       data: [],
+      opts: {},
       context: null,
     };
   },
   watch: {
-    type() {
+    '$store.state.data': function(value) {
+      this.data = value;
       this.destroy();
       this.render();
     },
-    opts: {
-      handler() {
+    '$store.state.type': async function(value) {
+      this.type = value;
+      this.destroy();
+      this.render();
+    },
+    '$store.state.opts': {
+      handler(value) {
+        this.opts = {
+          ...value.fieldMap,
+          meta: value.meta,
+        };
         this.destroy();
         this.render();
       },
       deep: true,
       immediate: false,
-    },
-    '$store.state.data': function(value) {
-      this.data = value;
-      console.log(value);
-      this.destroy();
-      this.render();
     },
   },
   methods: {

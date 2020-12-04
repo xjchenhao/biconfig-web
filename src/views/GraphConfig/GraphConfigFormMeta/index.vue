@@ -27,6 +27,17 @@ export default {
     };
   },
   computed: {
+    isModify() {
+      return this.$store.isModify;
+    },
+    formData() {
+      const { xField, yField, seriesField } = this.$store;
+      return {
+        xField,
+        yField,
+        seriesField,
+      };
+    },
     fieldList() {
       const result = [];
 
@@ -48,18 +59,18 @@ export default {
   },
 
   emits: [ 'update' ],
-  props: {
-    isModify: {
-      type: Boolean,
-      default: false,
-    },
-    formData: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-  },
+  // props: {
+  //   isModify: {
+  //     type: Boolean,
+  //     default: false,
+  //   },
+  //   formData: {
+  //     type: Object,
+  //     default() {
+  //       return {};
+  //     },
+  //   },
+  // },
   watch: {
     'formData.xField': function(newVal, oldVal) {
       this.deleteItemData(oldVal);
@@ -78,21 +89,21 @@ export default {
     },
   },
   methods: {
-    initData(formData) {
-      if (this.isModify && formData && formData.meta) {
-        this.fieldList.forEach(key => {
-          const value = formData.meta[key];
-          const itemRef = this.$refs[key + 'Ref' ];
-          const isExistValue = this.itemIsExistValue(value);
-          if (!isExistValue) {
-            return;
-          }
+    // initData(formData) {
+    //   if (this.isModify && formData && formData.meta) {
+    //     this.fieldList.forEach(key => {
+    //       const value = formData.meta[key];
+    //       const itemRef = this.$refs[key + 'Ref' ];
+    //       const isExistValue = this.itemIsExistValue(value);
+    //       if (!isExistValue) {
+    //         return;
+    //       }
 
-          this.itemData[key] = value;
-          itemRef && itemRef.initData(value);
-        });
-      }
-    },
+    //       this.itemData[key] = value;
+    //       itemRef && itemRef.initData(value);
+    //     });
+    //   }
+    // },
     deleteItemData(key) {
       const result = {
         ...this.itemData,
@@ -125,9 +136,10 @@ export default {
       this.renderGraph();
     },
     renderGraph() {
-      this.$emit('update', {
-        meta: this.itemData,
-      });
+      // this.$emit('update', {
+      //   meta: this.itemData,
+      // });
+      this.$store.dispatch('setOptsMeta', this.itemData);
     },
   },
 };

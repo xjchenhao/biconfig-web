@@ -7,8 +7,7 @@ import { createStore } from 'vuex';
 import getters from './getters';
 
 export default createStore({
-  modules: {
-    // meta,
+  state: {
     name: '',
     uri: '',
     type: 'Column',
@@ -16,9 +15,19 @@ export default createStore({
     timeFilterShowType: 0,
     titleShowType: 0,
     data: [],
-  },
-  state: {
-    meta: null,
+    isModify: false,
+    opts: {
+      fieldMap: {
+        xField: 'year',
+        yField: 'value',
+        isGroup: false,
+        isStack: false,
+        isRange: false,
+        isPercent: false,
+        seriesField: '',
+      },
+      meta: {},
+    },
   },
   mutations: {
     setName: (state, value) => {
@@ -39,17 +48,41 @@ export default createStore({
     setData: (state, value) => {
       state.data = value;
     },
+    setOptsMeta: (state, value) => {
+      state.opts.meta = value;
+    },
+    setOptsFieldMap: (state, value) => {
+      state.opts.fieldMap = value;
+    },
   },
   actions: {
-    setBasicForm({ commit }, { name, uri, type, timeFilterShowType, setTitleShowType }) {
+    getBasicForm() {
+      const { name, uri, type, apiUrl, timeFilterShowType, titleShowType } = this.state;
+
+      return {
+        name,
+        uri,
+        type,
+        apiUrl,
+        timeFilterShowType,
+        titleShowType,
+      };
+    },
+    setBasicForm({ commit }, { name, uri, type, timeFilterShowType, titleShowType }) {
       commit('setName', name);
       commit('setUri', uri);
       commit('setType', type);
       commit('setTimeFilterShowType', timeFilterShowType);
-      commit('setSetTitleShowType', setTitleShowType);
+      commit('setTitleShowType', titleShowType);
     },
     setData({ commit }, value) {
       commit('setData', value);
+    },
+    setOptsMeta({ commit }, value) {
+      commit('setData', value);
+    },
+    setOptsFieldMap({ commit }, value) {
+      commit('setOptsFieldMap', value);
     },
   },
   getters,

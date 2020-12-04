@@ -7,33 +7,41 @@ export default {
     aFormItem: Form.Item,
   },
   props: {
-    isModify: {
-      type: Boolean,
-      default: false,
-    },
-    formData: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
+    // isModify: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    // formData: {
+    //   type: Object,
+    //   default() {
+    //     return {};
+    //   },
+    // },
     validateInfos: {
       type: Object,
       default() {
         return {};
       },
     },
-    data: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
+    // data: {
+    //   type: Array,
+    //   default() {
+    //     return [];
+    //   },
+    // },
   },
   computed: {
-    // 字段列表
     fieldList() {
-      return Object.keys(this.data[0]);
+      const data = this.$store.state.data;
+      const isEmpty = data === undefined || data.length === 0;
+
+      return isEmpty ? [] : Object.keys(data[0]);
+    },
+    isModify() {
+      return this.$store.state.isModify;
+    },
+    data() {
+      return this.$store.state.data;
     },
   },
   watch: {
@@ -57,7 +65,8 @@ export default {
       }
     },
     handleUpdate() {
-      this.$emit('update', this.formRef);
+      // this.$emit('update', this.formRef);
+      this.$store.dispatch('setOptsFieldMap', this.formRef);
     },
   },
 
