@@ -343,13 +343,13 @@ export default {
   async mounted() {
     if (!this.isModify) {
       // this.isInitChange = false;
-      this.$store.dispatch('setIsInit', false);
+      await this.$store.dispatch('setIsInit', false);
       this.renderGraph();
 
       return;
     }
     // this.isInitChange = true;
-    this.$store.dispatch('setIsInit', true);
+    await this.$store.dispatch('setIsInit', true);
 
     const res = await getGraphDetail({
       id: this.currentId,
@@ -376,14 +376,14 @@ export default {
     console.log(attr);
     await this.getData();
     this.$nextTick(() => {
-      this.$emit('update', {
-        data: this.graphData,
-        ...attr,
-        type,
-        timeFilterShowType,
-        titleShowType,
-        name,
-      });
+      // this.$emit('update', {
+      //   data: this.graphData,
+      //   ...attr,
+      //   type,
+      //   timeFilterShowType,
+      //   titleShowType,
+      //   name,
+      // });
 
       this.$store.dispatch('setIsInit', false);
     });

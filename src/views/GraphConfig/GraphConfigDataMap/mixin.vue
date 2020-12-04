@@ -37,9 +37,6 @@ export default {
 
       return isEmpty ? [] : Object.keys(data[0]);
     },
-    isModify() {
-      return !!this.$route.query.id;
-    },
     data() {
       return this.$store.state.data;
     },
@@ -58,7 +55,7 @@ export default {
   },
   methods: {
     initData(formData) {
-      if (this.isModify && formData) {
+      if (formData) {
         Object.keys(this.formRef).forEach(key => {
           this.formRef[key] = formData[key];
         });

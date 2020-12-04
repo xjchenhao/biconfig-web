@@ -185,7 +185,7 @@ export default {
         ...this.form,
         ...this.colorConfigResult,
       };
-      console.log('颜色配置：', data);
+
       // this.$emit('update', data);
       this.$store.dispatch('setStyle', data);
     },

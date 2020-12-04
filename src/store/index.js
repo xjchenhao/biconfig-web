@@ -8,7 +8,7 @@ import getters from './getters';
 
 export default createStore({
   state: {
-    isInit: false,
+    isInit: true,
     data: [],
 
 
@@ -35,6 +35,9 @@ export default createStore({
   mutations: {
     setName: (state, value) => {
       state.name = value;
+    },
+    setApiUrl: (state, value) => {
+      state.apiUrl = value;
     },
     setUri: (state, value) => {
       state.uri = value;
@@ -77,9 +80,10 @@ export default createStore({
         titleShowType,
       };
     },
-    setBasicForm({ commit }, { name, uri, type, timeFilterShowType, titleShowType }) {
+    setBasicForm({ commit }, { name, uri, type, timeFilterShowType, titleShowType, apiUrl }) {
       commit('setName', name);
       commit('setUri', uri);
+      commit('setApiUrl', apiUrl);
       commit('setType', type);
       commit('setTimeFilterShowType', timeFilterShowType);
       commit('setTitleShowType', titleShowType);

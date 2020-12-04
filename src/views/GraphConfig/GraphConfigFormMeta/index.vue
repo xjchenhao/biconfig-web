@@ -27,9 +27,6 @@ export default {
     };
   },
   computed: {
-    isModify() {
-      return this.$store.state.isModify;
-    },
     formData() {
       const { xField, yField, seriesField } = this.$store.state.opts.fieldMap;
       return {
@@ -90,7 +87,7 @@ export default {
   },
   methods: {
     initData(formData) {
-      if (this.isModify && formData && formData.meta) {
+      if (formData && formData.meta) {
         this.fieldList.forEach(key => {
           const value = formData.meta[key];
           const itemRef = this.$refs[key + 'Ref' ];
