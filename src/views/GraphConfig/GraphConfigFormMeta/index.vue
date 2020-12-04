@@ -28,10 +28,10 @@ export default {
   },
   computed: {
     isModify() {
-      return this.$store.isModify;
+      return this.$store.state.isModify;
     },
     formData() {
-      const { xField, yField, seriesField } = this.$store;
+      const { xField, yField, seriesField } = this.$store.state.opts.fieldMap;
       return {
         xField,
         yField,

@@ -79,7 +79,7 @@ export default createStore({
       commit('setData', value);
     },
     setOptsMeta({ commit }, value) {
-      commit('setData', value);
+      commit('setOptsMeta', value);
     },
     setOptsFieldMap({ commit }, value) {
       commit('setOptsFieldMap', value);
