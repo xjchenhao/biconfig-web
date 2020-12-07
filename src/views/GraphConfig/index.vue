@@ -28,7 +28,6 @@
       <a-layout-sider class="graphConfig-layout-sider">
         <graph-config-form
           class="graphConfig-layout-content-form"
-          @update="chartDataUpdate"
         />
       </a-layout-sider>
     </a-layout>
@@ -62,20 +61,20 @@ export default {
       isShowTimeFilter: false,
     };
   },
+  watch: {
+    '$store.state.name': function(value) {
+      this.title = value;
+    },
+    '$store.state.timeFilterShowType': function(value) {
+      this.isShowTimeFilter = !!value;
+    },
+    '$store.state.titleShowType': function(value) {
+      this.isShowTitle = !!value;
+    },
+  },
   methods: {
     handleBack() {
       this.$router.go(-1);
-    },
-    chartDataUpdate(formData) {
-      console.log(formData);
-      const { name, type, data, titleShowType, timeFilterShowType, ...opts } = formData;
-
-      this.title = name;
-      this.isShowTitle = !!titleShowType;
-      this.isShowTimeFilter = !!timeFilterShowType;
-      this.chartType = type;
-      this.chartData = data;
-      this.chartOpts = opts;
     },
   },
 };

@@ -32,6 +32,14 @@ export default {
       this.data = value;
       this.update();
     },
+    '$store.state.setTimeFilterShowType': function(value) {
+      this.setTimeFilterShowType = value;
+      this.update();
+    },
+    '$store.state.setTitleShowType': function(value) {
+      this.setTitleShowType = value;
+      this.update();
+    },
     '$store.state.type': async function(value) {
       this.type = value;
       this.update();
