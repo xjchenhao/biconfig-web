@@ -62,6 +62,7 @@ export default {
       this.render();
     },
     render() {
+      // eslint-disable-next-line no-alert
       const graphConfigChartDom = this.$refs.GraphConfigChart;
       const chartType = this.type;
       const chartOpts = this.opts;

@@ -42,17 +42,6 @@ export default {
     GraphConfigChart,
     GraphConfigChartFilter,
   },
-  data() {
-    return {
-      api: '',
-      title: '标题',
-      data: [],
-      type: 'Column',
-      opts: {},
-      titleShowType: 0,
-      timeFilterShowType: 0,
-    };
-  },
   computed: {
     isInline() {
       const { isInline } = this.$route.query;
@@ -61,6 +50,29 @@ export default {
         return false;
       }
       return true;
+    },
+    api() {
+      return this.$store.state.apiUrl;
+    },
+    title() {
+      return this.$store.state.name;
+    },
+    data() {
+      return this.$store.state.data;
+    },
+    type() {
+      return this.$store.state.type;
+    },
+    titleShowType() {
+      return this.$store.state.titleShowType;
+    },
+    timeFilterShowType() {
+      return this.$store.state.timeFilterShowType;
+    },
+  },
+  watch: {
+    async opts() {
+      return await this.$store.dispatch('getGraphConfig');
     },
   },
   beforeCreate() {
@@ -79,21 +91,23 @@ export default {
 
     const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
 
-    // const graphData = await request({
-    //   url: apiUrl,
-    //   method: 'get',
-    // });
+    const graphData = await request({
+      url: apiUrl,
+      method: 'get',
+    });
 
-    this.api = apiUrl;
+    this.$store.dispatch('setBasicForm', {
+      name,
+      uri,
+      type,
+      timeFilterShowType,
+      titleShowType,
+      apiUrl,
+    });
 
-    // this.data = graphData.data.list;
-    this.title = name;
-    this.type = type;
-    this.timeFilterShowType = timeFilterShowType;
-    this.titleShowType = titleShowType;
-    this.opts = Object.assign({}, attr);
-
-    // this.$refs.chart.render();
+    this.$store.dispatch('setOptsMeta', attr.meta);
+    this.$store.dispatch('setStyle', attr.style);
+    this.$store.dispatch('setData', graphData.data.list);
 
     await this.getDataAndRender({
       startTime: dayjs().startOf().valueOf(),
@@ -103,16 +117,20 @@ export default {
   methods: {
     async getDataAndRender({ startTime, endTime }) {
 
+      const { query } = this.$route.query;
+
       const graphData = await request({
         url: this.api,
         method: 'get',
         params: {
           startTime,
           endTime,
+          ...JSON.parse(query),
         },
       });
 
-      this.data = graphData.data.list;
+      // this.data = graphData.data.list;
+      this.$store.dispatch('setData', graphData.data.list);
 
       this.$nextTick(() => {
         this.$refs.chart.destroy();
