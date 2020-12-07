@@ -280,6 +280,9 @@ export default {
     },
   },
   computed: {
+    request() {
+      return this.$root.request || request;
+    },
     isShowTimeFilter: {
       get() {
         return !!this.formRef.timeFilterShowType;
@@ -389,7 +392,7 @@ export default {
         return;
       }
 
-      const res = await request({
+      const res = await this.request({
         url: apiUrl,
         method: 'get',
       });

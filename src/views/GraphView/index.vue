@@ -43,6 +43,9 @@ export default {
     GraphConfigChartFilter,
   },
   computed: {
+    request() {
+      return this.$root.request || request;
+    },
     isInline() {
       const { isInline } = this.$route.query;
 
@@ -91,7 +94,7 @@ export default {
 
     const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
 
-    const graphData = await request({
+    const graphData = await this.request({
       url: apiUrl,
       method: 'get',
     });
@@ -140,7 +143,7 @@ export default {
         query = '{}';
       }
 
-      const graphData = await request({
+      const graphData = await this.request({
         url: this.api,
         method: 'get',
         params: {
