@@ -394,7 +394,9 @@ export default {
         method: 'get',
       });
 
-      this.$store.dispatch('setData', res.data.list);
+      const data = Array.isArray(res.data) ? res.data : res.data.list;
+
+      this.$store.dispatch('setData', data);
     },
 
     // 开关数据变动时，会触发它

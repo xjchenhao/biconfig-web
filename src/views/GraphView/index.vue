@@ -105,9 +105,26 @@ export default {
       apiUrl,
     });
 
+    const optsFieldMap = {
+      xField: attr.xField,
+      yField: attr.yField,
+      isGroup: attr.isGroup,
+      isStack: attr.isStack,
+      isRange: attr.isRange,
+      isPercent: attr.isPercent,
+      seriesField: attr.seriesField,
+    };
+
+    Object.keys(optsFieldMap).forEach(key => {
+      if (optsFieldMap[key] === undefined) {
+        delete optsFieldMap[type];
+      }
+    });
+
     this.$store.dispatch('setOptsMeta', attr.meta);
     this.$store.dispatch('setStyle', attr.style);
-    this.$store.dispatch('setData', graphData.data.list);
+    this.$store.dispatch('setOptsFieldMap', optsFieldMap);
+    this.$store.dispatch('setData', Array.isArray(graphData.data) ? graphData.data : graphData.data.list);
 
     await this.getDataAndRender({
       startTime: dayjs().startOf().valueOf(),
@@ -117,7 +134,11 @@ export default {
   methods: {
     async getDataAndRender({ startTime, endTime }) {
 
-      const { query } = this.$route.query;
+      let { query } = this.$route.query;
+
+      if (!query) {
+        query = '{}';
+      }
 
       const graphData = await request({
         url: this.api,
@@ -130,7 +151,7 @@ export default {
       });
 
       // this.data = graphData.data.list;
-      this.$store.dispatch('setData', graphData.data.list);
+      this.$store.dispatch('setData', Array.isArray(graphData.data) ? graphData.data : graphData.data.list);
 
       this.$nextTick(() => {
         this.$refs.chart.destroy();
