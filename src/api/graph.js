@@ -1,4 +1,5 @@
-import request from '@/utils/request';
+import utilsRequest from '@/utils/request';
+let request = utilsRequest;
 
 const userApi = {
   list: '/biconfigApi/graph/list',
@@ -9,6 +10,9 @@ const userApi = {
   detail: '/biconfigApi/graph/detail',
 };
 
+export function replaceRequest(_this) {
+  request = _this.$root.request;
+}
 export function getList(parameter) {
   return request({
     url: userApi.list,
