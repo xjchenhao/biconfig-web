@@ -15,7 +15,7 @@ const getList = options => {
         _id: Mock.mock('@guid'),
         name: queryParameters.name || Mock.mock('@name'),
         uri: '我是初始图表记录1的uri',
-        type: queryParameters.type || Mock.mock([ 'Bar' ]),
+        type: queryParameters.type || 'Bar',
         apiUrl: '/biconfigApi/demo/dataSource/column',
         attr: {
           xField: 'year',
@@ -49,7 +49,7 @@ const getDetail = options => {
       _id: Mock.mock('@guid'),
       name: queryParameters.name || Mock.mock('@name'),
       uri: '我是初始图表记录1的uri',
-      type: queryParameters.type || Mock.mock([ 'Bar' ]),
+      type: queryParameters.type || 'Bar',
       apiUrl: '/biconfigApi/demo/dataSource/column',
       attr: {
         xField: 'year',
