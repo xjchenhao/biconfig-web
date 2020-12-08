@@ -1,3 +1,4 @@
+
 const responseBody = {
   message: '',
   timestamp: 0,
@@ -35,4 +36,17 @@ export const getQueryParameters = options => {
 
 export const getBody = options => {
   return options.body && JSON.parse(options.body);
+};
+
+export const logAop = func => {
+  return options => {
+    const result = func(options);
+
+    console.log('-----mock数据log start----');
+    console.log('请求入参：', options);
+    console.log('输出mock数据：', result);
+    console.log('-----mock数据log end----');
+
+    return result;
+  };
 };
