@@ -4,7 +4,6 @@
   </div>
 </template>
 <script>
-import { replaceRequest } from '@/api/graph.js';
 
 export default {
   computed: {
@@ -15,9 +14,6 @@ export default {
         ...process.env.VUE_APP_BasicsLayoutStyle,
       };
     },
-  },
-  mounted() {
-    replaceRequest(this);
   },
 };
 </script>

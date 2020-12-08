@@ -341,9 +341,9 @@ export default {
     }
     await this.$store.dispatch('setRenderLock', true);
 
-    const res = await getGraphDetail({
+    const res = await this.request(getGraphDetail({
       id: this.currentId,
-    });
+    }));
 
     const { type, uri, apiUrl, name, timeFilterShowType, titleShowType, attr } = res.data;
 
@@ -437,7 +437,7 @@ export default {
 
       let res;
       if (this.isModify) {
-        res = await graphUpdate({
+        res = await this.request(graphUpdate({
           id: this.currentId,
           type,
           name,
@@ -446,9 +446,9 @@ export default {
           attr,
           timeFilterShowType,
           titleShowType,
-        });
+        }));
       } else {
-        res = await graphCreate({
+        res = await this.request(graphCreate({
           type,
           name,
           uri,
@@ -456,7 +456,7 @@ export default {
           attr,
           timeFilterShowType,
           titleShowType,
-        });
+        }));
       }
 
       if (Number(res.code) < 0) {

@@ -87,10 +87,10 @@ export default {
   async mounted() {
     const { id, uri } = this.$route.query;
 
-    const res = await getGraphView({
+    const res = await this.request(getGraphView({
       id,
       uri,
-    });
+    }));
 
     const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
 

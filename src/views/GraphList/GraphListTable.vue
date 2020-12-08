@@ -42,6 +42,7 @@ import { Table, Divider, Popconfirm } from 'ant-design-vue';
 import { supportGraphTypeMap } from '@/utils/config';
 
 import { del as getGraphDelete } from '@/api/graph';
+import request from '@/utils/request';
 
 const columns = [
   {
@@ -101,6 +102,9 @@ export default {
     };
   },
   computed: {
+    request() {
+      return this.$root.request || request;
+    },
     supportGraphTypeMap() {
       return supportGraphTypeMap;
     },
@@ -120,7 +124,7 @@ export default {
 
       const { id: id } = item.record;
 
-      const res = await getGraphDelete({ id });
+      const res = await this.request(getGraphDelete({ id }));
 
       if (Number(res.code) < 0) {
         console.error(res.msg);

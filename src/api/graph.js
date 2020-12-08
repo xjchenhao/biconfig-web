@@ -1,5 +1,3 @@
-import utilsRequest from '@/utils/request';
-let request = utilsRequest;
 
 const userApi = {
   list: '/biconfigApi/graph/list',
@@ -10,53 +8,50 @@ const userApi = {
   detail: '/biconfigApi/graph/detail',
 };
 
-export function replaceRequest(_this) {
-  request = _this.$root.request;
-}
 export function getList(parameter) {
-  return request({
+  return {
     url: userApi.list,
     method: 'get',
     params: parameter,
-  });
+  };
 }
 
 export function getView(parameter) {
-  return request({
+  return {
     url: userApi.view,
     method: 'get',
     params: parameter,
-  });
+  };
 }
 
 export function getDetail(parameter) {
-  return request({
+  return {
     url: userApi.detail,
     method: 'get',
     params: parameter,
-  });
+  };
 }
 
 export function create(parameter) {
-  return request({
+  return {
     url: userApi.create,
     method: 'post',
     data: parameter,
-  });
+  };
 }
 
 export function update(parameter) {
-  return request({
+  return {
     url: userApi.update,
     method: 'post',
     data: parameter,
-  });
+  };
 }
 
 export function del(parameter) {
-  return request({
+  return {
     url: userApi.delete,
     method: 'post',
     data: parameter,
-  });
+  };
 }

@@ -17,6 +17,7 @@ import GraphListTable from './GraphListTable';
 import GraphListToolbar from './GraphListToolbar';
 
 import { getList as getGraphList } from '@/api/graph';
+import request from '@/utils/request';
 
 export default {
   components: {
@@ -33,9 +34,14 @@ export default {
   mounted() {
     this.getData();
   },
+  computed: {
+    request() {
+      return this.$root.request || request;
+    },
+  },
   methods: {
     async getData(query) {
-      const res = await getGraphList(query);
+      const res = await this.request(getGraphList(query));
 
       if (Number(res.code) < 0) {
         console.error(res.msg);
