@@ -1,108 +1,95 @@
 import 'ant-design-vue/dist/antd.css';
 import './mock';
 
-import { createApp } from 'vue';
-import App from './App.vue';
-import store from './store';
-import router from './router';
-
 console.log('NODE_ENV：', process.env.NODE_ENV);
 console.log('VUE_APP_isMock：', process.env.VUE_APP_isMock);
 console.log('VUE_APP_apiPrefix：', process.env.VUE_APP_apiPrefix);
 
+// import './public-path';
+import { createApp } from 'vue';
+import { createRouter, createWebHashHistory } from 'vue-router';
+import App from './App.vue';
+import routes from './router';
+import store from './store';
+
+if (window.__POWERED_BY_QIANKUN__) {
+  // eslint-disable-next-line no-undef
+  __webpack_public_path__ = window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__;
+}
+
+let router = null;
 let instance = null;
 
-function render({ data = () => { return {}; }, methods = {} } = {}) {
-  console.log('rootVue:', App);
+function render(props = {}) {
+  const { data, methods } = props;
+  router = createRouter({
+    history: createWebHashHistory(),
+    routes,
+  });
 
-  instance = createApp(App)
-    .use(router)
-    .use(store)
-    .mixin({
-      data,
-      methods,
-    })
-    .mount('#biApp');
+  instance = createApp(App);
+  instance.use(router);
+  instance.use(store);
 
-  console.log('rootVue instance:', instance);
+  instance.mixin({
+    data() {
+      return {
+        ...data,
+      };
+    },
+    methods,
+  });
+  instance.mount('#biApp');
 }
 
 if (!window.__POWERED_BY_QIANKUN__) {
   render();
 }
+
 export async function bootstrap() {
-  // eslint-disable-next-line no-console
-  console.log('vue app bootstraped');
+  console.log('%c ', 'color: green;', 'vue3.0 app bootstraped');
 }
 
-// // 增加 update 钩子以便主应用手动更新微应用
-// export function update(props) {
-
-//   if (!props.data.fns) {
-//     render({
-//       data: () => {
-//         return {
-//           ...props.data,
-//         };
-//       },
-//     });
-
-//     return;
-//   }
-
-//   const methods = {};
-//   props.data.fns.forEach(item => {
-//     methods[item.name] = item;
-//   });
-
-//   delete props.data.fns;
-
-//   render({
-//     data: () => {
-//       return {
-//         ...props.data,
-//       };
-//     },
-//     methods,
-//   });
-// }
-
-export async function mount(props) {
-  // eslint-disable-next-line no-console
-  console.log('props from main framework', props);
-
-  if (!props.data.fns) {
-    render({
-      data: () => {
-        return {
-          ...props.data,
-        };
+function storeTest(props) {
+  props.onGlobalStateChange &&
+    props.onGlobalStateChange(
+      (value, prev) => console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev),
+      true
+    );
+  props.setGlobalState &&
+    props.setGlobalState({
+      ignore: props.name,
+      user: {
+        name: props.name,
       },
     });
+}
 
-    return;
+export async function mount(props) {
+  console.log('mount props：', props);
+  const methods = {};
+
+  if (props.data.fns) {
+    props.data.fns.forEach(item => {
+      methods[item.name] = item;
+    });
+
+    delete props.data.funs;
   }
 
-  const methods = {};
-  props.data.fns.forEach(item => {
-    methods[item.name] = item;
-  });
 
-  delete props.data.fns;
-
+  storeTest(props);
   render({
-    data: () => {
-      return {
-        ...props.data,
-      };
-    },
+    ...props,
     methods,
   });
+  instance.config.globalProperties.$onGlobalStateChange = props.onGlobalStateChange;
+  instance.config.globalProperties.$setGlobalState = props.setGlobalState;
 }
 
 export async function unmount() {
-  console.log('微服务卸载中：', instance);
-  // instance && instance.$destroy(); // vue3移除了$destroy函数
+  instance.unmount();
+  instance._container.innerHTML = '';
   instance = null;
+  router = null;
 }
-

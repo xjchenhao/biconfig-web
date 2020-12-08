@@ -81,6 +81,7 @@ export default {
   },
   methods: {
     handleSubmit() {
+      console.log(this.$root);
       this.$emit('get-data', this.form);
     },
     handleReset() {
