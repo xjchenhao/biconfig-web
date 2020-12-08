@@ -162,7 +162,7 @@ export default {
       });
     },
     handleBack() {
-      this.$router.go(-1);
+      this.$router.push('/graph');
     },
     async handleFilterUpdate(query) {
       await this.getDataAndRender(query);

@@ -12,7 +12,7 @@ const getList = options => {
       list: [{
         titleShowType: 1,
         timeFilterShowType: 0,
-        _id: Mock.mock('@guid'),
+        id: Mock.mock('@guid'),
         name: queryParameters.name || Mock.mock('@name'),
         uri: '我是初始图表记录1的uri',
         type: queryParameters.type || 'Bar',
@@ -31,7 +31,6 @@ const getList = options => {
         },
         createTime: 1605060610000,
         updateTime: 1606715338013,
-        id: '5d8ad6e2a9ed49004c33bd41',
       }],
     },
   };
@@ -46,7 +45,7 @@ const getDetail = options => {
     data: {
       titleShowType: 1,
       timeFilterShowType: 0,
-      _id: Mock.mock('@guid'),
+      id: Mock.mock('@guid'),
       name: queryParameters.name || Mock.mock('@name'),
       uri: '我是初始图表记录1的uri',
       type: queryParameters.type || 'Bar',
@@ -65,7 +64,6 @@ const getDetail = options => {
       },
       createTime: 1605060610000,
       updateTime: 1606715338013,
-      id: '5d8ad6e2a9ed49004c33bd41',
     },
   };
 };

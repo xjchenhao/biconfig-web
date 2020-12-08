@@ -107,18 +107,18 @@ export default {
   },
   methods: {
     handleView(item) {
-      const { _id: id } = item.record;
+      const { id: id } = item.record;
 
       this.$router.push(`/graph/view?id=${id}`);
     },
     handleUpdate(item) {
-      const { _id: id } = item.record;
+      const { id: id } = item.record;
 
       this.$router.push(`/graph/config?id=${id}`);
     },
     async handleConfirmDelete(item) {
 
-      const { _id: id } = item.record;
+      const { id: id } = item.record;
 
       const res = await getGraphDelete({ id });
 
