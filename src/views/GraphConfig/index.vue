@@ -20,9 +20,6 @@
         <graph-config-chart
           ref="chart"
           class="graphConfig-layout-content-chart"
-          :data="chartData"
-          :type="chartType"
-          :opts="chartOpts"
         />
       </a-layout-content>
       <a-layout-sider class="graphConfig-layout-sider">
@@ -53,15 +50,21 @@ export default {
   },
   data() {
     return {
-      chartData: [],
-      chartType: 'Column',
-      chartOpts: {},
       title: '',
       isShowTitle: false,
       isShowTimeFilter: false,
     };
   },
   watch: {
+    '$store.state.isRenderLock': function(value) {
+      if (!value) {
+        const { name, timeFilterShowType, titleShowType } = this.$store.state;
+
+        this.title = name;
+        this.isShowTimeFilter = !!timeFilterShowType;
+        this.isShowTitle = !!titleShowType;
+      }
+    },
     '$store.state.name': function(value) {
       this.title = value;
     },
