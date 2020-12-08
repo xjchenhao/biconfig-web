@@ -74,6 +74,7 @@ import { reactive } from 'vue';
 import { useForm } from '@ant-design-vue/use';
 import { Select } from 'ant-design-vue';
 import MixinItem from './mixin';
+import { mapFindValueType } from '@/utils/filterField';
 
 export default {
   mixins: [ MixinItem ],
@@ -83,8 +84,8 @@ export default {
   },
   setup() {
     const formRef = reactive({
-      xField: 'year',
-      yField: 'value',
+      xField: '',
+      yField: '',
       seriesField: '',
     });
 
@@ -118,6 +119,18 @@ export default {
       formRef,
       onValidate,
     };
+  },
+  methods: {
+    async initDefaultSetting() {
+      const data = this.$store.state.data;
+      await this.$store.dispatch('setRenderLock', true);
+
+      this.formRef.xField = mapFindValueType(data[0], 'string');
+      this.formRef.yField = mapFindValueType(data[0], 'number');
+
+      this.handleUpdate();
+      await this.$store.dispatch('setRenderLock', false);
+    },
   },
 
 };

@@ -33,9 +33,16 @@ export default {
       deep: true,
       immediate: false,
     },
+    '$store.state.data': async function() {
+      await this.initDefaultSetting();
+    },
   },
-  mounted() {
-    this.handleUpdate();
+  async mounted() {
+    if (!this.$route.query.id && this.$store.state.data.length === 0) {
+      return;
+    }
+
+    await this.initDefaultSetting();
   },
   methods: {
     initData(formData) {

@@ -49,6 +49,7 @@ import { reactive } from 'vue';
 import { useForm } from '@ant-design-vue/use';
 import { Select } from 'ant-design-vue';
 import MixinItem from './mixin';
+import { mapFindValueType } from '@/utils/filterField';
 
 export default {
   mixins: [ MixinItem ],
@@ -59,8 +60,8 @@ export default {
 
   setup() {
     const formRef = reactive({
-      angleField: 'value',
-      colorField: 'year',
+      angleField: '',
+      colorField: '',
     });
 
     const { resetFields, validate, validateInfos } = useForm(
@@ -87,12 +88,25 @@ export default {
     const reset = () => {
       resetFields();
     };
+
     return {
       validateInfos,
       reset,
       formRef,
       onValidate,
     };
+  },
+  methods: {
+    async initDefaultSetting() {
+      const data = this.$store.state.data;
+      await this.$store.dispatch('setRenderLock', true);
+
+      this.formRef.colorField = mapFindValueType(data[0], 'string');
+      this.formRef.angleField = mapFindValueType(data[0], 'number');
+
+      this.handleUpdate();
+      await this.$store.dispatch('setRenderLock', false);
+    },
   },
 };
 </script>

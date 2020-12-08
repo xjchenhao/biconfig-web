@@ -1,11 +1,10 @@
 import Mock from 'mockjs2';
-// import { getQueryParameters } from './../util';
+import { logAop } from './../util';
 const apiPrefix = process.env.VUE_APP_apiPrefix || '';
 
-const graphList = options => {
-//   const queryParameters = getQueryParameters(options);
+const graphList = () => {
 
-  const result = {
+  return {
     code: '0',
     msg: 'OK',
     data: {
@@ -103,13 +102,6 @@ const graphList = options => {
       ],
     },
   };
-
-  console.log('-----mock数据log start----');
-  console.log('请求入参：', options);
-  console.log('输出mock数据：', result);
-  console.log('-----mock数据log end----');
-
-  return result;
 };
 
-Mock.mock(new RegExp(`${apiPrefix}/demo/dataSource/column`), 'get', graphList);
+Mock.mock(new RegExp(`${apiPrefix}/demo/dataSource/column`), 'get', logAop(graphList));
