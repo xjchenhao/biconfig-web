@@ -47,7 +47,6 @@
       <a-select
         style="width:100%"
         v-model:value="graphType"
-        @change="changeGraphType"
       >
         <a-select-option value="">
           基础柱形图
