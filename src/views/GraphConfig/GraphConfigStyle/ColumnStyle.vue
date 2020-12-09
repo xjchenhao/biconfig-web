@@ -149,7 +149,7 @@ export default {
       this.form.marginRatio = formData.marginRatio;
 
       const isMultiColor = formData.isGroup || formData.isStack;
-      isMultiColor ? this.multiColor = formData.color : this.singleColor = formData.color;
+      isMultiColor ? this.multiColor = (formData.color || defaultTheme.itemMultiColor) : this.singleColor = (formData.color || defaultTheme.itemSingleColor);
 
       this.$nextTick(() => {
         this.handleUpdate();

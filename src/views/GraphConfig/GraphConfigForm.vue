@@ -373,9 +373,12 @@ export default {
     async changeGraphType() {
 
       await this.$store.dispatch('setRenderLock', true);
+      await this.$store.dispatch('setStyle', {});
+      await this.$store.dispatch('setOptsMeta', {});
+      await this.$store.dispatch('setOptsFieldMap', {});
 
       this.$refs.graphDataMapForm.initData({});
-      // this.$refs.graphStyleForm.initData({});
+      this.$refs.graphStyleForm.initData({});
       this.$refs.metaForm.initData({});
 
       await this.$store.dispatch('setRenderLock', false);

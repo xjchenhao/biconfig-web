@@ -7,6 +7,11 @@
 <script>
 export default {
 
+  methods: {
+    async initData() {
+      await this.$store.dispatch('setStyle', {});
+    },
+  },
 };
 </script>
 
