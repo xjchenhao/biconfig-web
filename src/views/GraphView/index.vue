@@ -51,6 +51,9 @@ export default {
       }
       return true;
     },
+    title() {
+      return this.$store.state.name;
+    },
     titleShowType() {
       return this.$store.state.titleShowType;
     },
@@ -63,12 +66,12 @@ export default {
     //   return await this.$store.dispatch('getGraphConfig');
     // },
   },
-  beforeCreate() {
-    document.querySelector('#biApp').classList.add('app-full');
-  },
-  beforeUnmount() {
-    document.querySelector('#biApp').classList.remove('app-full');
-  },
+  // beforeCreate() {
+  //   document.querySelector('#biApp').classList.add('app-full');
+  // },
+  // beforeUnmount() {
+  //   document.querySelector('#biApp').classList.remove('app-full');
+  // },
   async mounted() {
     const { id, uri: queryUri } = this.$route.query;
 

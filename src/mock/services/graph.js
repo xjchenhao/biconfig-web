@@ -51,7 +51,6 @@ const getDetail = () => {
         colorField: 'year',
         columnWidthRatio: 0.5,
         marginRatio: 0.5,
-        color: '#5694f5',
         meta: {},
       },
       timeFilterShowType: 0,
