@@ -34,6 +34,9 @@ export default {
       immediate: false,
     },
     '$store.state.data': async function() {
+      if (this.$store.state.isRenderLock) {
+        return;
+      }
       await this.initDefaultSetting();
     },
   },
