@@ -11,9 +11,9 @@ export default {
   name: 'GraphConfigChart',
   data() {
     return {
-      type: 'Column',
-      data: [],
-      opts: {},
+      // type: 'Column',
+      // data: [],
+      // opts: {},
       context: null,
     };
   },
@@ -23,50 +23,39 @@ export default {
     },
   },
   watch: {
-    '$store.state.isRenderLock': function(value) {
+    '$store.state.isRenderLock': async function(value) {
       if (!value) {
-        this.update();
+        await this.update();
       }
     },
-    '$store.state.data': function(value) {
-      this.data = value;
-      this.update();
+    '$store.state.data': async function() {
+      await this.update();
     },
-    '$store.state.setTimeFilterShowType': function(value) {
-      this.setTimeFilterShowType = value;
-      this.update();
-    },
-    '$store.state.setTitleShowType': function(value) {
-      this.setTitleShowType = value;
-      this.update();
-    },
-    '$store.state.type': async function(value) {
-      this.type = value;
-      this.update();
+    '$store.state.type': async function() {
+      await this.update();
     },
     '$store.state.opts': {
       async handler() {
-        this.opts = await this.$store.dispatch('getGraphConfig');
-        this.update();
+        await this.update();
       },
       deep: true,
       immediate: false,
     },
   },
   methods: {
-    update() {
+    async update() {
       if (this.isRenderLock) {
         return;
       }
-      this.destroy();
-      this.render();
+      await this.destroy();
+      await this.render();
     },
-    render() {
-      // eslint-disable-next-line no-alert
+    async render() {
       const graphConfigChartDom = this.$refs.GraphConfigChart;
-      const chartType = this.type;
-      const chartOpts = this.opts;
-      const chartData = this.data;
+
+      const chartType = this.$store.state.type;
+      const chartData = this.$store.state.data;
+      const chartOpts = await this.$store.dispatch('getGraphConfig');
 
       console.log('-----渲染图表信息log start----');
       console.log('图表类型：', chartType);

@@ -123,13 +123,11 @@ export default {
   methods: {
     async initDefaultSetting() {
       const data = this.$store.state.data;
-      await this.$store.dispatch('setRenderLock', true);
 
       this.formRef.xField = mapFindValueType(data[0], 'string');
       this.formRef.yField = mapFindValueType(data[0], 'number');
 
       this.handleUpdate();
-      await this.$store.dispatch('setRenderLock', false);
     },
   },
 

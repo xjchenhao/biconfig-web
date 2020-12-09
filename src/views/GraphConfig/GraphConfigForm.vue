@@ -268,12 +268,9 @@ export default {
   },
   watch: {
     formRef: {
-      handler(value) {
-        this.$store.dispatch('setBasicForm', value);
-        this.form = {
-          ...this.form,
-          ...value,
-        };
+      async handler(value) {
+        console.log('formRef:', value);
+        await this.$store.dispatch('setBasicForm', value);
       },
       deep: true,
       immediate: false,
@@ -357,7 +354,14 @@ export default {
     this.formRef.type = type;
     this.formRef.timeFilterShowType = timeFilterShowType;
     this.formRef.titleShowType = titleShowType;
-    this.form = attr;
+    await this.$store.dispatch('setBasicForm', {
+      name,
+      uri,
+      type,
+      timeFilterShowType,
+      titleShowType,
+      apiUrl,
+    });
 
     await this.getData();
     this.$nextTick(() => {
@@ -367,7 +371,6 @@ export default {
   },
   methods: {
     async changeGraphType() {
-      this.form = Object.assign({}, this.formRef);
 
       await this.$store.dispatch('setRenderLock', true);
 
@@ -405,10 +408,6 @@ export default {
     // 开关数据变动时，会触发它
     handleSwitchUpdate(type, value) {
       console.log(type, value);
-      this.form = {
-        ...this.form,
-        [type]: value,
-      };
     },
 
     // 跳转到查看页面

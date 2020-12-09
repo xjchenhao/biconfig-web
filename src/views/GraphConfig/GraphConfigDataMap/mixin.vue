@@ -37,13 +37,15 @@ export default {
       await this.initDefaultSetting();
     },
   },
-  async mounted() {
-    if (!this.$route.query.id && this.$store.state.data.length === 0) {
-      return;
-    }
+  // async mounted() {
+  //   if (!this.$route.query.id && this.$store.state.data.length === 0) {
+  //     return;
+  //   }
 
-    await this.initDefaultSetting();
-  },
+  //   // await this.$store.dispatch('setRenderLock', true);
+  //   await this.initDefaultSetting();
+  //   // await this.$store.dispatch('setRenderLock', false);
+  // },
   methods: {
     initData(formData) {
       Object.keys(this.formRef).forEach(key => {

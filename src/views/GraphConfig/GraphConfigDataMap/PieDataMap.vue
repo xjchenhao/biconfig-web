@@ -99,13 +99,11 @@ export default {
   methods: {
     async initDefaultSetting() {
       const data = this.$store.state.data;
-      await this.$store.dispatch('setRenderLock', true);
 
       this.formRef.colorField = mapFindValueType(data[0], 'string');
       this.formRef.angleField = mapFindValueType(data[0], 'number');
 
       this.handleUpdate();
-      await this.$store.dispatch('setRenderLock', false);
     },
   },
 };

@@ -80,6 +80,7 @@ export default createStore({
       };
     },
     setBasicForm({ commit }, { name, uri, type, timeFilterShowType, titleShowType, apiUrl }) {
+      console.log('typetypetypetypetypetypetype', type);
       commit('setName', name);
       commit('setUri', uri);
       commit('setApiUrl', apiUrl);
