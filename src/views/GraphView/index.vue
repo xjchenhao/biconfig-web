@@ -21,9 +21,6 @@
     <graph-config-chart
       :class="isInline?'chart_inline':'chart_view'"
       ref="chart"
-      :data="data"
-      :type="type"
-      :opts="opts"
     />
   </div>
 </template>
@@ -54,18 +51,6 @@ export default {
       }
       return true;
     },
-    api() {
-      return this.$store.state.apiUrl;
-    },
-    title() {
-      return this.$store.state.name;
-    },
-    data() {
-      return this.$store.state.data;
-    },
-    type() {
-      return this.$store.state.type;
-    },
     titleShowType() {
       return this.$store.state.titleShowType;
     },
@@ -74,9 +59,9 @@ export default {
     },
   },
   watch: {
-    async opts() {
-      return await this.$store.dispatch('getGraphConfig');
-    },
+    // async opts() {
+    //   return await this.$store.dispatch('getGraphConfig');
+    // },
   },
   beforeCreate() {
     document.querySelector('#biApp').classList.add('app-full');
@@ -85,14 +70,15 @@ export default {
     document.querySelector('#biApp').classList.remove('app-full');
   },
   async mounted() {
-    const { id, uri } = this.$route.query;
+    const { id, uri: queryUri } = this.$route.query;
 
+    await this.$store.dispatch('setRenderLock', true);
     const res = await this.request(getGraphView({
       id,
-      uri,
+      uri: queryUri,
     }));
 
-    const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
+    const { type, apiUrl, name, attr, timeFilterShowType, titleShowType, uri } = res.data;
 
     const graphData = await this.request({
       url: apiUrl,
@@ -108,15 +94,24 @@ export default {
       apiUrl,
     });
 
-    const optsFieldMap = {
-      xField: attr.xField,
-      yField: attr.yField,
-      isGroup: attr.isGroup,
-      isStack: attr.isStack,
-      isRange: attr.isRange,
-      isPercent: attr.isPercent,
-      seriesField: attr.seriesField,
-    };
+    let optsFieldMap = {};
+
+    if (type !== 'Pie') {
+      optsFieldMap = {
+        xField: attr.xField,
+        yField: attr.yField,
+        isGroup: attr.isGroup,
+        isStack: attr.isStack,
+        isRange: attr.isRange,
+        isPercent: attr.isPercent,
+        seriesField: attr.seriesField,
+      };
+    } else {
+      optsFieldMap = {
+        colorField: attr.colorField,
+        angleField: attr.angleField,
+      };
+    }
 
     Object.keys(optsFieldMap).forEach(key => {
       if (optsFieldMap[key] === undefined) {
@@ -124,27 +119,29 @@ export default {
       }
     });
 
-    this.$store.dispatch('setOptsMeta', attr.meta);
-    this.$store.dispatch('setStyle', attr.style);
-    this.$store.dispatch('setOptsFieldMap', optsFieldMap);
-    this.$store.dispatch('setData', Array.isArray(graphData.data) ? graphData.data : graphData.data.list);
+    await this.$store.dispatch('setOptsMeta', attr.meta);
+    await this.$store.dispatch('setStyle', attr.style);
+    await this.$store.dispatch('setOptsFieldMap', optsFieldMap);
+    await this.$store.dispatch('setData', Array.isArray(graphData.data) ? graphData.data : graphData.data.list);
 
     await this.getDataAndRender({
       startTime: dayjs().startOf().valueOf(),
       endTime: dayjs().endOf().valueOf(),
     });
+    await this.$store.dispatch('setRenderLock', false);
   },
   methods: {
     async getDataAndRender({ startTime, endTime }) {
 
       let { query } = this.$route.query;
+      const url = this.$store.state.apiUrl;
 
       if (!query) {
         query = '{}';
       }
 
       const graphData = await this.request({
-        url: this.api,
+        url,
         method: 'get',
         params: {
           startTime,
@@ -153,13 +150,7 @@ export default {
         },
       });
 
-      // this.data = graphData.data.list;
       this.$store.dispatch('setData', Array.isArray(graphData.data) ? graphData.data : graphData.data.list);
-
-      this.$nextTick(() => {
-        this.$refs.chart.destroy();
-        this.$refs.chart.render();
-      });
     },
     handleBack() {
       this.$router.push('/graph');
