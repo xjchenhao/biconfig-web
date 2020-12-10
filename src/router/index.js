@@ -8,6 +8,11 @@ const routes = [
     redirect: '/graph',
   },
   {
+    path: '/page',
+    name: 'Page',
+    component: () => import('../views/PageList'),
+  },
+  {
     path: '/graph',
     name: 'Graph',
     component: () => import('../views/GraphList'),

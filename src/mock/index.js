@@ -6,6 +6,7 @@ if (process.env.VUE_APP_isMock === 'true') {
   // 防止 vuex 中的 GetInfo 早于 mock 运行，导致无法 mock 请求返回结果
   const Mock = require('mockjs2');
   require('./services/graph');
+  require('./services/page');
   require('./services/dataSource');
 
   Mock.setup({
