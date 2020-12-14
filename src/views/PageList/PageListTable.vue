@@ -113,12 +113,12 @@ export default {
     handleView(item) {
       const { id: id } = item.record;
 
-      this.$router.push(`/graph/view?id=${id}`);
+      this.$router.push(`/page/view?id=${id}`);
     },
     handleUpdate(item) {
       const { id: id } = item.record;
 
-      this.$router.push(`/graph/config?id=${id}`);
+      this.$router.push(`/page/config?id=${id}`);
     },
     async handleConfirmDelete(item) {
 

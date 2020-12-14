@@ -13,6 +13,11 @@ const routes = [
     component: () => import('../views/PageList'),
   },
   {
+    path: '/page/config',
+    name: 'PageConfig',
+    component: () => import('../views/PageConfig'),
+  },
+  {
     path: '/graph',
     name: 'Graph',
     component: () => import('../views/GraphList'),
