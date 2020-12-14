@@ -5,7 +5,7 @@ console.log('NODE_ENV：', process.env.NODE_ENV);
 console.log('VUE_APP_isMock：', process.env.VUE_APP_isMock);
 console.log('VUE_APP_apiPrefix：', process.env.VUE_APP_apiPrefix);
 
-// import './public-path';
+import './public-path';
 import { createApp } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import App from './App.vue';

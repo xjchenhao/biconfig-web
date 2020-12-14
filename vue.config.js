@@ -1,20 +1,20 @@
 const path = require('path');
 const resolve = dir => path.join(__dirname, dir);
 const { name } = require('./package');
-const port = 8080; // dev port
-const dev = process.env.NODE_ENV === 'development';
+const devPort = 8080; // dev port
 
 const isPreview = process.env.VUE_APP_isMock === 'true';
 const apiPrefix = process.env.VUE_APP_apiPrefix || '';
 
 module.exports = {
-  publicPath: dev ? `//localhost:${port}` : '/',
+  outputDir: 'dist',
+  assetsDir: 'static',
   devServer: isPreview ? {
-    port: 8080,
+    port: devPort,
   } : {
     hot: true,
     disableHostCheck: true,
-    port,
+    port: devPort,
     overlay: {
       warnings: false,
       errors: true,
