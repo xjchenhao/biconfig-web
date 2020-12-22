@@ -21,8 +21,10 @@ let router = null;
 let instance = null;
 
 function render(props = {}) {
-  const { data, methods } = props;
+  const { data, methods, routerBase } = props;
+  console.log('999', (window.__POWERED_BY_QIANKUN__) ? routerBase : process.env.BASE_URL);
   router = createRouter({
+    base: (window.__POWERED_BY_QIANKUN__) ? routerBase : process.env.BASE_URL,
     history: createWebHashHistory(),
     routes,
   });
@@ -67,14 +69,15 @@ function storeTest(props) {
 
 export async function mount(props) {
   console.log('mount props：', props);
-  const methods = {};
+  const { data, methods } = props;
 
-  if (props.data.fns) {
-    props.data.fns.forEach(item => {
+  // 兼容老代码，后续删除之
+  if (data.fns) {
+    data.fns.forEach(item => {
       methods[item.name] = item;
     });
 
-    delete props.data.funs;
+    delete data.fns;
   }
 
 
