@@ -21,10 +21,8 @@ let router = null;
 let instance = null;
 
 function render(props = {}) {
-  const { data, methods, routerBase } = props;
-  console.log('999', (window.__POWERED_BY_QIANKUN__) ? routerBase : process.env.BASE_URL);
+  const { data, methods } = props;
   router = createRouter({
-    base: (window.__POWERED_BY_QIANKUN__) ? routerBase : process.env.BASE_URL,
     history: createWebHashHistory(),
     routes,
   });
