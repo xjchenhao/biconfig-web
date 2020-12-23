@@ -367,7 +367,9 @@ export default {
       this.$refs.graphStyleForm.initData(attr);
       this.$refs.metaForm.initData(attr);
 
-      this.$store.dispatch('setRenderLock', false);
+      this.$nextTick(() => {
+        this.$store.dispatch('setRenderLock', false);
+      });
     });
   },
   methods: {
