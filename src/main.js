@@ -5,7 +5,7 @@ console.log('NODE_ENV：', process.env.NODE_ENV);
 console.log('VUE_APP_isMock：', process.env.VUE_APP_isMock);
 console.log('VUE_APP_apiPrefix：', process.env.VUE_APP_apiPrefix);
 
-// import './public-path';
+import './public-path';
 import { createApp } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import App from './App.vue';
@@ -67,14 +67,15 @@ function storeTest(props) {
 
 export async function mount(props) {
   console.log('mount props：', props);
-  const methods = {};
+  const { data, methods } = props;
 
-  if (props.data.fns) {
-    props.data.fns.forEach(item => {
+  // 兼容老代码，后续删除之
+  if (data.fns) {
+    data.fns.forEach(item => {
       methods[item.name] = item;
     });
 
-    delete props.data.funs;
+    delete data.fns;
   }
 
 

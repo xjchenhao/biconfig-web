@@ -7,6 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "serve:mock": "vue-cli-service serve --mode mock",
+    "serve:haiguan": "vue-cli-service serve --mode haiguan",
+    "build:haiguan": "vue-cli-service build --mode haiguan",
     "lint:fix": "vue-cli-service lint --fix --ext .js,.vue src"
   },
   "dependencies": {
