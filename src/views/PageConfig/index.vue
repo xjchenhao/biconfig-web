@@ -13,7 +13,7 @@
       <a-layout-content
         class="main"
       >
-        123
+        <page-config-view />
       </a-layout-content>
       <a-layout-sider class="sider-right">
         34
@@ -25,6 +25,7 @@
 <script>
 import { PageHeader, Layout } from 'ant-design-vue';
 import PageConfigWidget from './PageConfigWidget';
+import PageConfigView from './PageConfigView';
 
 export default {
   name: 'PageConfig',
@@ -34,6 +35,7 @@ export default {
     aLayoutSider: Layout.sider,
     aLayoutContent: Layout.content,
     PageConfigWidget,
+    PageConfigView,
   },
   data() {
     return {
@@ -62,17 +64,17 @@ export default {
   flex-direction: row;
   background-color:#fff;
   height:100%;
+  .main,.sider-left,.sider-right{
+    height:calc(100% - 66px);
+    overflow-y: scroll;
+    box-sizing: border-box;
+  }
   .main{
     flex:1;
     align-items: flex-start;
     justify-content: flex-start;
     display: flex;
     flex-direction: column;
-  }
-  .sider-left,.sider-right{
-    height:calc(100% - 66px);
-    overflow: scroll;
-    box-sizing: border-box;
   }
   .sider-left{
     width:20%;

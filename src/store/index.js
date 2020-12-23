@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 
 import graph from './modules/graph';
+import page from './modules/page';
 
 // dynamic router permission control (Experimental)
 // import permission from './modules/async-router'
@@ -9,6 +10,7 @@ import getters from './getters';
 export default createStore({
   modules: {
     graph,
+    page,
   },
   // state: {
   //   isRenderLock: true,

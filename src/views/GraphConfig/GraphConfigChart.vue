@@ -11,9 +11,6 @@ export default {
   name: 'GraphConfigChart',
   data() {
     return {
-      // type: 'Column',
-      // data: [],
-      // opts: {},
       context: null,
     };
   },
