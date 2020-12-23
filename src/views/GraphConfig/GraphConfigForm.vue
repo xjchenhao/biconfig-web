@@ -344,16 +344,13 @@ export default {
 
     const { type, uri, apiUrl, name, timeFilterShowType, titleShowType, attr } = res.data;
 
-    this.$refs.graphDataMapForm.initData(attr);
-    this.$refs.graphStyleForm.initData(attr);
-    this.$refs.metaForm.initData(attr);
-
     this.formRef.name = name;
     this.formRef.uri = uri;
     this.formRef.apiUrl = apiUrl;
     this.formRef.type = type;
     this.formRef.timeFilterShowType = timeFilterShowType;
     this.formRef.titleShowType = titleShowType;
+
     await this.$store.dispatch('setBasicForm', {
       name,
       uri,
@@ -365,6 +362,10 @@ export default {
 
     await this.getData();
     this.$nextTick(() => {
+
+      this.$refs.graphDataMapForm.initData(attr);
+      this.$refs.graphStyleForm.initData(attr);
+      this.$refs.metaForm.initData(attr);
 
       this.$store.dispatch('setRenderLock', false);
     });
