@@ -270,7 +270,7 @@ export default {
     formRef: {
       async handler(value) {
         console.log('formRef:', value);
-        await this.$store.dispatch('setBasicForm', value);
+        await this.$store.dispatch('graph/setBasicForm', value);
       },
       deep: true,
       immediate: false,
@@ -332,11 +332,11 @@ export default {
   },
   async mounted() {
     if (!this.isModify) {
-      await this.$store.dispatch('setRenderLock', false);
+      await this.$store.dispatch('graph/setRenderLock', false);
 
       return;
     }
-    await this.$store.dispatch('setRenderLock', true);
+    await this.$store.dispatch('graph/setRenderLock', true);
 
     const res = await this.request(getGraphDetail({
       id: this.currentId,
@@ -351,7 +351,7 @@ export default {
     this.formRef.timeFilterShowType = timeFilterShowType;
     this.formRef.titleShowType = titleShowType;
 
-    await this.$store.dispatch('setBasicForm', {
+    await this.$store.dispatch('graph/setBasicForm', {
       name,
       uri,
       type,
@@ -368,23 +368,23 @@ export default {
       this.$refs.metaForm.initData(attr);
 
       this.$nextTick(() => {
-        this.$store.dispatch('setRenderLock', false);
+        this.$store.dispatch('graph/setRenderLock', false);
       });
     });
   },
   methods: {
     async changeGraphType() {
 
-      await this.$store.dispatch('setRenderLock', true);
-      await this.$store.dispatch('setStyle', {});
-      await this.$store.dispatch('setOptsMeta', {});
-      await this.$store.dispatch('setOptsFieldMap', {});
+      await this.$store.dispatch('graph/setRenderLock', true);
+      await this.$store.dispatch('graph/setStyle', {});
+      await this.$store.dispatch('graph/setOptsMeta', {});
+      await this.$store.dispatch('graph/setOptsFieldMap', {});
 
       this.$refs.graphDataMapForm.initData({});
       this.$refs.graphStyleForm.initData({});
       this.$refs.metaForm.initData({});
 
-      await this.$store.dispatch('setRenderLock', false);
+      await this.$store.dispatch('graph/setRenderLock', false);
     },
 
     // 获取数据
@@ -408,7 +408,7 @@ export default {
 
       const data = Array.isArray(res.data) ? res.data : res.data.list;
 
-      this.$store.dispatch('setData', data);
+      this.$store.dispatch('graph/setData', data);
     },
 
     // 开关数据变动时，会触发它
@@ -437,8 +437,8 @@ export default {
         return;
       }
 
-      const { name, uri, apiUrl, type, timeFilterShowType, titleShowType } = this.$store.state;
-      const attr = await this.$store.dispatch('getGraphConfig');
+      const { name, uri, apiUrl, type, timeFilterShowType, titleShowType } = this.$store.state.graph;
+      const attr = await this.$store.dispatch('graph/getGraphConfig');
 
       let res;
       if (this.isModify) {

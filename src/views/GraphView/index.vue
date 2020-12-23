@@ -52,18 +52,18 @@ export default {
       return true;
     },
     title() {
-      return this.$store.state.name;
+      return this.$store.state.graph.name;
     },
     titleShowType() {
-      return this.$store.state.titleShowType;
+      return this.$store.state.graph.titleShowType;
     },
     timeFilterShowType() {
-      return this.$store.state.timeFilterShowType;
+      return this.$store.state.graph.timeFilterShowType;
     },
   },
   watch: {
     // async opts() {
-    //   return await this.$store.dispatch('getGraphConfig');
+    //   return await this.$store.dispatch('graph/getGraphConfig');
     // },
   },
   // beforeCreate() {
@@ -75,7 +75,7 @@ export default {
   async mounted() {
     const { id, uri: queryUri } = this.$route.query;
 
-    await this.$store.dispatch('setRenderLock', true);
+    await this.$store.dispatch('graph/setRenderLock', true);
     const res = await this.request(getGraphView({
       id,
       uri: queryUri,
@@ -88,7 +88,7 @@ export default {
       method: 'get',
     });
 
-    this.$store.dispatch('setBasicForm', {
+    this.$store.dispatch('graph/setBasicForm', {
       name,
       uri,
       type,
@@ -122,22 +122,22 @@ export default {
       }
     });
 
-    await this.$store.dispatch('setOptsMeta', attr.meta);
-    await this.$store.dispatch('setStyle', attr.style);
-    await this.$store.dispatch('setOptsFieldMap', optsFieldMap);
-    await this.$store.dispatch('setData', Array.isArray(graphData.data) ? graphData.data : graphData.data.list);
+    await this.$store.dispatch('graph/setOptsMeta', attr.meta);
+    await this.$store.dispatch('graph/setStyle', attr.style);
+    await this.$store.dispatch('graph/setOptsFieldMap', optsFieldMap);
+    await this.$store.dispatch('graph/setData', Array.isArray(graphData.data) ? graphData.data : graphData.data.list);
 
     await this.getDataAndRender({
       startTime: dayjs().startOf().valueOf(),
       endTime: dayjs().endOf().valueOf(),
     });
-    await this.$store.dispatch('setRenderLock', false);
+    await this.$store.dispatch('graph/setRenderLock', false);
   },
   methods: {
     async getDataAndRender({ startTime, endTime }) {
 
       let { query } = this.$route.query;
-      const url = this.$store.state.apiUrl;
+      const url = this.$store.state.graph.apiUrl;
 
       if (!query) {
         query = '{}';
@@ -153,7 +153,7 @@ export default {
         },
       });
 
-      this.$store.dispatch('setData', Array.isArray(graphData.data) ? graphData.data : graphData.data.list);
+      this.$store.dispatch('graph/setData', Array.isArray(graphData.data) ? graphData.data : graphData.data.list);
     },
     handleBack() {
       this.$router.push('/graph');

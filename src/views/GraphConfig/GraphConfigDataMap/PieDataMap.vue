@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     async initDefaultSetting() {
-      const data = this.$store.state.data;
+      const data = this.$store.state.graph.data;
 
       this.formRef.colorField = mapFindValueType(data[0], 'string');
       this.formRef.angleField = mapFindValueType(data[0], 'number');

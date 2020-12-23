@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     formData() {
-      const { xField, yField, seriesField } = this.$store.state.opts.fieldMap;
+      const { xField, yField, seriesField } = this.$store.state.graph.opts.fieldMap;
       return {
         xField,
         yField,
@@ -136,7 +136,7 @@ export default {
       // this.$emit('update', {
       //   meta: this.itemData,
       // });
-      this.$store.dispatch('setOptsMeta', this.itemData);
+      this.$store.dispatch('graph/setOptsMeta', this.itemData);
     },
   },
 };

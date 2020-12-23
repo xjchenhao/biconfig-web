@@ -16,13 +16,13 @@ export default {
   },
   computed: {
     fieldList() {
-      const data = this.$store.state.data;
+      const data = this.$store.state.graph.data;
       const isEmpty = data === undefined || data.length === 0;
 
       return isEmpty ? [] : Object.keys(data[0]);
     },
     data() {
-      return this.$store.state.data;
+      return this.$store.state.graph.data;
     },
   },
   watch: {
@@ -33,21 +33,21 @@ export default {
       deep: true,
       immediate: false,
     },
-    '$store.state.data': async function() {
-      if (this.$store.state.isRenderLock) {
+    '$store.state.graph.data': async function() {
+      if (this.$store.state.graph.isRenderLock) {
         return;
       }
       await this.initDefaultSetting();
     },
   },
   // async mounted() {
-  //   if (!this.$route.query.id && this.$store.state.data.length === 0) {
+  //   if (!this.$route.query.id && this.$store.state.graph.data.length === 0) {
   //     return;
   //   }
 
-  //   // await this.$store.dispatch('setRenderLock', true);
+  //   // await this.$store.dispatch('graph/setRenderLock', true);
   //   await this.initDefaultSetting();
-  //   // await this.$store.dispatch('setRenderLock', false);
+  //   // await this.$store.dispatch('graph/setRenderLock', false);
   // },
   methods: {
     initData(formData) {
@@ -56,7 +56,7 @@ export default {
       });
     },
     handleUpdate() {
-      this.$store.dispatch('setOptsFieldMap', this.formRef);
+      this.$store.dispatch('graph/setOptsFieldMap', this.formRef);
     },
   },
 

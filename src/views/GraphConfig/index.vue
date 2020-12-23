@@ -56,22 +56,22 @@ export default {
     };
   },
   watch: {
-    '$store.state.isRenderLock': function(value) {
+    '$store.state.graph.isRenderLock': function(value) {
       if (!value) {
-        const { name, timeFilterShowType, titleShowType } = this.$store.state;
+        const { name, timeFilterShowType, titleShowType } = this.$store.state.graph;
 
         this.title = name;
         this.isShowTimeFilter = !!timeFilterShowType;
         this.isShowTitle = !!titleShowType;
       }
     },
-    '$store.state.name': function(value) {
+    '$store.state.graph.name': function(value) {
       this.title = value;
     },
-    '$store.state.timeFilterShowType': function(value) {
+    '$store.state.graph.timeFilterShowType': function(value) {
       this.isShowTimeFilter = !!value;
     },
-    '$store.state.titleShowType': function(value) {
+    '$store.state.graph.titleShowType': function(value) {
       this.isShowTitle = !!value;
     },
   },

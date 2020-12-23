@@ -1,6 +1,7 @@
+const namespaced = 'graph';
 
 const graph = {
-  namespaced: false,
+  namespaced: !!namespaced,
   state: {
     isRenderLock: true,
     data: [],
@@ -62,7 +63,7 @@ const graph = {
   },
   actions: {
     getBasicForm() {
-      const { name, uri, type, apiUrl, timeFilterShowType, titleShowType } = this.state;
+      const { name, uri, type, apiUrl, timeFilterShowType, titleShowType } = namespaced ? this.state[namespaced] : this.state;
 
       return {
         name,
@@ -97,7 +98,7 @@ const graph = {
       commit('setRenderLock', value);
     },
     getGraphConfig() {
-      const { opts } = this.state;
+      const { opts } = namespaced ? this.state[namespaced] : this.state;
       return {
         ...opts.fieldMap,
         ...opts.style,

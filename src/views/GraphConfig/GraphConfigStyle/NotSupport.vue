@@ -9,7 +9,7 @@ export default {
 
   methods: {
     async initData() {
-      await this.$store.dispatch('setStyle', {});
+      await this.$store.dispatch('graph/setStyle', {});
     },
   },
 };

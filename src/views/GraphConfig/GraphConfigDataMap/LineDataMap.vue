@@ -122,7 +122,7 @@ export default {
   },
   methods: {
     async initDefaultSetting() {
-      const data = this.$store.state.data;
+      const data = this.$store.state.graph.data;
 
       this.formRef.xField = mapFindValueType(data[0], 'string');
       this.formRef.yField = mapFindValueType(data[0], 'number');

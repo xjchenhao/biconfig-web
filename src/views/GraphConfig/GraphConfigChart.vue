@@ -19,22 +19,22 @@ export default {
   },
   computed: {
     isRenderLock() {
-      return this.$store.state.isRenderLock;
+      return this.$store.state.graph.isRenderLock;
     },
   },
   watch: {
-    '$store.state.isRenderLock': async function(value) {
+    '$store.state.graph.isRenderLock': async function(value) {
       if (!value) {
         await this.update();
       }
     },
-    '$store.state.data': async function() {
+    '$store.state.graph.data': async function() {
       await this.update();
     },
-    '$store.state.type': async function() {
+    '$store.state.graph.type': async function() {
       await this.update();
     },
-    '$store.state.opts': {
+    '$store.state.graph.opts': {
       async handler() {
         await this.update();
       },
@@ -53,9 +53,9 @@ export default {
     async render() {
       const graphConfigChartDom = this.$refs.GraphConfigChart;
 
-      const chartType = this.$store.state.type;
-      const chartData = this.$store.state.data;
-      const chartOpts = await this.$store.dispatch('getGraphConfig');
+      const chartType = this.$store.state.graph.type;
+      const chartData = this.$store.state.graph.data;
+      const chartOpts = await this.$store.dispatch('graph/getGraphConfig');
 
       console.log('-----渲染图表信息log start----');
       console.log('图表类型：', chartType);

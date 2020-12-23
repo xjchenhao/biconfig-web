@@ -95,7 +95,7 @@ export default {
   },
   computed: {
     formData() {
-      const { isGroup, isStack } = this.$store.state.opts.fieldMap;
+      const { isGroup, isStack } = this.$store.state.graph.opts.fieldMap;
       return {
         isGroup,
         isStack,
@@ -187,7 +187,7 @@ export default {
       };
 
       // this.$emit('update', data);
-      this.$store.dispatch('setStyle', data);
+      this.$store.dispatch('graph/setStyle', data);
     },
   },
 
