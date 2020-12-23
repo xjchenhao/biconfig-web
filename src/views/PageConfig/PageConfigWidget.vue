@@ -24,7 +24,7 @@ export default {
     justify-content: center;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 15px;
     box-sizing: border-box;
     .small,.medium,.large{
         position:relative;

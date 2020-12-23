@@ -70,15 +70,16 @@ export default {
     flex-direction: column;
   }
   .sider-left,.sider-right{
-    width:25%;
     height:calc(100% - 66px);
     overflow: scroll;
     box-sizing: border-box;
   }
   .sider-left{
+    width:20%;
     border-right:1px solid rgb(235, 237, 240);
   }
   .sider-right{
+    width:30%;
     border-left:1px solid rgb(235, 237, 240);
   }
 }
