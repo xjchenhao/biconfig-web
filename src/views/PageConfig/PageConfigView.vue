@@ -6,8 +6,14 @@
       :class="item.size"
     >
       <div>
-        <p>标识：{{ item.uri }}</p>
-        <p>类型：{{ item.type }}</p>
+        <div v-if="item.uri">
+          <p><b>已设置</b></p>
+          <p><small>关联图形：{{ item.uri }}</small></p>
+        </div>
+        <div v-else>
+          <p><b>未设置</b></p>
+          <p><small>点我进行设置</small></p>
+        </div>
         <div
           class="deleteChartBtn"
           title="删除该图形"

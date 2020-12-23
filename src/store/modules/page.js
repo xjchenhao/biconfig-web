@@ -5,7 +5,7 @@ const page = {
   state: {
     isRenderLock: true,
     graphList: [{
-      uri: 'test2',
+      uri: '',
       sort: 0,
       size: 'small',
     }, {

@@ -16,7 +16,7 @@
         <page-config-view />
       </a-layout-content>
       <a-layout-sider class="sider-right">
-        34
+        <PageConfigForm />
       </a-layout-sider>
     </a-layout>
   </div>
@@ -26,6 +26,7 @@
 import { PageHeader, Layout } from 'ant-design-vue';
 import PageConfigWidget from './PageConfigWidget';
 import PageConfigView from './PageConfigView';
+import PageConfigForm from './PageConfigForm';
 
 export default {
   name: 'PageConfig',
@@ -36,6 +37,7 @@ export default {
     aLayoutContent: Layout.content,
     PageConfigWidget,
     PageConfigView,
+    PageConfigForm,
   },
   data() {
     return {
