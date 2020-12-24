@@ -13,11 +13,11 @@
           @change="changeGraphType"
         >
           <a-select-option
-            :key="value"
-            :value="value"
-            v-for="value in uriList"
+            :key="item.uri"
+            :value="item.uri"
+            v-for="item in allGraphList"
           >
-            {{ value }}
+            {{ item.uri }}
           </a-select-option>
         </a-select>
       </a-form-item>
@@ -38,6 +38,8 @@
 
 <script>
 import { Form, Button, Select } from 'ant-design-vue';
+import request from '@/utils/request';
+import { getList as getGraphList } from '@/api/graph';
 export default {
   components: {
     aForm: Form,
@@ -51,10 +53,29 @@ export default {
       data: {
         uri: '',
       },
-      uriList: [
-        1, 3,
-      ],
+      allGraphList: [],
     };
+  },
+  computed: {
+    request() {
+      return this.$root.request || request;
+    },
+  },
+
+  async mounted() {
+    await this.getGraphList();
+  },
+  methods: {
+    async getGraphList() {
+      const res = await this.request(getGraphList());
+
+      if (Number(res.code) < 0) {
+        console.error(res.msg);
+        return;
+      }
+
+      this.allGraphList = res.data.list;
+    },
   },
 };
 </script>

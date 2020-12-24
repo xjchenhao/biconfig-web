@@ -21,8 +21,14 @@ const page = {
       sort: 0,
       size: 'large',
     }],
+    configForm: {
+      uri: '',
+    },
   },
   mutations: {
+    setConfigForm: (state, value) => {
+      state.configForm = value;
+    },
     setGraphList: (state, value) => {
       state.graphList = value;
     },
@@ -31,6 +37,9 @@ const page = {
     },
   },
   actions: {
+    setConfigForm({ commit }, value) {
+      commit('setConfigForm', value);
+    },
     setRenderLock({ commit }, value) {
       commit('setRenderLock', value);
     },
