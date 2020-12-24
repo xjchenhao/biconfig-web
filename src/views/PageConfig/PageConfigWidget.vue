@@ -1,14 +1,37 @@
 <template>
   <div class="pageConfigWidget">
-    <div class="small" />
-    <div class="medium" />
-    <div class="large" />
+    <div
+      class="small"
+      @click="addGraphContainer('small')"
+    />
+    <div
+      class="medium"
+      @click="addGraphContainer('medium')"
+    />
+    <div
+      class="large"
+      @click="addGraphContainer('large')"
+    />
   </div>
 </template>
 
 <script>
+import notification from 'ant-design-vue/es/notification';
 export default {
   name: 'PageConfigWidget',
+  methods: {
+    addGraphContainer(size) {
+      const isNotSet = this.$store.state.page.graphList.find(item => { return item.uri === ''; });
+      if (isNotSet) {
+        notification.warning({
+          message: '请给已添加的组件关联图表',
+        //   description: '请给已添加的组件关联图表',
+        });
+        return;
+      }
+      this.$store.dispatch('page/addGraph', { size });
+    },
+  },
 };
 </script>
 

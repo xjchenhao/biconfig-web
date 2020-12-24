@@ -1,11 +1,12 @@
 <template>
   <div class="PageConfigView">
     <div
-      v-for="(item,index) in dataList"
+      v-for="(item,index) in graphList"
+      @click="handleSelect(index)"
       :key="item.uri"
-      :class="item.size"
+      :class="[item.size,{active:current===index}]"
     >
-      <div>
+      <div class="content">
         <div v-if="item.uri">
           <p><b>已设置</b></p>
           <p><small>关联图形：{{ item.uri }}</small></p>
@@ -17,7 +18,7 @@
         <div
           class="deleteChartBtn"
           title="删除该图形"
-          @click="deleteChart(item,index)"
+          @click.stop="handleDeleteChart(item,index)"
         >
           <CloseOutlined />
         </div>
@@ -59,7 +60,7 @@
 // import PageConfigViewChart from './PageConfigViewChart';
 // import GraphConfigChartFilter from './../GraphConfig/GraphConfigChartFilter';
 import request from '@/utils/request';
-import { getView as getGraphView } from '@/api/graph';
+// import { getView as getGraphView } from '@/api/graph';
 import { CloseOutlined } from '@ant-design/icons-vue';
 
 export default {
@@ -72,6 +73,7 @@ export default {
   data() {
     return {
       dataList: [],
+      current: '',
     };
   },
   computed: {
@@ -82,87 +84,91 @@ export default {
       return this.$store.state.page.graphList;
     },
   },
-  watch: {
-    '$store.state.page.graphList': async function(newVal, oldVal) {
-      if (newVal.length < oldVal.length) {
-        return;
-      }
-      await this.getDataList(newVal);
-    },
-  },
+  // watch: {
+  //   '$store.state.page.graphList': async function(newVal, oldVal) {
+  //     if (newVal.length < oldVal.length) {
+  //       return;
+  //     }
+  //     await this.getDataList(newVal);
+  //   },
+  // },
   async mounted() {
-    await this.getDataList(this.graphList);
+    // await this.getDataList(this.graphList);
   },
   methods: {
-    deleteChart({ uri }, index) {
+    handleDeleteChart({ uri }, index) {
+      this.current = '';
       this.dataList.splice(index, 1);
       this.$store.dispatch('page/deleteGraph', uri);
     },
-    async getDataList(graphList) {
-      const result = [];
-      for (let i = 0, l = graphList.length; i < l; i++) {
-        const item = graphList[i];
-
-        const res = await this.request(getGraphView({
-          id: item.id,
-          uri: item.uri,
-        }));
-
-        const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
-
-        const graphData = await this.request({
-          url: apiUrl,
-          method: 'get',
-        });
-
-        let optsFieldMap = {};
-
-        if (type !== 'Pie') {
-          optsFieldMap = {
-            xField: attr.xField,
-            yField: attr.yField,
-            isGroup: attr.isGroup,
-            isStack: attr.isStack,
-            isRange: attr.isRange,
-            isPercent: attr.isPercent,
-            seriesField: attr.seriesField,
-          };
-        } else {
-          optsFieldMap = {
-            colorField: attr.colorField,
-            angleField: attr.angleField,
-          };
-        }
-
-        Object.keys(optsFieldMap).forEach(key => {
-          if (optsFieldMap[key] === undefined) {
-            delete optsFieldMap[type];
-          }
-        });
-
-        console.log(998877);
-        result.push({
-          size: item.size,
-          name,
-          uri: item.uri,
-          type,
-          timeFilterShowType,
-          titleShowType,
-          apiUrl,
-          data: Array.isArray(graphData.data) ? graphData.data : graphData.data.list,
-          opts: {
-            ...optsFieldMap,
-            meta: attr.meta,
-            style: attr.style,
-          },
-        });
-
-      }
-      //   await graphList.forEach(async item => {});
-
-      console.log(result);
-      this.dataList = result;
+    handleSelect(index) {
+      this.current = index;
     },
+    // async getDataList(graphList) {
+    //   const result = [];
+    //   for (let i = 0, l = graphList.length; i < l; i++) {
+    //     const item = graphList[i];
+
+    //     const res = await this.request(getGraphView({
+    //       id: item.id,
+    //       uri: item.uri,
+    //     }));
+
+    //     const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
+
+    //     const graphData = await this.request({
+    //       url: apiUrl,
+    //       method: 'get',
+    //     });
+
+    //     let optsFieldMap = {};
+
+    //     if (type !== 'Pie') {
+    //       optsFieldMap = {
+    //         xField: attr.xField,
+    //         yField: attr.yField,
+    //         isGroup: attr.isGroup,
+    //         isStack: attr.isStack,
+    //         isRange: attr.isRange,
+    //         isPercent: attr.isPercent,
+    //         seriesField: attr.seriesField,
+    //       };
+    //     } else {
+    //       optsFieldMap = {
+    //         colorField: attr.colorField,
+    //         angleField: attr.angleField,
+    //       };
+    //     }
+
+    //     Object.keys(optsFieldMap).forEach(key => {
+    //       if (optsFieldMap[key] === undefined) {
+    //         delete optsFieldMap[type];
+    //       }
+    //     });
+
+    //     console.log(998877);
+    //     result.push({
+    //       size: item.size,
+    //       name,
+    //       uri: item.uri,
+    //       type,
+    //       timeFilterShowType,
+    //       titleShowType,
+    //       apiUrl,
+    //       data: Array.isArray(graphData.data) ? graphData.data : graphData.data.list,
+    //       opts: {
+    //         ...optsFieldMap,
+    //         meta: attr.meta,
+    //         style: attr.style,
+    //       },
+    //     });
+
+    //   }
+    //   //   await graphList.forEach(async item => {});
+
+    //   console.log(result);
+    //   this.dataList = result;
+    // },
   },
 };
 </script>
@@ -177,6 +183,7 @@ export default {
     flex-wrap:wrap;
     box-sizing: border-box;
     justify-content:space-between;
+    flex-basis: 0;
     padding:15px;
     .header{
         border-bottom: 1px solid rgb(235, 237, 240)
@@ -199,12 +206,16 @@ export default {
 
     .small,.medium,.large{
         position: relative;
+        display:inline-block;
         border-radius: 10px;
         margin-bottom: 10px;
         color:#fff;
         cursor: pointer;
         overflow: hidden;
-        &>div{
+        &.active{
+          border: 5px solid #fb5e5e;
+        }
+        .content{
             position: absolute;
             left:0;
             top:0;
@@ -241,6 +252,10 @@ export default {
         padding-bottom:calc(50% - 5px);
         background-color: #bab5d4;
         font-size:24px;
+        &.active{
+          width:calc(50% - 10px);
+          padding-bottom:calc(50% - 10px);
+        }
     }
     .medium{
         width: 100%;

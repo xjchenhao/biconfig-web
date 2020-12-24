@@ -37,12 +37,13 @@ const page = {
     setGraphList({ commit }, value) {
       commit('setGraphList', value);
     },
-    addGraph({ commit }, { uri, sort }) {
+    addGraph({ commit }, { uri = '', size, sort = 0 }) {
       const { graphList } = namespaced ? this.state[namespaced] : this.state;
 
-      graphList.push({ uri, sort });
+      const result = [ ...graphList ];
+      result.push({ uri, sort, size });
 
-      commit('setGraphList', graphList);
+      commit('setGraphList', result);
     },
     deleteGraph({ commit }, uri) {
       const { graphList } = namespaced ? this.state[namespaced] : this.state;
