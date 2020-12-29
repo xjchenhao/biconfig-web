@@ -1,28 +1,32 @@
 <template>
-  <div class="PageConfigView">
-    <div
-      v-for="(item,index) in graphList"
-      @click="handleSelect(index)"
-      :key="item.uri"
-      :class="[item.size,{active:current===index}]"
-    >
-      <div class="content">
-        <div v-if="item.uri">
-          <p><b>已设置</b></p>
-          <p><small>关联图形：{{ item.uri }}</small></p>
+  <div
+    class="PageConfigView"
+    :class="{empty:!graphList.length}"
+  >
+    <template v-if="graphList.length">
+      <div
+        v-for="(item,index) in graphList"
+        @click="handleSelect(index)"
+        :key="item.uri"
+        :class="[item.size,{active:current===index}]"
+      >
+        <div class="content">
+          <div v-if="item.uri">
+            <p><b>已设置</b></p>
+            <p><small>关联图形：{{ item.uri }}</small></p>
+          </div>
+          <div v-else>
+            <p><b>未设置</b></p>
+            <p><small>点我进行设置</small></p>
+          </div>
+          <div
+            class="deleteChartBtn"
+            title="删除该图形"
+            @click.stop="handleDeleteChart(item,index)"
+          >
+            <CloseOutlined />
+          </div>
         </div>
-        <div v-else>
-          <p><b>未设置</b></p>
-          <p><small>点我进行设置</small></p>
-        </div>
-        <div
-          class="deleteChartBtn"
-          title="删除该图形"
-          @click.stop="handleDeleteChart(item,index)"
-        >
-          <CloseOutlined />
-        </div>
-      </div>
       <!-- <div>
         <h1
           v-if="item.titleShowType===1"
@@ -42,7 +46,11 @@
           :opts="item.opts"
         />
       </div> -->
-    </div>
+      </div>
+    </template>
+    <template v-else>
+      <a-empty description="请点击左侧小组件添加图形组件进行配置" />
+    </template>
     <!-- <div
       v-for="item in dataList"
       :key="item.uri"
@@ -61,6 +69,7 @@
 // import GraphConfigChartFilter from './../GraphConfig/GraphConfigChartFilter';
 import request from '@/utils/request';
 // import { getView as getGraphView } from '@/api/graph';
+import { Empty } from 'ant-design-vue';
 import { CloseOutlined } from '@ant-design/icons-vue';
 
 export default {
@@ -69,14 +78,18 @@ export default {
     // PageConfigViewChart,
     // GraphConfigChartFilter,
     CloseOutlined,
+    aEmpty: Empty,
   },
   data() {
     return {
       dataList: [],
-      current: '',
+      // current: '',
     };
   },
   computed: {
+    current() {
+      return this.$store.state.page.currentIndex;
+    },
     request() {
       return this.$root.request || request;
     },
@@ -97,13 +110,13 @@ export default {
   },
   methods: {
     handleDeleteChart({ uri }, index) {
-      this.current = '';
+      // this.current = '';
       this.dataList.splice(index, 1);
       this.$store.dispatch('page/deleteGraph', uri);
       this.$store.dispatch('page/setCurrentIndex', '');
     },
     handleSelect(index) {
-      this.current = index;
+      // this.current = index;
       this.$store.dispatch('page/setCurrentIndex', index);
     },
     // async getDataList(graphList) {
@@ -187,6 +200,11 @@ export default {
     justify-content:space-between;
     flex-basis: 0;
     padding:15px;
+    &.empty{
+      justify-content: center;
+      align-items: center;
+      flex-basis: auto;
+    }
     .header{
         border-bottom: 1px solid rgb(235, 237, 240)
     }

@@ -35,7 +35,6 @@ const page = {
       state.graphList = value;
     },
     setGraphItem: (state, { index, value }) => {
-      console.log('7777', value);
       state.graphList.splice(index, 1, value);
     },
     setRenderLock: (state, value) => {
@@ -70,14 +69,19 @@ const page = {
     },
     addGraph({ commit }, { uri = '', size, sort = 0 }) {
       const { graphList } = namespaced ? this.state[namespaced] : this.state;
+      const graphListLength = graphList.length;
 
       const result = [ ...graphList ];
       result.push({ uri, sort, size });
 
+      console.log(graphListLength);
+
       commit('setGraphList', result);
+      commit('setCurrentIndex', graphListLength);
     },
     deleteGraph({ commit }, uri) {
       const { graphList } = namespaced ? this.state[namespaced] : this.state;
+      const graphListLength = graphList.length;
 
       const index = graphList.findIndex(item => {
         return item.uri === uri;
@@ -88,6 +92,10 @@ const page = {
       result.splice(index, 1);
 
       commit('setGraphList', result);
+
+      if (graphListLength === 0) {
+        commit('setCurrentIndex', '');
+      }
     },
   },
 };
