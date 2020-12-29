@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="pageConfigChart"
+    ref="viewChart"
   />
 </template>
 
@@ -8,7 +8,7 @@
 const G2plot = require('@antv/g2plot');
 
 export default {
-  name: 'PageConfigChart',
+  name: 'ViewChart',
   data() {
     return {
       context: null,
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     render() {
-      const pageConfigChartDom = this.$refs.pageConfigChart;
+      const viewChartDom = this.$refs.viewChart;
 
       const chartUri = this.uri;
       const chartType = this.type;
@@ -59,7 +59,7 @@ export default {
       console.log('图表参数：', JSON.stringify(chartOpts));
       console.log('-----渲染图表信息log end----');
 
-      const context = new G2plot[chartType](pageConfigChartDom, {
+      const context = new G2plot[chartType](viewChartDom, {
         data: chartData,
         ...chartOpts,
       });

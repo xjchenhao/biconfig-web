@@ -5,7 +5,13 @@
       title="页面配置"
       sub-title="页面展示配置"
       @back="handleBack"
-    />
+    >
+      <template #extra>
+        <a-button @click="previewVisible=true">
+          <aEyeOutlined />&nbsp;预览
+        </a-button>
+      </template>
+    </a-page-header>
     <a-layout class="pageConfig-layout">
       <a-layout-sider class="sider-left">
         <page-config-widget />
@@ -20,13 +26,43 @@
       </a-layout-sider>
     </a-layout>
   </div>
+  <a-drawer
+    placement="right"
+    width="100%"
+    :closable="false"
+    :visible="previewVisible"
+    :after-visible-change="afterVisibleChange"
+  >
+    <template #title>
+      <a-row
+        justify="space-between"
+        align="middle"
+      >
+        <a-col :span="8">
+          页面预览
+        </a-col>
+        <a-col
+          :span="8"
+          style="text-align:right"
+        >
+          <a-button @click="previewVisible=false">
+            <aEyeInvisibleOutlined />&nbsp;配置
+          </a-button>
+        </a-col>
+      </a-row>
+    </template>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+  </a-drawer>
 </template>
 
 <script>
-import { PageHeader, Layout } from 'ant-design-vue';
+import { PageHeader, Layout, Button, Drawer, Row, Col } from 'ant-design-vue';
 import PageConfigWidget from './PageConfigWidget';
 import PageConfigView from './PageConfigView';
 import PageConfigForm from './PageConfigForm';
+import { EyeInvisibleOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'PageConfig',
@@ -35,13 +71,18 @@ export default {
     aLayout: Layout,
     aLayoutSider: Layout.sider,
     aLayoutContent: Layout.content,
+    aButton: Button,
+    aDrawer: Drawer,
+    aRow: Row,
+    aCol: Col,
+    aEyeInvisibleOutlined: EyeInvisibleOutlined,
     PageConfigWidget,
     PageConfigView,
     PageConfigForm,
   },
   data() {
     return {
-
+      previewVisible: false,
     };
   },
   watch: {
