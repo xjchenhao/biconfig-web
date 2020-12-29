@@ -95,7 +95,6 @@ export default {
       this.allGraphList = res.data.list;
     },
     async handleFormSubmit() {
-      console.log(this.formData);
       this.$store.dispatch('page/setGraphItem', {
         index: this.currentIndex,
         value: this.formData,

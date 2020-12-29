@@ -7,7 +7,7 @@
       @back="handleBack"
     >
       <template #extra>
-        <a-button @click="previewVisible=true">
+        <a-button @click="handleChangePreview(true)">
           <aEyeOutlined />&nbsp;预览
         </a-button>
       </template>
@@ -30,7 +30,7 @@
     placement="right"
     width="100%"
     :closable="false"
-    :visible="previewVisible"
+    :visible="isPreview"
     :after-visible-change="afterVisibleChange"
   >
     <template #title>
@@ -45,15 +45,13 @@
           :span="8"
           style="text-align:right"
         >
-          <a-button @click="previewVisible=false">
+          <a-button @click="handleChangePreview(false)">
             <aEyeInvisibleOutlined />&nbsp;配置
           </a-button>
         </a-col>
       </a-row>
     </template>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
+    <PageConfigPreview />
   </a-drawer>
 </template>
 
@@ -62,6 +60,7 @@ import { PageHeader, Layout, Button, Drawer, Row, Col } from 'ant-design-vue';
 import PageConfigWidget from './PageConfigWidget';
 import PageConfigView from './PageConfigView';
 import PageConfigForm from './PageConfigForm';
+import PageConfigPreview from './PageConfigPreview';
 import { EyeInvisibleOutlined } from '@ant-design/icons-vue';
 
 export default {
@@ -79,18 +78,19 @@ export default {
     PageConfigWidget,
     PageConfigView,
     PageConfigForm,
+    PageConfigPreview,
   },
-  data() {
-    return {
-      previewVisible: false,
-    };
-  },
-  watch: {
-
+  computed: {
+    isPreview() {
+      return this.$store.state.page.isPreview;
+    },
   },
   methods: {
     handleBack() {
       this.$router.push('/page');
+    },
+    handleChangePreview(value) {
+      this.$store.dispatch('page/setPreview', value);
     },
   },
 };

@@ -4,6 +4,7 @@ const page = {
   namespaced: !!namespaced,
   state: {
     isRenderLock: true,
+    isPreview: false,
     currentIndex: '',
     // currentConfig: null,
     graphList: [{
@@ -23,6 +24,7 @@ const page = {
       sort: 0,
       size: 'large',
     }],
+    graphPreviewData: [],
   },
   mutations: {
     // setCurrentConfig: (state, value) => {
@@ -40,8 +42,14 @@ const page = {
     setRenderLock: (state, value) => {
       state.isRenderLock = value;
     },
+    setPreview: (state, value) => {
+      state.isPreview = value;
+    },
   },
   actions: {
+    setPreview({ commit }, value) {
+      commit('setPreview', value);
+    },
     setCurrentIndex({ commit }, value) {
       // const { graphList } = namespaced ? this.state[namespaced] : this.state;
 
