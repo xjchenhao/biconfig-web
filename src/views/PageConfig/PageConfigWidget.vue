@@ -24,8 +24,8 @@ export default {
       const isNotSet = this.$store.state.page.graphList.find(item => { return item.uri === ''; });
       if (isNotSet) {
         notification.warning({
-          message: '请给已添加的组件关联图表',
-        //   description: '请给已添加的组件关联图表',
+          message: '请给已添加的组件进行设置',
+        //   description: '请给已添加的组件进行设置',
         });
         return;
       }
