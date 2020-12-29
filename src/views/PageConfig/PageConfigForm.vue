@@ -1,7 +1,11 @@
 <template>
   <div class="PageConfigForm">
+    <div v-if="currentIndex===''">
+      请选择组件
+    </div>
     <a-form
       layout="vertical"
+      v-else
     >
       <a-form-item
         class="graphConfigForm-form-item"
@@ -9,8 +13,7 @@
       >
         <a-select
           style="width:100%"
-          v-model:value="data.uri"
-          @change="changeGraphType"
+          v-model:value="formData.uri"
         >
           <a-select-option
             :key="item.uri"
@@ -50,15 +53,28 @@ export default {
   },
   data() {
     return {
-      data: {
+      allGraphList: [],
+      formData: {
         uri: '',
       },
-      allGraphList: [],
     };
   },
   computed: {
     request() {
       return this.$root.request || request;
+    },
+    currentIndex() {
+      return this.$store.state.page.currentIndex;
+    },
+  },
+  watch: {
+    currentIndex: {
+      handler() {
+        const { graphList, currentIndex } = this.$store.state.page;
+
+        this.formData = graphList[currentIndex];
+      },
+      immediate: false,
     },
   },
 
@@ -75,6 +91,13 @@ export default {
       }
 
       this.allGraphList = res.data.list;
+    },
+    async handleFormSubmit() {
+      console.log(this.formData);
+      this.$store.dispatch('page/setGraphItem', {
+        index: this.currentIndex,
+        value: this.formData,
+      });
     },
   },
 };

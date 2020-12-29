@@ -100,9 +100,11 @@ export default {
       this.current = '';
       this.dataList.splice(index, 1);
       this.$store.dispatch('page/deleteGraph', uri);
+      this.$store.dispatch('page/setCurrentIndex', '');
     },
     handleSelect(index) {
       this.current = index;
+      this.$store.dispatch('page/setCurrentIndex', index);
     },
     // async getDataList(graphList) {
     //   const result = [];

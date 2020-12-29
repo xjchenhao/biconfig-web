@@ -4,8 +4,10 @@ const page = {
   namespaced: !!namespaced,
   state: {
     isRenderLock: true,
+    currentIndex: '',
+    // currentConfig: null,
     graphList: [{
-      uri: '',
+      uri: 'test0',
       sort: 0,
       size: 'small',
     }, {
@@ -21,30 +23,50 @@ const page = {
       sort: 0,
       size: 'large',
     }],
-    configForm: {
-      uri: '',
-    },
   },
   mutations: {
-    setConfigForm: (state, value) => {
-      state.configForm = value;
+    // setCurrentConfig: (state, value) => {
+    //   state.currentConfig = value;
+    // },
+    setCurrentIndex: (state, value) => {
+      state.currentIndex = value;
     },
     setGraphList: (state, value) => {
       state.graphList = value;
+    },
+    setGraphItem: (state, { index, value }) => {
+      console.log('7777', value);
+      state.graphList.splice(index, 1, value);
     },
     setRenderLock: (state, value) => {
       state.isRenderLock = value;
     },
   },
   actions: {
-    setConfigForm({ commit }, value) {
-      commit('setConfigForm', value);
+    setCurrentIndex({ commit }, value) {
+      // const { graphList } = namespaced ? this.state[namespaced] : this.state;
+
+      commit('setCurrentIndex', value);
+      // commit('setCurrentConfig', graphList[value]);
     },
     setRenderLock({ commit }, value) {
       commit('setRenderLock', value);
     },
     setGraphList({ commit }, value) {
       commit('setGraphList', value);
+    },
+    setGraphItem({ commit }, { index, value: { uri } }) {
+      const { graphList } = namespaced ? this.state[namespaced] : this.state;
+      const itemData = graphList[index];
+      console.log(uri);
+
+      commit('setGraphItem', {
+        index,
+        value: {
+          ...itemData,
+          uri,
+        },
+      });
     },
     addGraph({ commit }, { uri = '', size, sort = 0 }) {
       const { graphList } = namespaced ? this.state[namespaced] : this.state;
