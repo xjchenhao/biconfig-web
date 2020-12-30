@@ -13,11 +13,13 @@
       >
         <a-select
           style="width:100%"
+          :show-search="true"
           v-model:value="formData.uri"
         >
           <a-select-option
             :key="item.uri"
             :value="item.uri"
+            :disabled="existUriList.includes(item.uri)"
             v-for="item in allGraphList"
           >
             {{ item.uri }}
@@ -65,6 +67,9 @@ export default {
     },
     currentIndex() {
       return this.$store.state.page.currentIndex;
+    },
+    existUriList() {
+      return this.$store.state.page.graphList.map(item => item.uri);
     },
   },
   watch: {
