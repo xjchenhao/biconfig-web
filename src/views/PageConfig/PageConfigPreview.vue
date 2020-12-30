@@ -90,16 +90,10 @@ export default {
   },
   methods: {
     async handleFilterUpdate(item, { index, startTime, endTime }) {
-      let { query } = this.$route.query;
-
-      if (!query) {
-        query = '{}';
-      }
 
       const result = await this.getDataItem(item, {
         startTime,
         endTime,
-        ...JSON.parse(query),
       });
 
       this.$store.dispatch('page/setPreviewDataItem', {
@@ -107,10 +101,16 @@ export default {
         value: result.data,
       });
     },
-    async getDataItem(item, query = {}) {
+    async getDataItem(item, obj) {
+      let { query } = this.$route.query;
+
+      if (!query) {
+        query = '{}';
+      }
       const res = await this.request(getGraphView({
         uri: item.uri,
-        ...query,
+        ...obj,
+        ...JSON.parse(query),
       }));
 
       const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
