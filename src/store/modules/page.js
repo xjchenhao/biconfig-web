@@ -6,7 +6,6 @@ const page = {
     isRenderLock: true,
     isPreview: false,
     currentIndex: '',
-    // currentConfig: null,
     graphList: [{
       uri: 'test0',
       sort: 0,
@@ -24,12 +23,12 @@ const page = {
       sort: 0,
       size: 'large',
     }],
-    graphPreviewData: [],
+    previewData: [],
   },
   mutations: {
-    // setCurrentConfig: (state, value) => {
-    //   state.currentConfig = value;
-    // },
+    setPreviewData: (state, value) => {
+      state.previewData = value;
+    },
     setCurrentIndex: (state, value) => {
       state.currentIndex = value;
     },
@@ -47,14 +46,35 @@ const page = {
     },
   },
   actions: {
+    addPreviewData({ commit }, value) {
+      const { previewData } = namespaced ? this.state[namespaced] : this.state;
+      let result = [ ...previewData ];
+
+      result = result.concat(value);
+
+      commit('setPreviewData', result);
+    },
+    deletePreviewData({ commit }, uri) {
+      const { previewData } = namespaced ? this.state[namespaced] : this.state;
+
+      const index = previewData.findIndex(item => {
+        return item.uri === uri;
+      });
+
+      const result = [ ...previewData ];
+
+      result.splice(index, 1);
+
+      commit('setPreviewData', result);
+    },
+    cleanPreviewData({ commit }) {
+      commit('setPreviewData', []);
+    },
     setPreview({ commit }, value) {
       commit('setPreview', value);
     },
     setCurrentIndex({ commit }, value) {
-      // const { graphList } = namespaced ? this.state[namespaced] : this.state;
-
       commit('setCurrentIndex', value);
-      // commit('setCurrentConfig', graphList[value]);
     },
     setRenderLock({ commit }, value) {
       commit('setRenderLock', value);
@@ -87,7 +107,7 @@ const page = {
       commit('setGraphList', result);
       commit('setCurrentIndex', graphListLength);
     },
-    deleteGraph({ commit }, uri) {
+    deleteGraph({ commit, dispatch }, uri) {
       const { graphList } = namespaced ? this.state[namespaced] : this.state;
       const graphListLength = graphList.length;
 
@@ -100,6 +120,7 @@ const page = {
       result.splice(index, 1);
 
       commit('setGraphList', result);
+      dispatch('deletePreviewData', uri);
 
       if (graphListLength === 0) {
         commit('setCurrentIndex', '');

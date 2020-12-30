@@ -4,7 +4,7 @@
   </div>
   <div v-else>
     <div
-      v-for="(item) in dataList"
+      v-for="(item) in previewData"
       :key="item.uri"
       :class="item.size"
     >
@@ -42,7 +42,6 @@ export default {
   },
   data() {
     return {
-      dataList: [],
       isLoding: true,
     };
   },
@@ -50,8 +49,24 @@ export default {
     request() {
       return this.$root.request || request;
     },
+    previewData() {
+      return this.$store.state.page.previewData;
+    },
     graphList() {
       return this.$store.state.page.graphList;
+    },
+    prePreviewDataList() {
+      const previewData = this.$store.state.page.previewData;
+      const existUri = previewData.map(item => item.uri);
+      const result = [];
+
+      this.graphList.forEach(item => {
+        if (!existUri.includes(item.uri)) {
+          result.push(item);
+        }
+      });
+
+      return result;
     },
   },
   watch: {
@@ -66,39 +81,36 @@ export default {
     },
   },
   methods: {
+    async getDataItem(item) {
+      const res = await this.request(getGraphView({
+        uri: item.uri,
+      }));
+
+      const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
+
+      const graphData = await this.request({
+        url: apiUrl,
+        method: 'get',
+      });
+
+      return {
+        size: item.size,
+        name,
+        uri: item.uri,
+        type,
+        timeFilterShowType,
+        titleShowType,
+        apiUrl,
+        data: Array.isArray(graphData.data) ? graphData.data : graphData.data.list,
+        opts: attr,
+      };
+    },
     async getDataList() {
-      const graphList = this.graphList;
-      const result = [];
+      const prePreviewDataList = this.prePreviewDataList;
 
-      for (let i = 0, l = graphList.length; i < l; i++) {
-        const item = graphList[i];
+      const result = await Promise.all(prePreviewDataList.map(item => this.getDataItem(item)));
 
-        const res = await this.request(getGraphView({
-          uri: item.uri,
-        }));
-
-        const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
-
-        const graphData = await this.request({
-          url: apiUrl,
-          method: 'get',
-        });
-
-        result.push({
-          size: item.size,
-          name,
-          uri: item.uri,
-          type,
-          timeFilterShowType,
-          titleShowType,
-          apiUrl,
-          data: Array.isArray(graphData.data) ? graphData.data : graphData.data.list,
-          opts: attr,
-        });
-
-      }
-
-      this.dataList = result;
+      this.$store.dispatch('page/addPreviewData', result);
     },
   },
 
