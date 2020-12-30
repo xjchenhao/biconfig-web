@@ -29,6 +29,9 @@ const page = {
     setPreviewData: (state, value) => {
       state.previewData = value;
     },
+    setPreviewDataItem: (state, { index, value }) => {
+      state.previewData.splice(index, 1, value);
+    },
     setCurrentIndex: (state, value) => {
       state.currentIndex = value;
     },
@@ -67,6 +70,18 @@ const page = {
 
       commit('setPreviewData', result);
     },
+    setPreviewDataItem({ commit }, { index, value }) {
+      const { previewData } = namespaced ? this.state[namespaced] : this.state;
+      const itemData = previewData[index];
+
+      commit('setPreviewDataItem', {
+        index,
+        value: {
+          ...itemData,
+          data: value,
+        },
+      });
+    },
     cleanPreviewData({ commit }) {
       commit('setPreviewData', []);
     },
@@ -85,7 +100,6 @@ const page = {
     setGraphItem({ commit }, { index, value: { uri } }) {
       const { graphList } = namespaced ? this.state[namespaced] : this.state;
       const itemData = graphList[index];
-      console.log(uri);
 
       commit('setGraphItem', {
         index,

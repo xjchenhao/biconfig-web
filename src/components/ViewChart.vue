@@ -40,6 +40,16 @@ export default {
       },
     },
   },
+  watch: {
+    data: {
+      async handler() {
+        await this.destroy();
+        await this.render();
+      },
+      deep: true,
+      immediate: false,
+    },
+  },
   computed: {
     chartOpts() {
       const attr = this.opts;

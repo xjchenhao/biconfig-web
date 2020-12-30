@@ -11,7 +11,7 @@ const graphList = () => {
       list: [
         {
           year: '1951 年',
-          value: 380,
+          value: Mock.mock('@float(0, 1000)'),
           valueArray: [
             350,
             380,
@@ -20,7 +20,7 @@ const graphList = () => {
         },
         {
           year: '1952 年',
-          value: 520,
+          value: Mock.mock('@float(0, 1000)'),
           valueArray: [
             490,
             520,
@@ -29,7 +29,7 @@ const graphList = () => {
         },
         {
           year: '1956 年',
-          value: 610,
+          value: Mock.mock('@float(0, 1000)'),
           valueArray: [
             580,
             610,
@@ -38,7 +38,7 @@ const graphList = () => {
         },
         {
           year: '1957 年',
-          value: 1450,
+          value: Mock.mock('@float(0, 1000)'),
           valueArray: [
             1420,
             1450,
@@ -47,7 +47,7 @@ const graphList = () => {
         },
         {
           year: '1958 年',
-          value: 480,
+          value: Mock.mock('@float(0, 1000)'),
           valueArray: [
             450,
             480,
@@ -56,7 +56,7 @@ const graphList = () => {
         },
         {
           year: '1951 年',
-          value: 38,
+          value: Mock.mock('@float(0, 1000)'),
           valueArray: [
             8,
             38,
@@ -65,7 +65,7 @@ const graphList = () => {
         },
         {
           year: '1952 年',
-          value: 52,
+          value: Mock.mock('@float(0, 1000)'),
           valueArray: [
             22,
             52,
@@ -74,7 +74,7 @@ const graphList = () => {
         },
         {
           year: '1956 年',
-          value: 61,
+          value: Mock.mock('@float(0, 1000)'),
           valueArray: [
             31,
             61,
@@ -83,7 +83,7 @@ const graphList = () => {
         },
         {
           year: '1957 年',
-          value: 145,
+          value: Mock.mock('@float(0, 1000)'),
           valueArray: [
             115,
             145,
@@ -92,7 +92,7 @@ const graphList = () => {
         },
         {
           year: '1958 年',
-          value: 48,
+          value: Mock.mock('@float(0, 1000)'),
           valueArray: [
             18,
             48,

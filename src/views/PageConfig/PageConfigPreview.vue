@@ -5,7 +5,7 @@
   <div v-else>
     <div class="main">
       <div
-        v-for="(item) in previewData"
+        v-for="(item,index) in previewData"
         :key="item.uri"
         :class="item.size"
       >
@@ -18,6 +18,7 @@
           </h2>
           <chart-filter
             class="filter"
+            @update="({ startTime, endTime })=>{handleFilterUpdate(item,{ index,startTime, endTime })}"
             v-if="item.timeFilterShowType===1"
           />
           <ViewChart
@@ -88,9 +89,28 @@ export default {
     },
   },
   methods: {
-    async getDataItem(item) {
+    async handleFilterUpdate(item, { index, startTime, endTime }) {
+      let { query } = this.$route.query;
+
+      if (!query) {
+        query = '{}';
+      }
+
+      const result = await this.getDataItem(item, {
+        startTime,
+        endTime,
+        ...JSON.parse(query),
+      });
+
+      this.$store.dispatch('page/setPreviewDataItem', {
+        index,
+        value: result.data,
+      });
+    },
+    async getDataItem(item, query = {}) {
       const res = await this.request(getGraphView({
         uri: item.uri,
+        ...query,
       }));
 
       const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
