@@ -40,17 +40,55 @@ export default {
       },
     },
   },
+  computed: {
+    chartOpts() {
+      const attr = this.opts;
+      const type = this.type;
+
+      let optsFieldMap = {};
+
+      if (type !== 'Pie') {
+        optsFieldMap = {
+          xField: attr.xField,
+          yField: attr.yField,
+          isGroup: attr.isGroup,
+          isStack: attr.isStack,
+          isRange: attr.isRange,
+          isPercent: attr.isPercent,
+          seriesField: attr.seriesField,
+        };
+      } else {
+        optsFieldMap = {
+          colorField: attr.colorField,
+          angleField: attr.angleField,
+        };
+      }
+
+      Object.keys(optsFieldMap).forEach(key => {
+        if (optsFieldMap[key] === undefined) {
+          delete optsFieldMap[type];
+        }
+      });
+
+      return {
+        ...optsFieldMap,
+        meta: attr.meta,
+        style: attr.style,
+      };
+    },
+  },
   mounted() {
     this.render();
   },
   methods: {
     render() {
       const viewChartDom = this.$refs.viewChart;
+      console.log('viewChartDom:', viewChartDom);
 
       const chartUri = this.uri;
       const chartType = this.type;
       const chartData = this.data;
-      const chartOpts = this.opts;
+      const chartOpts = this.chartOpts;
 
       console.log('-----渲染图表信息log start----');
       console.log('图表标识：', chartUri);
