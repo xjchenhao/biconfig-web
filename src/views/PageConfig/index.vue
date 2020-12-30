@@ -89,8 +89,8 @@ export default {
     handleBack() {
       this.$router.push('/page');
     },
-    handleChangePreview(value) {
-      this.$store.dispatch('page/setPreview', value);
+    async handleChangePreview(value) {
+      await this.$store.dispatch('page/setPreview', value);
     },
   },
 };

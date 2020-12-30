@@ -3,29 +3,31 @@
     页面渲染中，请稍等
   </div>
   <div v-else>
-    <div
-      v-for="(item) in previewData"
-      :key="item.uri"
-      :class="item.size"
-    >
-      <div class="content">
-        <h2
-          v-if="item.titleShowType===1"
-          class="title"
-        >
-          {{ item.name }}
-        </h2>
-        <!-- <graph-config-chart-filter
-        class="filter"
-        v-if="item.timeFilterShowType===1"
-      /> -->
-        <ViewChart
-          class="chart"
-          :data="item.data"
-          :type="item.type"
-          :uri="item.uri"
-          :opts="item.opts"
-        />
+    <div class="main">
+      <div
+        v-for="(item) in previewData"
+        :key="item.uri"
+        :class="item.size"
+      >
+        <div class="content">
+          <h2
+            v-if="item.titleShowType===1"
+            class="title"
+          >
+            {{ item.name }}
+          </h2>
+          <chart-filter
+            class="filter"
+            v-if="item.timeFilterShowType===1"
+          />
+          <ViewChart
+            class="chart"
+            :data="item.data"
+            :type="item.type"
+            :uri="item.uri"
+            :opts="item.opts"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -34,11 +36,13 @@
 <script>
 import request from '@/utils/request';
 import ViewChart from '@/components/ViewChart';
+import ChartFilter from '@/components/ChartFilter';
 import { getView as getGraphView } from '@/api/graph';
 
 export default {
   components: {
     ViewChart,
+    ChartFilter,
   },
   data() {
     return {
@@ -70,14 +74,17 @@ export default {
     },
   },
   watch: {
-    '$store.state.page.isPreview': async function(value) {
-      if (!value) {
-        return;
-      }
+    '$store.state.page.isPreview': {
+      async handler(value) {
+        if (!value) {
+          return;
+        }
 
-      this.isLoding = true;
-      await this.getDataList();
-      this.isLoding = false;
+        this.isLoding = true;
+        await this.getDataList();
+        this.isLoding = false;
+      },
+      immediate: true,
     },
   },
   methods: {
@@ -118,13 +125,22 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    justify-content: space-between;
+    padding:15px;
+}
 .small,.medium,.large{
     position: relative;
     display:inline-block;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     color:#fff;
-    cursor: pointer;
     overflow: hidden;
     .content{
         position: absolute;
@@ -136,7 +152,7 @@ export default {
         justify-content: center;
         width:100%;
         height:100%;
-        padding:15px;
+        padding:30px;
         box-sizing: border-box;
     }
 }
@@ -161,5 +177,9 @@ export default {
 .chart{
     width: 100%;
     height: 100%;
+}
+.filter{
+    width: 100%;
+    margin-bottom:30px;
 }
 </style>
