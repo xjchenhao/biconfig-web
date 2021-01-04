@@ -10,6 +10,12 @@
         <a-button @click="handleChangePreview(true)">
           <aEyeOutlined />&nbsp;预览
         </a-button>
+        <a-button
+          type="primary"
+          @click="handleChangePreview(true)"
+        >
+          <aCheckOutlined />&nbsp;完成
+        </a-button>
       </template>
     </a-page-header>
     <a-layout class="pageConfig-layout">
@@ -46,7 +52,7 @@
           style="text-align:right"
         >
           <a-button @click="handleChangePreview(false)">
-            <aEyeInvisibleOutlined />&nbsp;配置
+            <aEyeInvisibleOutlined />&nbsp;点此返回页面配置
           </a-button>
         </a-col>
       </a-row>
@@ -61,7 +67,7 @@ import PageConfigWidget from './PageConfigWidget';
 import PageConfigView from './PageConfigView';
 import PageConfigForm from './PageConfigForm';
 import PageConfigPreview from './PageConfigPreview';
-import { EyeInvisibleOutlined } from '@ant-design/icons-vue';
+import { EyeOutlined, EyeInvisibleOutlined, CheckOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'PageConfig',
@@ -74,7 +80,9 @@ export default {
     aDrawer: Drawer,
     aRow: Row,
     aCol: Col,
+    aEyeOutlined: EyeOutlined,
     aEyeInvisibleOutlined: EyeInvisibleOutlined,
+    aCheckOutlined: CheckOutlined,
     PageConfigWidget,
     PageConfigView,
     PageConfigForm,

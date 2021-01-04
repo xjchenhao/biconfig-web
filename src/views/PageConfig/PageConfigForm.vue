@@ -15,6 +15,7 @@
           style="width:100%"
           :show-search="true"
           v-model:value="formData.uri"
+          @change="handleSelectChange"
         >
           <a-select-option
             :key="item.uri"
@@ -30,19 +31,19 @@
         class="graphConfigForm-form-item"
         style="margin-top:20px"
       >
-        <a-button
+        <!-- <a-button
           type="primary"
           @click="handleFormSubmit"
         >
           提交
-        </a-button>
+        </a-button> -->
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <script>
-import { Form, Button, Select } from 'ant-design-vue';
+import { Form, Select } from 'ant-design-vue';
 import request from '@/utils/request';
 import { getList as getGraphList } from '@/api/graph';
 export default {
@@ -51,7 +52,7 @@ export default {
     aFormItem: Form.Item,
     aSelect: Select,
     aSelectOption: Select.Option,
-    aButton: Button,
+    // aButton: Button,
   },
   data() {
     return {
@@ -99,11 +100,18 @@ export default {
 
       this.allGraphList = res.data.list;
     },
-    async handleFormSubmit() {
+    handleSelectChange(value) {
+      console.log(this.currentIndex);
+      console.log(value);
       this.$store.dispatch('page/setGraphItem', {
         index: this.currentIndex,
-        value: this.formData,
+        value: {
+          uri: value,
+        },
       });
+    },
+    async handleFormSubmit() {
+      console.log('表单提交');
     },
   },
 };
