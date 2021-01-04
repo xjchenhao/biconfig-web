@@ -37,25 +37,19 @@ const getList = options => {
 
 const getDetail = () => {
 
-  return {
+  return Mock.mock({
     code: '0',
     msg: 'OK',
     data: {
-      type: 'Pie',
-      name: 'Sharon Harris',
-      uri: '我是初始图表记录1的uri',
-      apiUrl: '/biconfigApi/demo/dataSource/column',
-      attr: {
-        angleField: 'value',
-        colorField: 'year',
-        columnWidthRatio: 0.5,
-        marginRatio: 0.5,
-        meta: {},
-      },
-      timeFilterShowType: 0,
-      titleShowType: 1,
+      'list|4': [
+        {
+          uri: '@name',
+          sort: 0,
+          'size|1': [ 'medium', 'small', 'large' ],
+        },
+      ],
     },
-  };
+  });
 };
 
 const resOk = () => {

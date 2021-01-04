@@ -18,6 +18,11 @@ const routes = [
     component: () => import('../views/PageConfig'),
   },
   {
+    path: '/page/view',
+    name: 'PageView',
+    component: () => import('../views/PageView'),
+  },
+  {
     path: '/graph',
     name: 'Graph',
     component: () => import('../views/GraphList'),

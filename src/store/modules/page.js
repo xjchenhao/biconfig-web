@@ -6,23 +6,7 @@ const page = {
     isRenderLock: true,
     isPreview: false,
     currentIndex: '',
-    graphList: [{
-      uri: 'test0',
-      sort: 0,
-      size: 'small',
-    }, {
-      uri: 'test3',
-      sort: 0,
-      size: 'small',
-    }, {
-      uri: 'test4',
-      sort: 0,
-      size: 'medium',
-    }, {
-      uri: 'test5',
-      sort: 0,
-      size: 'large',
-    }],
+    graphList: [],
     previewData: [],
   },
   mutations: {
