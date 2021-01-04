@@ -5,7 +5,7 @@
       @click="gotoConfigPage"
     >
       <aPlusOutlined
-        class="GraphListToolbar-icon"
+        class="PageListToolbar-icon"
       />&nbsp;添加
     </a-button>
   </div>
@@ -26,14 +26,14 @@ export default {
   },
   methods: {
     gotoConfigPage() {
-      this.$router.push('/graph/config');
+      this.$router.push('/page/config');
     },
   },
 };
 </script>
 
 <style lang='less'>
-.GraphListToolbar{
+.PageListToolbar{
   &-icon{
     font-size:14px;
   }
