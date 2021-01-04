@@ -82,12 +82,12 @@ const getList = options => {
 
 const getDetail = () => {
 
-  return {
+  return Mock.mock({
     code: '0',
     msg: 'OK',
-    data: {
+    'data|1': [{
       type: 'Pie',
-      name: 'Sharon Harris',
+      name: '@name',
       uri: '我是初始图表记录1的uri',
       apiUrl: '/biconfigApi/demo/dataSource/column',
       attr: {
@@ -99,8 +99,34 @@ const getDetail = () => {
       },
       timeFilterShowType: 1,
       titleShowType: 1,
-    },
-  };
+    }, {
+      type: 'Column',
+      name: '@name',
+      uri: '我是初始图表记录1的uri',
+      apiUrl: '/biconfigApi/demo/dataSource/column',
+      attr: {
+        xField: 'year',
+        yField: 'value',
+        color: '#5694f5',
+        meta: {},
+      },
+      timeFilterShowType: 1,
+      titleShowType: 1,
+    }, {
+      type: 'Line',
+      name: '@name',
+      uri: '我是初始图表记录1的uri',
+      apiUrl: '/biconfigApi/demo/dataSource/column',
+      attr: {
+        xField: 'year',
+        yField: 'value',
+        seriesField: 'name',
+        meta: {},
+      },
+      timeFilterShowType: 1,
+      titleShowType: 1,
+    }],
+  });
 };
 
 const resOk = () => {
