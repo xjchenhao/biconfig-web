@@ -108,6 +108,9 @@ export default {
 
     this.isLoding = false;
   },
+  unmounted() {
+    this.$store.dispatch('page/init');
+  },
   methods: {
     handleBack() {
       this.$router.push('/page');

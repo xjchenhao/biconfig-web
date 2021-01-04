@@ -85,6 +85,9 @@ export default {
       return this.$store.state.page.isPreview;
     },
   },
+  unmounted() {
+    this.$store.dispatch('page/init');
+  },
   methods: {
     handleBack() {
       this.$router.push('/page');

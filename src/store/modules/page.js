@@ -3,7 +3,6 @@ const namespaced = 'page';
 const page = {
   namespaced: !!namespaced,
   state: {
-    isRenderLock: true,
     isPreview: false,
     currentIndex: '',
     graphList: [],
@@ -25,14 +24,17 @@ const page = {
     setGraphItem: (state, { index, value }) => {
       state.graphList.splice(index, 1, value);
     },
-    setRenderLock: (state, value) => {
-      state.isRenderLock = value;
-    },
     setPreview: (state, value) => {
       state.isPreview = value;
     },
   },
   actions: {
+    init({ commit }) {
+      commit('setPreview', false);
+      commit('setCurrentIndex', '');
+      commit('setPreviewData', []);
+      commit('setGraphList', []);
+    },
     addPreviewData({ commit }, value) {
       const { previewData } = namespaced ? this.state[namespaced] : this.state;
       let result = [ ...previewData ];
