@@ -77,7 +77,7 @@ export default {
       handler() {
         const { graphList, currentIndex } = this.$store.state.page;
 
-        this.formData = graphList[currentIndex] || {
+        this.formData = { ...graphList[currentIndex] } || {
           uri: '',
         };
       },

@@ -27,56 +27,22 @@
             <CloseOutlined />
           </div>
         </div>
-      <!-- <div>
-        <h1
-          v-if="item.titleShowType===1"
-          class="title"
-        >
-          {{ item.title }}
-        </h1>
-        <graph-config-chart-filter
-          class="filter"
-          v-if="item.timeFilterShowType===1"
-        />
-        <PageConfigViewChart
-          class="chart"
-          :data="item.data"
-          :type="item.type"
-          :uri="item.uri"
-          :opts="item.opts"
-        />
-      </div> -->
       </div>
     </template>
     <template v-else>
       <a-empty description="请点击左侧小组件添加图形组件进行配置" />
     </template>
-    <!-- <div
-      v-for="item in dataList"
-      :key="item.uri"
-    >
-      {{ item.uri }}
-      {{ item.data }}
-      {{ item.type }}
-      {{ item.uri }}
-      {{ item.opts }}
-    </div> -->
   </div>
 </template>
 
 <script>
-// import PageConfigViewChart from './PageConfigViewChart';
-// import GraphConfigChartFilter from './../GraphConfig/GraphConfigChartFilter';
 import request from '@/utils/request';
-// import { getView as getGraphView } from '@/api/graph';
 import { Empty } from 'ant-design-vue';
 import { CloseOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'PageConfigView',
   components: {
-    // PageConfigViewChart,
-    // GraphConfigChartFilter,
     CloseOutlined,
     aEmpty: Empty,
   },
@@ -97,93 +63,15 @@ export default {
       return this.$store.state.page.graphList;
     },
   },
-  // watch: {
-  //   '$store.state.page.graphList': async function(newVal, oldVal) {
-  //     if (newVal.length < oldVal.length) {
-  //       return;
-  //     }
-  //     await this.getDataList(newVal);
-  //   },
-  // },
-  async mounted() {
-    // await this.getDataList(this.graphList);
-  },
   methods: {
     handleDeleteChart({ uri }, index) {
-      // this.current = '';
       this.dataList.splice(index, 1);
       this.$store.dispatch('page/deleteGraph', uri);
       this.$store.dispatch('page/setCurrentIndex', '');
     },
     handleSelect(index) {
-      // this.current = index;
       this.$store.dispatch('page/setCurrentIndex', index);
     },
-    // async getDataList(graphList) {
-    //   const result = [];
-    //   for (let i = 0, l = graphList.length; i < l; i++) {
-    //     const item = graphList[i];
-
-    //     const res = await this.request(getGraphView({
-    //       id: item.id,
-    //       uri: item.uri,
-    //     }));
-
-    //     const { type, apiUrl, name, attr, timeFilterShowType, titleShowType } = res.data;
-
-    //     const graphData = await this.request({
-    //       url: apiUrl,
-    //       method: 'get',
-    //     });
-
-    //     let optsFieldMap = {};
-
-    //     if (type !== 'Pie') {
-    //       optsFieldMap = {
-    //         xField: attr.xField,
-    //         yField: attr.yField,
-    //         isGroup: attr.isGroup,
-    //         isStack: attr.isStack,
-    //         isRange: attr.isRange,
-    //         isPercent: attr.isPercent,
-    //         seriesField: attr.seriesField,
-    //       };
-    //     } else {
-    //       optsFieldMap = {
-    //         colorField: attr.colorField,
-    //         angleField: attr.angleField,
-    //       };
-    //     }
-
-    //     Object.keys(optsFieldMap).forEach(key => {
-    //       if (optsFieldMap[key] === undefined) {
-    //         delete optsFieldMap[type];
-    //       }
-    //     });
-
-    //     console.log(998877);
-    //     result.push({
-    //       size: item.size,
-    //       name,
-    //       uri: item.uri,
-    //       type,
-    //       timeFilterShowType,
-    //       titleShowType,
-    //       apiUrl,
-    //       data: Array.isArray(graphData.data) ? graphData.data : graphData.data.list,
-    //       opts: {
-    //         ...optsFieldMap,
-    //         meta: attr.meta,
-    //         style: attr.style,
-    //       },
-    //     });
-
-    //   }
-    //   //   await graphList.forEach(async item => {});
-
-    //   console.log(result);
-    //   this.dataList = result;
-    // },
   },
 };
 </script>
