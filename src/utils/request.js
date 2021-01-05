@@ -27,8 +27,9 @@ const errorHandler = error => {
     if (error.response.status === 422) {
       notification.error({
         message: '表单校验错误',
-        description: JSON.stringify(data.data),
       });
+
+      console.warn('表单校验错误：', data.data);
     }
     if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
       notification.error({

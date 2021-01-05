@@ -59,17 +59,42 @@
     </template>
     <PageConfigPreview />
   </a-drawer>
+  <a-modal
+    :visible="resultModalVisible"
+    :footer="null"
+  >
+    <a-result
+      status="success"
+      :title="isModify?'页面配置修改完成':'页面配置创建完成'"
+    >
+      <template #extra>
+        <a-button
+          key="console"
+          type="primary"
+          @click="handleGotoView"
+        >
+          立即查看
+        </a-button>
+        <a-button
+          key="buy"
+          @click="handleGotoHome"
+        >
+          返回主页
+        </a-button>
+      </template>
+    </a-result>
+  </a-modal>
 </template>
 
 <script>
-import { PageHeader, Layout, Button, Drawer, Row, Col } from 'ant-design-vue';
+import { PageHeader, Layout, Button, Drawer, Row, Col, Modal, Result } from 'ant-design-vue';
 import PageConfigWidget from './PageConfigWidget';
 import PageConfigView from './PageConfigView';
 import PageConfigForm from './PageConfigForm';
 import PageConfigPreview from './PageConfigPreview';
 import { EyeOutlined, EyeInvisibleOutlined, CheckOutlined } from '@ant-design/icons-vue';
 import request from '@/utils/request';
-import { create as createPage } from '@/api/page';
+import { create as createPage, update as updatePage } from '@/api/page';
 
 export default {
   name: 'PageConfig',
@@ -80,6 +105,8 @@ export default {
     aLayoutContent: Layout.content,
     aButton: Button,
     aDrawer: Drawer,
+    aModal: Modal,
+    aResult: Result,
     aRow: Row,
     aCol: Col,
     aEyeOutlined: EyeOutlined,
@@ -90,12 +117,23 @@ export default {
     PageConfigForm,
     PageConfigPreview,
   },
+  data() {
+    return {
+      resultModalVisible: false, // 结果弹窗是否显示
+    };
+  },
   computed: {
     request() {
       return this.$root.request || request;
     },
     isPreview() {
       return this.$store.state.page.isPreview;
+    },
+    currentId() {
+      return this.$route.query.id;
+    },
+    isModify() {
+      return !!this.currentId;
     },
   },
   unmounted() {
@@ -110,11 +148,38 @@ export default {
     },
     async handleSubmit() {
       const { pageName, graphList } = this.$store.state.page;
-      const res = await this.request(createPage({
-        name: pageName,
-        graphList,
-      }));
-      console.log(res);
+
+      let res;
+      if (this.isModify) {
+        res = await this.request(updatePage({
+          id: this.currentId,
+          name: pageName,
+          graphList,
+        }));
+      } else {
+        res = await this.request(createPage({
+          name: pageName,
+          graphList,
+        }));
+      }
+
+      if (Number(res.code) < 0) {
+        console.error(res.msg);
+        return;
+      }
+
+      this.resultModalVisible = true;
+    },
+
+
+    // 跳转到查看页面
+    handleGotoView() {
+      this.$router.replace({ path: '/page/view', query: { id: this.currentId } });
+    },
+
+    // 回到主页
+    handleGotoHome() {
+      this.$router.replace('/page');
     },
   },
 };

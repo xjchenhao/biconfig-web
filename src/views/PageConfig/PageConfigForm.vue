@@ -61,6 +61,7 @@
 import { Form, Select, Input } from 'ant-design-vue';
 import request from '@/utils/request';
 import { getList as getGraphList } from '@/api/graph';
+import { getDetail as getPageDetail } from '@/api/page';
 export default {
   components: {
     aForm: Form,
@@ -89,6 +90,12 @@ export default {
     existUriList() {
       return this.$store.state.page.graphList.map(item => item.uri);
     },
+    currentId() {
+      return this.$route.query.id;
+    },
+    isModify() {
+      return !!this.currentId;
+    },
   },
   watch: {
     currentIndex: {
@@ -109,7 +116,23 @@ export default {
   },
 
   async mounted() {
-    await this.getGraphList();
+    this.getGraphList(); // 获取可用来做关联的图形列表
+
+    if (!this.isModify) {
+      return;
+    }
+
+    const res = await this.request(getPageDetail({
+      id: this.currentId,
+    }));
+
+    const { name: pageName, graphList } = res.data;
+
+    this.formData.name = pageName;
+
+    this.$store.dispatch('page/setId', this.currentId);
+    this.$store.dispatch('page/setPageName', pageName);
+    this.$store.dispatch('page/setGraphList', graphList);
   },
   methods: {
     async getGraphList() {
