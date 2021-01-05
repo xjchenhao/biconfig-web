@@ -12,7 +12,7 @@
         </a-button>
         <a-button
           type="primary"
-          @click="handleChangePreview(true)"
+          @click="handleSubmit(true)"
         >
           <aCheckOutlined />&nbsp;完成
         </a-button>
@@ -102,6 +102,9 @@ export default {
     },
     async handleChangePreview(value) {
       await this.$store.dispatch('page/setPreview', value);
+    },
+    async handleSubmit() {
+      console.log('提交表单');
     },
   },
 };

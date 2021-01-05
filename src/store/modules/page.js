@@ -3,12 +3,16 @@ const namespaced = 'page';
 const page = {
   namespaced: !!namespaced,
   state: {
+    pageName: '',
     isPreview: false,
     currentIndex: '',
     graphList: [],
     previewData: [],
   },
   mutations: {
+    setPageName: (state, value) => {
+      state.pageName = value;
+    },
     setPreviewData: (state, value) => {
       state.previewData = value;
     },
@@ -31,9 +35,13 @@ const page = {
   actions: {
     init({ commit }) {
       commit('setPreview', false);
+      commit('pageName', '');
       commit('setCurrentIndex', '');
       commit('setPreviewData', []);
       commit('setGraphList', []);
+    },
+    setPageName({ commit }, value) {
+      commit('setPageName', value);
     },
     addPreviewData({ commit }, value) {
       const { previewData } = namespaced ? this.state[namespaced] : this.state;

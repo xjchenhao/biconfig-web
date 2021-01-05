@@ -1,34 +1,49 @@
 <template>
   <div class="PageConfigForm">
-    <div v-if="currentIndex===''">
-      请选择组件
-    </div>
     <a-form
       layout="vertical"
-      v-else
     >
+      <h2>基本信息</h2>
       <a-form-item
-        class="graphConfigForm-form-item"
-        label="关联图表"
+        class="PageConfigForm-form-item"
+        label="页面名称"
       >
-        <a-select
-          style="width:100%"
-          :show-search="true"
-          v-model:value="formData.uri"
-          @change="handleSelectChange"
-        >
-          <a-select-option
-            :key="item.uri"
-            :value="item.uri"
-            :disabled="existUriList.includes(item.uri)"
-            v-for="item in allGraphList"
-          >
-            {{ item.uri }}
-          </a-select-option>
-        </a-select>
+        <a-input
+          v-model:value="formData.name"
+          @change="handleChangePageName"
+          placeholder="请输入页面名称"
+        />
       </a-form-item>
+      <h2>图表规则</h2>
+      <div v-if="currentIndex===''">
+        请选择组件
+      </div>
+      <template
+        v-else
+      >
+        <a-form-item
+          class="PageConfigForm-form-item"
+          label="关联图表"
+        >
+          <a-select
+            style="width:100%"
+            :show-search="true"
+            v-model:value="formData.uri"
+            @change="handleSelectChange"
+          >
+            <a-select-option
+              :key="item.uri"
+              :value="item.uri"
+              :disabled="existUriList.includes(item.uri)"
+              v-for="item in allGraphList"
+            >
+              {{ item.uri }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+      </template>
       <a-form-item
-        class="graphConfigForm-form-item"
+        class="PageConfigForm-form-item"
         style="margin-top:20px"
       >
         <!-- <a-button
@@ -43,7 +58,7 @@
 </template>
 
 <script>
-import { Form, Select } from 'ant-design-vue';
+import { Form, Select, Input } from 'ant-design-vue';
 import request from '@/utils/request';
 import { getList as getGraphList } from '@/api/graph';
 export default {
@@ -52,6 +67,7 @@ export default {
     aFormItem: Form.Item,
     aSelect: Select,
     aSelectOption: Select.Option,
+    aInput: Input,
     // aButton: Button,
   },
   data() {
@@ -77,8 +93,13 @@ export default {
     currentIndex: {
       handler() {
         const { graphList, currentIndex } = this.$store.state.page;
+        const formData = {
+          name: this.formData.name,
+          ...graphList[currentIndex],
+        };
 
-        this.formData = { ...graphList[currentIndex] } || {
+        this.formData = formData || {
+          name: '',
           uri: '',
         };
       },
@@ -100,9 +121,10 @@ export default {
 
       this.allGraphList = res.data.list;
     },
+    handleChangePageName(value) {
+      this.$store.dispatch('page/setPageName', value);
+    },
     handleSelectChange(value) {
-      console.log(this.currentIndex);
-      console.log(value);
       this.$store.dispatch('page/setGraphItem', {
         index: this.currentIndex,
         value: {
