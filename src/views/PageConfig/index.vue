@@ -68,6 +68,8 @@ import PageConfigView from './PageConfigView';
 import PageConfigForm from './PageConfigForm';
 import PageConfigPreview from './PageConfigPreview';
 import { EyeOutlined, EyeInvisibleOutlined, CheckOutlined } from '@ant-design/icons-vue';
+import request from '@/utils/request';
+import { create as createPage } from '@/api/page';
 
 export default {
   name: 'PageConfig',
@@ -89,6 +91,9 @@ export default {
     PageConfigPreview,
   },
   computed: {
+    request() {
+      return this.$root.request || request;
+    },
     isPreview() {
       return this.$store.state.page.isPreview;
     },
@@ -104,7 +109,12 @@ export default {
       await this.$store.dispatch('page/setPreview', value);
     },
     async handleSubmit() {
-      console.log('提交表单');
+      const { pageName, graphList } = this.$store.state.page;
+      const res = await this.request(createPage({
+        name: pageName,
+        graphList,
+      }));
+      console.log(res);
     },
   },
 };

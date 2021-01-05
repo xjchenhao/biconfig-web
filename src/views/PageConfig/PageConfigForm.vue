@@ -74,6 +74,7 @@ export default {
     return {
       allGraphList: [],
       formData: {
+        name: '',
         uri: '',
       },
     };
@@ -121,8 +122,8 @@ export default {
 
       this.allGraphList = res.data.list;
     },
-    handleChangePageName(value) {
-      this.$store.dispatch('page/setPageName', value);
+    handleChangePageName() {
+      this.$store.dispatch('page/setPageName', this.formData.name);
     },
     handleSelectChange(value) {
       this.$store.dispatch('page/setGraphItem', {

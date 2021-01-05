@@ -16,7 +16,7 @@ import PageListQuery from './PageListQuery';
 import PageListTable from './PageListTable';
 import PageListToolbar from './PageListToolbar';
 
-import { getList as getPageList } from '@/api/graph';
+import { getList as getPageList } from '@/api/page';
 import request from '@/utils/request';
 
 export default {

@@ -103,7 +103,7 @@ export default {
       uri: queryUri,
     }));
 
-    await this.$store.dispatch('page/setGraphList', res.data.list);
+    await this.$store.dispatch('page/setGraphList', res.data.graphList || []);
     await this.getDataList();
 
     this.isLoding = false;
