@@ -119,6 +119,7 @@ export default {
   },
   data() {
     return {
+      currentId: '',
       resultModalVisible: false, // 结果弹窗是否显示
     };
   },
@@ -129,12 +130,12 @@ export default {
     isPreview() {
       return this.$store.state.page.isPreview;
     },
-    currentId() {
-      return this.$route.query.id;
-    },
     isModify() {
       return !!this.currentId;
     },
+  },
+  mounted() {
+    this.currentId = this.$route.query.id;
   },
   unmounted() {
     this.$store.dispatch('page/init');
@@ -161,6 +162,8 @@ export default {
           name: pageName,
           graphList,
         }));
+
+        this.currentId = res.data.id;
       }
 
       if (Number(res.code) < 0) {
