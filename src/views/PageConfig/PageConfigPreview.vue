@@ -39,6 +39,7 @@ import request from '@/utils/request';
 import ViewChart from '@/components/ViewChart';
 import ChartFilter from '@/components/ChartFilter';
 import { getView as getGraphView } from '@/api/graph';
+import notification from 'ant-design-vue/es/notification';
 
 export default {
   components: {
@@ -82,7 +83,15 @@ export default {
         }
 
         this.isLoding = true;
-        await this.getDataList();
+        try {
+          await this.getDataList();
+        } catch (error) {
+
+          notification.error({
+            message: '部分图表渲染失败',
+            description: '可打开控制台查看具体错误原因',
+          });
+        }
         this.isLoding = false;
       },
       immediate: true,
