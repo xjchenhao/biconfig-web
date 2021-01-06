@@ -1,11 +1,13 @@
 
+const apiPrefix = process.env.VUE_APP_apiPrefix || '';
+
 const userApi = {
-  list: '/biconfigApi/page/list',
-  create: '/biconfigApi/page/create',
-  update: '/biconfigApi/page/update',
-  delete: '/biconfigApi/page/delete',
-  view: '/biconfigApi/page/view',
-  detail: '/biconfigApi/page/detail',
+  list: apiPrefix + '/page/list',
+  create: apiPrefix + '/page/create',
+  update: apiPrefix + '/page/update',
+  delete: apiPrefix + '/page/delete',
+  view: apiPrefix + '/page/view',
+  detail: apiPrefix + '/page/detail',
 };
 
 export function getList(parameter) {
