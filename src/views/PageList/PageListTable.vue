@@ -37,8 +37,7 @@
 
 <script>
 import dayjs from 'dayjs';
-import { Table, Divider, Popconfirm } from 'ant-design-vue';
-import notification from 'ant-design-vue/es/notification';
+import { Table, Divider, Popconfirm, message } from 'ant-design-vue';
 
 import { del as removeRecord } from '@/api/page';
 import request from '@/utils/request';
@@ -118,10 +117,7 @@ export default {
 
       if (document.execCommand('copy')) {
         document.execCommand('copy');
-        notification.success({
-          message: '复制成功',
-          description: '链接已存入到剪切板中',
-        });
+        message.success('已复制到剪切板中');
       }
       document.body.removeChild(input);
     },
