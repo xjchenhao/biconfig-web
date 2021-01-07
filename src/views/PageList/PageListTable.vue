@@ -19,6 +19,8 @@
           <a-divider type="vertical" />
           <a @click="handleUpdate(record)">修改</a>
           <a-divider type="vertical" />
+          <a @click="copyLink(record)">获取链接</a>
+          <a-divider type="vertical" />
           <a-popconfirm
             title="确定删除这条记录?"
             ok-text="是"
@@ -36,6 +38,7 @@
 <script>
 import dayjs from 'dayjs';
 import { Table, Divider, Popconfirm } from 'ant-design-vue';
+import notification from 'ant-design-vue/es/notification';
 
 import { del as removeRecord } from '@/api/page';
 import request from '@/utils/request';
@@ -90,6 +93,9 @@ export default {
     request() {
       return this.$root.request || request;
     },
+    copyPageLinkDomain() {
+      return this.$root.copyPageLinkDomain || location.origin + location.pathname;
+    },
   },
   methods: {
     handleView(item) {
@@ -101,6 +107,23 @@ export default {
       const { id: id } = item.record;
 
       this.$router.push(`/page/config?id=${id}`);
+    },
+    copyLink(item) {
+      const { id: id } = item.record;
+
+      const input = document.createElement('input');
+      document.body.appendChild(input);
+      input.setAttribute('value', `${this.copyPageLinkDomain}#/page/view?id=${id}&isInline=1`);
+      input.select();
+
+      if (document.execCommand('copy')) {
+        document.execCommand('copy');
+        notification.success({
+          message: '复制成功',
+          description: '链接已存入到剪切板中',
+        });
+      }
+      document.body.removeChild(input);
     },
     async handleConfirmDelete(item) {
 
